@@ -1,8 +1,11 @@
+
+[Vexy Lines for Mac & Windows](https://vexy.art/lines/) | [Download](https://www.vexy.art/lines/#buy) | [Buy](https://www.vexy.art/lines/#buy) | [Batch GUI](https://vexy.dev/vexy-lines-run/) | [CLI/MCP](https://vexy.dev/vexy-lines-cli/) | [API](https://vexy.dev/vexy-lines-apy/) | **.lines format**
+
+[![Vexy Lines](https://i.vexy.art/vl/websiteart/vexy-lines-hero-poster.png)](https://www.vexy.art/lines/)
+
 # vexy-lines-py
 
-Parse [Vexy Lines](https://vexy.art) `.lines` vector art files in pure Python.
-
-No app. No macOS. No heavy dependencies. Just `pip install` and go.
+Parse [Vexy Lines](https://vexy.art/lines/) `.lines` vector art files in pure Python.
 
 ## What it does
 

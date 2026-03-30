@@ -8,7 +8,7 @@ Parse [Vexy Lines](https://vexy.art) `.lines` vector art files in pure Python â€
 pip install vexy-lines-py
 ```
 
-Python 3.10+. Runtime dependency: `loguru` only.
+Python 3.11+. Runtime dependency: `loguru` only.
 
 ## Quick start
 

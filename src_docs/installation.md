@@ -2,7 +2,7 @@
 
 ## Requirements
 
-- Python 3.10 or newer
+- Python 3.11 or newer
 - No C extensions, no system libraries, no app required
 
 ## Install from PyPI
