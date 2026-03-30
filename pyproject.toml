@@ -11,7 +11,7 @@
 name = "vexy-lines-py"
 description = "Pure-Python cross-platform parser for Vexy Lines .lines vector art files"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 keywords = [
     "vexy-lines",
     "vector-art",
@@ -24,7 +24,6 @@ dynamic = ["version"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Programming Language :: Python",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
@@ -108,7 +107,7 @@ lint = ["ruff check src/vexy_lines tests", "ruff format --check --respect-gitign
 fmt = ["ruff format --respect-gitignore src/vexy_lines tests", "ruff check --fix src/vexy_lines tests"]
 
 [[tool.hatch.envs.all.matrix]]
-python = ["3.10", "3.11", "3.12", "3.13"]
+python = ["3.11", "3.12", "3.13"]
 
 [tool.hatch.envs.lint]
 detached = true
@@ -157,7 +156,7 @@ parallel = true
 # MYPY
 # -----------------------------------------------------------------------------
 [tool.mypy]
-python_version = "3.10"
+python_version = "3.11"
 strict = true
 warn_return_any = true
 warn_unused_configs = true
@@ -195,7 +194,7 @@ testpaths = ["tests"]
 # RUFF
 # -----------------------------------------------------------------------------
 [tool.ruff]
-target-version = "py310"
+target-version = "py311"
 line-length = 120
 
 [tool.ruff.lint]
