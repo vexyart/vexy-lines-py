@@ -626,11 +626,11 @@
 <li>No C extensions, no system libraries, no app required</li>
 </ul>
 <h2 id="install-from-pypi">Install from PyPI<a class="headerlink" href="#install-from-pypi" title="Permanent link">&para;</a></h2>
-<p><code>bash
-pip install vexy-lines-py</code></p>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>vexy-lines-py
+</code></pre></div>
 <p>Or with <code>uv</code>:</p>
-<p><code>bash
-uv add vexy-lines-py</code></p>
+<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>add<span class="w"> </span>vexy-lines-py
+</code></pre></div>
 <h2 id="runtime-dependencies">Runtime dependencies<a class="headerlink" href="#runtime-dependencies" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -648,22 +648,22 @@ uv add vexy-lines-py</code></p>
 </table>
 <p>That's it. One dependency.</p>
 <h2 id="verify-the-install">Verify the install<a class="headerlink" href="#verify-the-install" title="Permanent link">&para;</a></h2>
-<p><code>python
-from vexy_lines import parse
-print("vexy-lines-py is ready")</code></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">vexy_lines</span> <span class="kn">import</span> <span class="n">parse</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;vexy-lines-py is ready&quot;</span><span class="p">)</span>
+</code></pre></div>
 <h2 id="development-install">Development install<a class="headerlink" href="#development-install" title="Permanent link">&para;</a></h2>
 <p>Clone the repo and install in editable mode:</p>
-<p><code>bash
-git clone https://github.com/vexyart/vexy-lines.git
-cd vexy-lines/vexy-lines-py
-uv venv --python 3.12
-uv pip install -e ".[dev]"</code></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/vexyart/vexy-lines.git
+<span class="nb">cd</span><span class="w"> </span>vexy-lines/vexy-lines-py
+uv<span class="w"> </span>venv<span class="w"> </span>--python<span class="w"> </span><span class="m">3</span>.12
+uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;.[dev]&quot;</span>
+</code></pre></div>
 <p>Run tests:</p>
-<p><code>bash
-uvx hatch test</code></p>
+<div class="highlight"><pre><span></span><code>uvx<span class="w"> </span>hatch<span class="w"> </span><span class="nb">test</span>
+</code></pre></div>
 <p>Run type checking:</p>
-<p><code>bash
-uvx hatch run lint:typing</code></p>
+<div class="highlight"><pre><span></span><code>uvx<span class="w"> </span>hatch<span class="w"> </span>run<span class="w"> </span>lint:typing
+</code></pre></div>
 <h2 id="platform-support">Platform support<a class="headerlink" href="#platform-support" title="Permanent link">&para;</a></h2>
 <p>Works everywhere Python runs. The parser is pure Python using only <code>xml.etree.ElementTree</code>, <code>base64</code>, <code>zlib</code>, and <code>struct</code> from the standard library.</p>
 <p>Tested on macOS, Linux, and Windows. CPython and PyPy.</p>

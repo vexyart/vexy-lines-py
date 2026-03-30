@@ -812,13 +812,13 @@
 <h1 id="lines-file-format">.lines File Format<a class="headerlink" href="#lines-file-format" title="Permanent link">&para;</a></h1>
 <p>The <code>.lines</code> format is XML. Every Vexy Lines project saves to a single file containing the full layer tree, fill parameters, document properties, and optionally the source and preview images.</p>
 <h2 id="root-element">Root element<a class="headerlink" href="#root-element" title="Permanent link">&para;</a></h2>
-<p><code>xml
-&lt;Project caption="My Art" version="4.0" dpi="300"&gt;
-  &lt;Document ... /&gt;
-  &lt;Objects&gt; ... &lt;/Objects&gt;
-  &lt;SourcePict&gt; ... &lt;/SourcePict&gt;
-  &lt;PreviewDoc&gt; ... &lt;/PreviewDoc&gt;
-&lt;/Project&gt;</code></p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;Project</span><span class="w"> </span><span class="na">caption=</span><span class="s">&quot;My Art&quot;</span><span class="w"> </span><span class="na">version=</span><span class="s">&quot;4.0&quot;</span><span class="w"> </span><span class="na">dpi=</span><span class="s">&quot;300&quot;</span><span class="nt">&gt;</span>
+<span class="w">  </span><span class="nt">&lt;Document</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;Objects&gt;</span><span class="w"> </span>...<span class="w"> </span><span class="nt">&lt;/Objects&gt;</span>
+<span class="w">  </span><span class="nt">&lt;SourcePict&gt;</span><span class="w"> </span>...<span class="w"> </span><span class="nt">&lt;/SourcePict&gt;</span>
+<span class="w">  </span><span class="nt">&lt;PreviewDoc&gt;</span><span class="w"> </span>...<span class="w"> </span><span class="nt">&lt;/PreviewDoc&gt;</span>
+<span class="nt">&lt;/Project&gt;</span>
+</code></pre></div>
 <table>
 <thead>
 <tr>
@@ -843,29 +843,29 @@
 </table>
 <h2 id="document-element">Document element<a class="headerlink" href="#document-element" title="Permanent link">&para;</a></h2>
 <p>Canvas dimensions and stroke limits.</p>
-<p><code>xml
-&lt;Document width_mm="210" height_mm="297" dpi="300"
-          thicknessMin="0.1" thicknessMax="5.0"
-          intervalMin="0.5" intervalMax="10.0" /&gt;</code></p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;Document</span><span class="w"> </span><span class="na">width_mm=</span><span class="s">&quot;210&quot;</span><span class="w"> </span><span class="na">height_mm=</span><span class="s">&quot;297&quot;</span><span class="w"> </span><span class="na">dpi=</span><span class="s">&quot;300&quot;</span>
+<span class="w">          </span><span class="na">thicknessMin=</span><span class="s">&quot;0.1&quot;</span><span class="w"> </span><span class="na">thicknessMax=</span><span class="s">&quot;5.0&quot;</span>
+<span class="w">          </span><span class="na">intervalMin=</span><span class="s">&quot;0.5&quot;</span><span class="w"> </span><span class="na">intervalMax=</span><span class="s">&quot;10.0&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+</code></pre></div>
 <h2 id="layer-tree">Layer tree<a class="headerlink" href="#layer-tree" title="Permanent link">&para;</a></h2>
 <p>The <code>&lt;Objects&gt;</code> element under <code>&lt;Project&gt;</code> contains the layer tree. Two node types:</p>
 <h3 id="groups-lrsection">Groups (<code>&lt;LrSection&gt;</code>)<a class="headerlink" href="#groups-lrsection" title="Permanent link">&para;</a></h3>
-<p><code>xml
-&lt;LrSection caption="Group 1" object_id="100" expanded="1"&gt;
-  &lt;Objects&gt;
-    &lt;!-- child layers and sub-groups --&gt;
-  &lt;/Objects&gt;
-&lt;/LrSection&gt;</code></p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;LrSection</span><span class="w"> </span><span class="na">caption=</span><span class="s">&quot;Group 1&quot;</span><span class="w"> </span><span class="na">object_id=</span><span class="s">&quot;100&quot;</span><span class="w"> </span><span class="na">expanded=</span><span class="s">&quot;1&quot;</span><span class="nt">&gt;</span>
+<span class="w">  </span><span class="nt">&lt;Objects&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- child layers and sub-groups --&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/Objects&gt;</span>
+<span class="nt">&lt;/LrSection&gt;</span>
+</code></pre></div>
 <h3 id="layers-freemesh">Layers (<code>&lt;FreeMesh&gt;</code>)<a class="headerlink" href="#layers-freemesh" title="Permanent link">&para;</a></h3>
-<p><code>xml
-&lt;FreeMesh caption="Layer 1" object_id="200" visible="1"&gt;
-  &lt;Objects&gt;
-    &lt;!-- fill elements --&gt;
-  &lt;/Objects&gt;
-  &lt;MaskData mask_type="0" invert_mask="0" tolerance="0" /&gt;
-  &lt;row_grid_edge ... /&gt;
-  &lt;col_grid_edge ... /&gt;
-&lt;/FreeMesh&gt;</code></p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;FreeMesh</span><span class="w"> </span><span class="na">caption=</span><span class="s">&quot;Layer 1&quot;</span><span class="w"> </span><span class="na">object_id=</span><span class="s">&quot;200&quot;</span><span class="w"> </span><span class="na">visible=</span><span class="s">&quot;1&quot;</span><span class="nt">&gt;</span>
+<span class="w">  </span><span class="nt">&lt;Objects&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- fill elements --&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/Objects&gt;</span>
+<span class="w">  </span><span class="nt">&lt;MaskData</span><span class="w"> </span><span class="na">mask_type=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">invert_mask=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">tolerance=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;row_grid_edge</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;col_grid_edge</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/FreeMesh&gt;</span>
+</code></pre></div>
 <h2 id="fill-elements">Fill elements<a class="headerlink" href="#fill-elements" title="Permanent link">&para;</a></h2>
 <p>Each fill is an XML element inside a layer's <code>&lt;Objects&gt;</code>. The tag name identifies the algorithm:</p>
 <table>
@@ -923,12 +923,12 @@
 </tbody>
 </table>
 <p>A fill element looks like:</p>
-<p><code>xml
-&lt;LinearStrokesTmpl caption="Black lines" object_id="300"
-    color_name="#ff1a2b3c" interval="2.5" angle="45"
-    thick_gap="0.8" base_width="0.2" smoothness="0.5"
-    uplimit="200" downlimit="30" multiplier="1.2"
-    dispersion="0.1" shear="0" /&gt;</code></p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;LinearStrokesTmpl</span><span class="w"> </span><span class="na">caption=</span><span class="s">&quot;Black lines&quot;</span><span class="w"> </span><span class="na">object_id=</span><span class="s">&quot;300&quot;</span>
+<span class="w">    </span><span class="na">color_name=</span><span class="s">&quot;#ff1a2b3c&quot;</span><span class="w"> </span><span class="na">interval=</span><span class="s">&quot;2.5&quot;</span><span class="w"> </span><span class="na">angle=</span><span class="s">&quot;45&quot;</span>
+<span class="w">    </span><span class="na">thick_gap=</span><span class="s">&quot;0.8&quot;</span><span class="w"> </span><span class="na">base_width=</span><span class="s">&quot;0.2&quot;</span><span class="w"> </span><span class="na">smoothness=</span><span class="s">&quot;0.5&quot;</span>
+<span class="w">    </span><span class="na">uplimit=</span><span class="s">&quot;200&quot;</span><span class="w"> </span><span class="na">downlimit=</span><span class="s">&quot;30&quot;</span><span class="w"> </span><span class="na">multiplier=</span><span class="s">&quot;1.2&quot;</span>
+<span class="w">    </span><span class="na">dispersion=</span><span class="s">&quot;0.1&quot;</span><span class="w"> </span><span class="na">shear=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+</code></pre></div>
 <h3 id="colour-encoding">Colour encoding<a class="headerlink" href="#colour-encoding" title="Permanent link">&para;</a></h3>
 <p>Colours in <code>.lines</code> use <code>#AARRGGBB</code> format (alpha first). The parser normalises to standard <code>#RRGGBB</code> or <code>#RRGGBBAA</code>:</p>
 <table>
@@ -962,22 +962,23 @@
 <h2 id="embedded-images">Embedded images<a class="headerlink" href="#embedded-images" title="Permanent link">&para;</a></h2>
 <h3 id="source-image-sourcepict">Source image (<code>&lt;SourcePict&gt;</code>)<a class="headerlink" href="#source-image-sourcepict" title="Permanent link">&para;</a></h3>
 <p>The original raster image, encoded as:</p>
-<p><code>base64( 4-byte-BE-uint32-uncompressed-size + zlib(JPEG) )</code></p>
+<div class="highlight"><pre><span></span><code>base64( 4-byte-BE-uint32-uncompressed-size + zlib(JPEG) )
+</code></pre></div>
 <p>Structure:</p>
-<p><code>xml
-&lt;SourcePict&gt;
-  &lt;ImageData&gt;base64-encoded-data&lt;/ImageData&gt;
-&lt;/SourcePict&gt;</code></p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;SourcePict&gt;</span>
+<span class="w">  </span><span class="nt">&lt;ImageData&gt;</span>base64-encoded-data<span class="nt">&lt;/ImageData&gt;</span>
+<span class="nt">&lt;/SourcePict&gt;</span>
+</code></pre></div>
 <p>To decode: base64-decode the text, read the first 4 bytes as a big-endian uint32 (the uncompressed size), then zlib-decompress the remaining bytes to get raw JPEG.</p>
 <h3 id="preview-image-previewdoc">Preview image (<code>&lt;PreviewDoc&gt;</code>)<a class="headerlink" href="#preview-image-previewdoc" title="Permanent link">&para;</a></h3>
 <p>The rendered preview thumbnail, encoded as plain base64 PNG:</p>
-<p><code>xml
-&lt;PreviewDoc&gt;base64-encoded-PNG&lt;/PreviewDoc&gt;</code></p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;PreviewDoc&gt;</span>base64-encoded-PNG<span class="nt">&lt;/PreviewDoc&gt;</span>
+</code></pre></div>
 <p>To decode: base64-decode the text directly to get raw PNG bytes.</p>
 <h2 id="href-references">Href references<a class="headerlink" href="#href-references" title="Permanent link">&para;</a></h2>
 <p>Some elements use <code>href_id</code> attributes to reference objects defined elsewhere in the tree. These are pointer nodes, not real data. The parser skips them.</p>
-<p><code>xml
-&lt;LinearStrokesTmpl href_id="300" /&gt;</code></p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;LinearStrokesTmpl</span><span class="w"> </span><span class="na">href_id=</span><span class="s">&quot;300&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+</code></pre></div>
 <h2 id="mesh-deformation">Mesh deformation<a class="headerlink" href="#mesh-deformation" title="Permanent link">&para;</a></h2>
 <p>Layers can have warp meshes stored as <code>&lt;row_grid_edge&gt;</code> and <code>&lt;col_grid_edge&gt;</code> elements with control point attributes. These describe the grid deformation applied to the layer's fill output.</p>
 

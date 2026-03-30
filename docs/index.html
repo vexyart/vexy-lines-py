@@ -323,6 +323,39 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#extract-embedded-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extract embedded images
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-this-package-exists" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why this package exists
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next steps
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -514,6 +547,39 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#extract-embedded-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extract embedded images
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-this-package-exists" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why this package exists
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next steps
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -541,27 +607,28 @@
 <p>A <code>.lines</code> file holds everything Vexy Lines needs to reproduce a piece of vector artwork: the layer tree (groups, layers, fills with algorithm parameters), document properties, and optionally the original source image and a rendered preview -- all packed into XML.</p>
 <p>This package reads that XML and gives you typed Python dataclasses.</p>
 <h2 id="quick-start">Quick start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
-<p>```python
-from vexy_lines import parse, GroupInfo, LayerInfo</p>
-<p>doc = parse("artwork.lines")
-print(doc.caption, doc.dpi)          # "My Art"  300
-print(doc.props.width_mm, "x", doc.props.height_mm, "mm")</p>
-<h1 id="walk-the-layer-tree">Walk the layer tree<a class="headerlink" href="#walk-the-layer-tree" title="Permanent link">&para;</a></h1>
-<p>for node in doc.groups:
-    if isinstance(node, GroupInfo):
-        for child in node.children:
-            if isinstance(child, LayerInfo):
-                for fill in child.fills:
-                    p = fill.params
-                    print(p.fill_type, p.color, f"interval={p.interval}")
-```</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">vexy_lines</span> <span class="kn">import</span> <span class="n">parse</span><span class="p">,</span> <span class="n">GroupInfo</span><span class="p">,</span> <span class="n">LayerInfo</span>
+
+<span class="n">doc</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s2">&quot;artwork.lines&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">caption</span><span class="p">,</span> <span class="n">doc</span><span class="o">.</span><span class="n">dpi</span><span class="p">)</span>          <span class="c1"># &quot;My Art&quot;  300</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">props</span><span class="o">.</span><span class="n">width_mm</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">doc</span><span class="o">.</span><span class="n">props</span><span class="o">.</span><span class="n">height_mm</span><span class="p">,</span> <span class="s2">&quot;mm&quot;</span><span class="p">)</span>
+
+<span class="c1"># Walk the layer tree</span>
+<span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">groups</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">GroupInfo</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">LayerInfo</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">fill</span> <span class="ow">in</span> <span class="n">child</span><span class="o">.</span><span class="n">fills</span><span class="p">:</span>
+                    <span class="n">p</span> <span class="o">=</span> <span class="n">fill</span><span class="o">.</span><span class="n">params</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">fill_type</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">color</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;interval=</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">interval</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
 <h2 id="extract-embedded-images">Extract embedded images<a class="headerlink" href="#extract-embedded-images" title="Permanent link">&para;</a></h2>
 <p>Every <code>.lines</code> file can contain a JPEG source image (the original photo) and a PNG preview (the rendered result). Pull them out without opening the app:</p>
-<p>```python
-from vexy_lines import extract_source_image, extract_preview_image</p>
-<p>extract_source_image("artwork.lines", "source.jpg")
-extract_preview_image("artwork.lines", "preview.png")
-```</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">vexy_lines</span> <span class="kn">import</span> <span class="n">extract_source_image</span><span class="p">,</span> <span class="n">extract_preview_image</span>
+
+<span class="n">extract_source_image</span><span class="p">(</span><span class="s2">&quot;artwork.lines&quot;</span><span class="p">,</span> <span class="s2">&quot;source.jpg&quot;</span><span class="p">)</span>
+<span class="n">extract_preview_image</span><span class="p">(</span><span class="s2">&quot;artwork.lines&quot;</span><span class="p">,</span> <span class="s2">&quot;preview.png&quot;</span><span class="p">)</span>
+</code></pre></div>
 <h2 id="why-this-package-exists">Why this package exists<a class="headerlink" href="#why-this-package-exists" title="Permanent link">&para;</a></h2>
 <p>Vexy Lines is a macOS/Windows app that transforms raster images into vector artwork using 14 fill algorithms. The <code>.lines</code> file format stores everything -- but it's undocumented XML.</p>
 <p>This package decodes that format so you can:</p>
