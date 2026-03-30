@@ -7,6 +7,9 @@
 
 Parse [Vexy Lines](https://vexy.art/lines/) `.lines` vector art files in pure Python.
 
+- [On Github](https://github.com/vexyart/vexy-lines-py)
+- [On PyPI](https://pypi.org/project/vexy-lines-py/)
+
 ## What it does
 
 A `.lines` file holds everything Vexy Lines needs to reproduce a piece of vector artwork: the layer tree (groups, layers, fills with algorithm parameters), document properties, and optionally the original source image and a rendered preview -- all packed into XML.
