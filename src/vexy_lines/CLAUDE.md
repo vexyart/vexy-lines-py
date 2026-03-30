@@ -7,5 +7,7 @@
 
 | ID | Time | T | Title | Read |
 |----|------|---|-------|------|
+| #2338 | 12:28 PM | ✅ | Added parse_string to vexy-lines-py public API exports | ~230 |
+| #2337 | 12:27 PM | 🟣 | Added parse_string() function for in-memory XML parsing | ~431 |
 | #2335 | 2:57 AM | 🔴 | Fixed all critical MCP client and parser bugs across vexy-lines SDK | ~723 |
 </claude-mem-context>
