@@ -23,8 +23,8 @@ from vexy_lines.types import (
 
 
 class TestConstants:
-    def test_fill_tag_map_has_14_entries(self):
-        assert len(FILL_TAG_MAP) == 14
+    def test_fill_tag_map_has_11_entries(self):
+        assert len(FILL_TAG_MAP) == 11
 
     def test_fill_tags_matches_tag_map_keys(self):
         assert FILL_TAGS == set(FILL_TAG_MAP)

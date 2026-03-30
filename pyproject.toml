@@ -96,6 +96,8 @@ dependencies = [
     "mypy>=1.15.0",
     "pytest>=8.3.4",
     "pytest-cov>=6.0.0",
+    "mkdocs>=1.6",
+    "mkdocs-materialx>=2.0",
 ]
 
 [tool.hatch.envs.default.scripts]

@@ -1,13 +1,15 @@
 # this_file: vexy-lines-py/src/vexy_lines/parser.py
-"""Parser for Vexy Lines .lines files.
+"""Parse Vexy Lines ``.lines`` XML files into typed dataclasses.
 
-.lines files are XML documents containing the full project structure:
-layer tree (groups, layers, fills), source image, preview image, and
-document properties. This module parses them into typed dataclasses
-without requiring the Vexy Lines app.
+A ``.lines`` file contains the full project: layer tree (groups, layers,
+fills), document properties, and two optional embedded images.
 
-The embedded source image is base64 -> 4-byte BE size header -> zlib -> JPEG.
-The preview image is base64 -> raw PNG.
+Embedded image encodings:
+- Source image: ``base64( 4-byte BE uint32 uncompressed-size + zlib(JPEG) )``
+- Preview image: ``base64( raw PNG )``
+
+The public API is three functions: :func:`parse`, :func:`extract_source_image`,
+and :func:`extract_preview_image`.
 """
 
 from __future__ import annotations
@@ -36,15 +38,13 @@ from vexy_lines.types import (
 # Private constants
 # ---------------------------------------------------------------------------
 
-# Colour constants
-_HEX_COLOR_LEN = 8  # Length of #AARRGGBB hex part (without #)
-_ALPHA_OPAQUE = 0xFF  # Fully opaque alpha channel value
+_HEX_COLOR_LEN = 8   # digits after '#' in an #AARRGGBB string
+_ALPHA_OPAQUE = 0xFF  # alpha value meaning fully opaque
 
-# FreeCurveStrokesTmpl type_conv value that maps to "trace" fill type.
+# type_conv attribute value on FreeCurveStrokesTmpl that means "trace"
 _TYPE_CONV_TRACE = 9
 
-# Minimum byte count for a valid base64-decoded SourcePict payload
-# (4-byte size header + at least 1 byte of zlib data).
+# 4-byte size header + at least 1 byte of zlib-compressed data
 _MIN_SOURCE_PICT_BYTES = 5
 
 
@@ -54,9 +54,12 @@ _MIN_SOURCE_PICT_BYTES = 5
 
 
 def _get_float(attrib: dict[str, str], key: str, default: float = 0.0) -> float:
-    """Safely parse a float from an XML attribute dict.
+    """Return ``attrib[key]`` as a float, or *default* if absent or non-numeric.
 
-    Returns *default* when the key is absent or the value is not numeric.
+    Args:
+        attrib: XML element attribute dict.
+        key: Attribute name to look up.
+        default: Value returned when the key is missing or unparseable.
     """
     val = attrib.get(key)
     if val is None:
@@ -68,9 +71,14 @@ def _get_float(attrib: dict[str, str], key: str, default: float = 0.0) -> float:
 
 
 def _get_int(attrib: dict[str, str], key: str, default: int = 0) -> int:
-    """Safely parse an int from an XML attribute dict.
+    """Return ``attrib[key]`` as an int, or *default* if absent or non-numeric.
 
-    Returns *default* when the key is absent or the value is not numeric.
+    Handles float-string values like ``"300.0"`` by truncating via ``float()``.
+
+    Args:
+        attrib: XML element attribute dict.
+        key: Attribute name to look up.
+        default: Value returned when the key is missing or unparseable.
     """
     val = attrib.get(key)
     if val is None:
@@ -78,7 +86,6 @@ def _get_int(attrib: dict[str, str], key: str, default: int = 0) -> int:
     try:
         return int(val)
     except (ValueError, TypeError):
-        # Handle float strings like "300.0" by truncating.
         try:
             return int(float(val))
         except (ValueError, TypeError):
@@ -86,15 +93,21 @@ def _get_int(attrib: dict[str, str], key: str, default: int = 0) -> int:
 
 
 def _normalise_color(raw_color: str) -> str:
-    """Normalise a Vexy Lines colour string to ``#RRGGBB`` or ``#RRGGBBAA``.
+    """Convert a raw ``.lines`` colour value to ``#RRGGBB`` or ``#RRGGBBAA``.
 
-    Input formats seen in ``.lines`` files:
+    Handles all colour formats found in the wild:
 
-    * ``#ffRRGGBB`` -- fully opaque, the ``ff`` alpha prefix is stripped.
-    * ``#RRGGBBAA`` -- eight hex digits with trailing alpha, kept as-is.
-    * ``#RRGGBB``  -- six hex digits, kept as-is.
-    * Decimal ARGB int (e.g. ``4278190080``) -- converted.
-    * Empty / missing -- returns ``#000000``.
+    * ``#ffRRGGBB`` — opaque ARGB hex; ``ff`` alpha prefix is stripped → ``#RRGGBB``.
+    * ``#RRGGBBAA`` — eight hex digits with trailing alpha; kept as-is.
+    * ``#RRGGBB``   — six hex digits; kept as-is.
+    * Decimal ARGB integer (e.g. ``4278190080``) — unpacked and converted.
+    * Empty / missing — returns ``"#000000"``.
+
+    Args:
+        raw_color: Raw attribute value from the XML element.
+
+    Returns:
+        A normalised hex colour string.
     """
     if not raw_color:
         return "#000000"
@@ -129,20 +142,25 @@ def _normalise_color(raw_color: str) -> str:
 
 
 def _is_href(elem: ET.Element) -> bool:
-    """Return True if *elem* is a lightweight href reference (not a real node).
+    """Return ``True`` if *elem* is an href reference rather than a real node.
 
-    Href elements carry only ``href_id`` and ``type`` attributes with no
-    children -- they reference another element elsewhere in the tree.
+    Href elements have an ``href_id`` attribute and no children; they point
+    to another element defined elsewhere in the tree and should be skipped
+    during parsing.
     """
     return "href_id" in elem.attrib
 
 
 def _resolve_fill_type(xml_tag: str, attrib: dict[str, str]) -> str:
-    """Determine the fill type string for a fill element.
+    """Return the canonical fill type string for a fill element.
 
-    For ``FreeCurveStrokesTmpl``, the ``type_conv`` attribute refines the
-    type.  ``type_conv=9`` maps to "trace"; other values default to the
-    generic tag mapping (also "trace" for that tag).
+    ``FreeCurveStrokesTmpl`` is a special case: ``type_conv=9`` means
+    ``"trace"`` (the TracedArea algorithm re-using the FreeCurve element);
+    all other ``type_conv`` values map to ``"handmade"`` (the base mapping).
+
+    Args:
+        xml_tag: The XML element tag name.
+        attrib: The element's attribute dict.
     """
     base = FILL_TAG_MAP.get(xml_tag, xml_tag)
 
@@ -150,8 +168,7 @@ def _resolve_fill_type(xml_tag: str, attrib: dict[str, str]) -> str:
         type_conv = _get_int(attrib, "type_conv", default=-1)
         if type_conv == _TYPE_CONV_TRACE:
             return "trace"
-        # Other type_conv values: 2 = "balanced" variant, etc.
-        # Keep the base mapping ("trace") as the canonical type.
+        # Other type_conv values: 0=manual, 1=blend, 2=balanced, etc.
         return base
 
     return base
@@ -363,33 +380,12 @@ def _parse_document_props(doc_elem: ET.Element) -> DocumentProps:
 # ---------------------------------------------------------------------------
 
 
-def parse(path: str | Path) -> LinesDocument:
-    """Parse a ``.lines`` file and return a :class:`~vexy_lines.types.LinesDocument`.
+def _parse_root(root: ET.Element) -> LinesDocument:
+    """Build a :class:`~vexy_lines.types.LinesDocument` from a parsed XML root.
 
-    This is the main entry point.  It reads the XML, extracts the layer
-    tree, document properties, and optionally decodes the embedded source
-    and preview images.
-
-    Args:
-        path: Path to the ``.lines`` file.
-
-    Returns:
-        Fully populated :class:`~vexy_lines.types.LinesDocument`.
-
-    Raises:
-        FileNotFoundError: If *path* does not exist.
-        ET.ParseError: If the file is not valid XML.
+    This is the shared core used by both :func:`parse` (file path)
+    and :func:`parse_string` (raw XML string).
     """
-    path = Path(path)
-    if not path.exists():
-        msg = f"File not found: {path}"
-        raise FileNotFoundError(msg)
-
-    logger.debug(f"Parsing .lines file: {path}")
-    tree = ET.parse(path)  # noqa: S314
-    root = tree.getroot()
-
-    # Root <Project> attributes
     caption = root.attrib.get("caption", "")
     version = root.attrib.get("version", "")
     dpi = _get_int(root.attrib, "dpi", default=300)
@@ -436,6 +432,51 @@ def parse(path: str | Path) -> LinesDocument:
 
     _log_summary(doc)
     return doc
+
+
+def parse(path: str | Path) -> LinesDocument:
+    """Parse a ``.lines`` file and return a :class:`~vexy_lines.types.LinesDocument`.
+
+    This is the main entry point for file-based parsing.
+
+    Args:
+        path: Path to the ``.lines`` file (str or Path).
+
+    Returns:
+        Fully populated :class:`~vexy_lines.types.LinesDocument`.
+
+    Raises:
+        FileNotFoundError: If *path* does not exist.
+        ET.ParseError: If the file is not valid XML.
+    """
+    path = Path(path)
+    if not path.exists():
+        msg = f"File not found: {path}"
+        raise FileNotFoundError(msg)
+
+    logger.debug(f"Parsing .lines file: {path}")
+    tree = ET.parse(path)  # noqa: S314
+    return _parse_root(tree.getroot())
+
+
+def parse_string(xml: str) -> LinesDocument:
+    """Parse a ``.lines`` XML string and return a :class:`~vexy_lines.types.LinesDocument`.
+
+    Use this when you already have the XML content in memory
+    (e.g. from a network response or database) instead of a file path.
+
+    Args:
+        xml: Raw XML string from a ``.lines`` file.
+
+    Returns:
+        Fully populated :class:`~vexy_lines.types.LinesDocument`.
+
+    Raises:
+        ET.ParseError: If *xml* is not valid XML.
+    """
+    logger.debug("Parsing .lines XML string")
+    root = ET.fromstring(xml)  # noqa: S314
+    return _parse_root(root)
 
 
 def _log_summary(doc: LinesDocument) -> None:

@@ -29,6 +29,7 @@ from vexy_lines.parser import (
     extract_preview_image,
     extract_source_image,
     parse,
+    parse_string,
 )
 from vexy_lines.types import (
     FillNode,
@@ -203,9 +204,9 @@ class TestResolveFillType:
     def test_resolve_fill_type_when_free_curve_type_conv_9_then_trace(self):
         assert _resolve_fill_type("FreeCurveStrokesTmpl", {"type_conv": "9"}) == "trace"
 
-    def test_resolve_fill_type_when_free_curve_type_conv_2_then_trace(self):
-        # type_conv=2 still falls back to base mapping "trace"
-        assert _resolve_fill_type("FreeCurveStrokesTmpl", {"type_conv": "2"}) == "trace"
+    def test_resolve_fill_type_when_free_curve_type_conv_2_then_handmade(self):
+        # type_conv=2 (balanced) falls back to base mapping "handmade"
+        assert _resolve_fill_type("FreeCurveStrokesTmpl", {"type_conv": "2"}) == "handmade"
 
     def test_resolve_fill_type_when_unknown_tag_then_returns_tag(self):
         assert _resolve_fill_type("UnknownTmpl", {}) == "UnknownTmpl"
@@ -517,6 +518,55 @@ class TestParse:
         doc = parse(p)
         assert doc.source_image_data is None
         assert doc.preview_image_data is None
+
+
+# ---------------------------------------------------------------------------
+# Public API — parse_string
+# ---------------------------------------------------------------------------
+
+
+class TestParseString:
+    def test_parse_string_when_valid_xml_then_returns_document(self):
+        doc = parse_string(MINIMAL_LINES_XML)
+        assert isinstance(doc, LinesDocument)
+        assert doc.caption == "TestProject"
+        assert doc.version == "2.1"
+        assert doc.dpi == 150
+
+    def test_parse_string_when_valid_xml_then_has_groups(self):
+        doc = parse_string(MINIMAL_LINES_XML)
+        assert len(doc.groups) == 1
+        group = doc.groups[0]
+        assert isinstance(group, GroupInfo)
+        assert group.caption == "Group A"
+
+    def test_parse_string_when_valid_xml_then_has_fills(self):
+        doc = parse_string(MINIMAL_LINES_XML)
+        group = doc.groups[0]
+        assert isinstance(group, GroupInfo)
+        layer = group.children[0]
+        assert isinstance(layer, LayerInfo)
+        assert len(layer.fills) == 1
+        assert layer.fills[0].params.fill_type == "linear"
+
+    def test_parse_string_when_minimal_project_then_returns_defaults(self):
+        doc = parse_string('<?xml version="1.0"?><Project caption="Bare"/>')
+        assert doc.caption == "Bare"
+        assert doc.groups == []
+        assert doc.source_image_data is None
+
+    def test_parse_string_when_malformed_xml_then_raises(self):
+        with pytest.raises(ET.ParseError):
+            parse_string("<not valid xml><<<")
+
+    def test_parse_string_matches_file_parse(self, tmp_path):
+        p = _write_lines_file(tmp_path)
+        from_file = parse(p)
+        from_string = parse_string(MINIMAL_LINES_XML)
+        assert from_file.caption == from_string.caption
+        assert from_file.dpi == from_string.dpi
+        assert len(from_file.groups) == len(from_string.groups)
+        assert from_file.source_image_data == from_string.source_image_data
 
 
 # ---------------------------------------------------------------------------

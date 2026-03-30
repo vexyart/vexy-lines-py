@@ -1,22 +1,33 @@
 # this_file: vexy-lines-py/src/vexy_lines/__init__.py
-"""vexy-lines-py: Pure-Python cross-platform parser for Vexy Lines .lines files.
+"""Parse Vexy Lines ``.lines`` files in pure Python — no app required.
 
-Parse .lines vector art files, access the layer tree, and extract embedded
-source and preview images -- all without requiring the Vexy Lines application.
+Read the layer tree, extract fill parameters, and decode embedded images
+from any ``.lines`` file on any platform.
 
 Example::
 
-    from vexy_lines import parse
+    from vexy_lines import parse, GroupInfo, LayerInfo
 
     doc = parse("artwork.lines")
-    print(doc.caption, doc.dpi)
-    for group_or_layer in doc.groups:
-        print(group_or_layer.caption)
+    print(doc.caption, doc.dpi)  # "My Art" 300
+
+    for node in doc.groups:
+        if isinstance(node, GroupInfo):
+            for layer in node.children:
+                if isinstance(layer, LayerInfo):
+                    for fill in layer.fills:
+                        print(fill.params.fill_type, fill.params.color)
+                        # "linear" "#1a2b3c"
+
+    # Save the embedded source image to disk
+    if doc.source_image_data:
+        with open("source.jpg", "wb") as f:
+            f.write(doc.source_image_data)
 """
 
 from __future__ import annotations
 
-from vexy_lines.parser import extract_preview_image, extract_source_image, parse
+from vexy_lines.parser import extract_preview_image, extract_source_image, parse, parse_string
 from vexy_lines.types import (
     FILL_TAG_MAP,
     FILL_TAGS,
@@ -44,4 +55,5 @@ __all__ = [
     "extract_preview_image",
     "extract_source_image",
     "parse",
+    "parse_string",
 ]
