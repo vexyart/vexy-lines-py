@@ -1,0 +1,1404 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Pure-Python parser for Vexy Lines .lines vector art files">
+      
+      
+      
+      
+        <link rel="prev" href="../installation/">
+      
+      
+        <link rel="next" href="../file-format/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-materialx-10.1.1">
+    
+    
+      
+        <title>API Reference - vexy-lines-py</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.b72b68c2.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.204eaadb.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo" data-mx-topbar="glass">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="toc" type="checkbox" id="__toc" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <label class="md-overlay" for="__toc"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#api-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="vexy-lines-py" class="md-header__button md-logo" aria-label="vexy-lines-py" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            vexy-lines-py
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              API Reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.25 2a8.25 8.25 0 0 1 6.34 13.53l5.69 5.69a.749.749 0 0 1-.326 1.275.75.75 0 0 1-.734-.215l-5.69-5.69A8.25 8.25 0 1 1 10.25 2M3.5 10.25a6.75 6.75 0 1 0 13.5 0 6.75 6.75 0 0 0-13.5 0"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.25 2a8.25 8.25 0 0 1 6.34 13.53l5.69 5.69a.749.749 0 0 1-.326 1.275.75.75 0 0 1-.734-.215l-5.69-5.69A8.25 8.25 0 1 1 10.25 2M3.5 10.25a6.75 6.75 0 1 0 13.5 0 6.75 6.75 0 0 0-13.5 0"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="vexy-lines-py" class="md-nav__button md-logo" aria-label="vexy-lines-py" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    vexy-lines-py
+  </label>
+  
+  <ul class="md-nav__list">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc">
+      
+        <li class="md-nav__item">
+  <a href="#functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parsepath-linesdocument" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        parse(path) -&gt; LinesDocument
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extract_source_imagepath-output-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        extract_source_image(path, output) -&gt; Path
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extract_preview_imagepath-output-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        extract_preview_image(path, output) -&gt; Path
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dataclasses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dataclasses
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dataclasses">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linesdocument" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LinesDocument
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentprops" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DocumentProps
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#groupinfo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GroupInfo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layerinfo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LayerInfo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fillnode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FillNode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fillparams" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FillParams
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#maskinfo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MaskInfo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#constants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constants
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Constants">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fill_tag_map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FILL_TAG_MAP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fill_tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FILL_TAGS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#numeric_params" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NUMERIC_PARAMS
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../file-format/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Format
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc">
+      
+        <li class="md-nav__item">
+  <a href="#functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parsepath-linesdocument" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        parse(path) -&gt; LinesDocument
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extract_source_imagepath-output-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        extract_source_image(path, output) -&gt; Path
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extract_preview_imagepath-output-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        extract_preview_image(path, output) -&gt; Path
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dataclasses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dataclasses
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dataclasses">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linesdocument" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LinesDocument
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentprops" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DocumentProps
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#groupinfo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GroupInfo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layerinfo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LayerInfo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fillnode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FillNode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fillparams" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FillParams
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#maskinfo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MaskInfo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#constants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constants
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Constants">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fill_tag_map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FILL_TAG_MAP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fill_tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FILL_TAGS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#numeric_params" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NUMERIC_PARAMS
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+<h1 id="api-reference">API Reference<a class="headerlink" href="#api-reference" title="Permanent link">&para;</a></h1>
+<h2 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">&para;</a></h2>
+<h3 id="parsepath-linesdocument"><code>parse(path) -&gt; LinesDocument</code><a class="headerlink" href="#parsepath-linesdocument" title="Permanent link">&para;</a></h3>
+<p>Parse a <code>.lines</code> file and return a fully populated <code>LinesDocument</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">vexy_lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse</span>
+
+<span class="n">doc</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s2">&quot;artwork.lines&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">caption</span><span class="p">,</span> <span class="n">doc</span><span class="o">.</span><span class="n">dpi</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Args:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>path</code></td>
+<td><code>str \| Path</code></td>
+<td>Path to the <code>.lines</code> file</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <code>LinesDocument</code> with the full layer tree, document properties, and decoded images.</p>
+<p><strong>Raises:</strong></p>
+<ul>
+<li><code>FileNotFoundError</code> -- path does not exist</li>
+<li><code>xml.etree.ElementTree.ParseError</code> -- file is not valid XML</li>
+</ul>
+<hr />
+<h3 id="extract_source_imagepath-output-path"><code>extract_source_image(path, output) -&gt; Path</code><a class="headerlink" href="#extract_source_imagepath-output-path" title="Permanent link">&para;</a></h3>
+<p>Parse a <code>.lines</code> file and save the embedded JPEG source image.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">vexy_lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">extract_source_image</span>
+
+<span class="n">extract_source_image</span><span class="p">(</span><span class="s2">&quot;artwork.lines&quot;</span><span class="p">,</span> <span class="s2">&quot;source.jpg&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Args:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>path</code></td>
+<td><code>str \| Path</code></td>
+<td>Path to the <code>.lines</code> file</td>
+</tr>
+<tr>
+<td><code>output</code></td>
+<td><code>str \| Path</code></td>
+<td>Destination path for the JPEG</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> Resolved output <code>Path</code>.</p>
+<p><strong>Raises:</strong></p>
+<ul>
+<li><code>FileNotFoundError</code> -- <code>.lines</code> file does not exist</li>
+<li><code>ValueError</code> -- no source image embedded in the file</li>
+</ul>
+<hr />
+<h3 id="extract_preview_imagepath-output-path"><code>extract_preview_image(path, output) -&gt; Path</code><a class="headerlink" href="#extract_preview_imagepath-output-path" title="Permanent link">&para;</a></h3>
+<p>Parse a <code>.lines</code> file and save the embedded PNG preview image.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">vexy_lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">extract_preview_image</span>
+
+<span class="n">extract_preview_image</span><span class="p">(</span><span class="s2">&quot;artwork.lines&quot;</span><span class="p">,</span> <span class="s2">&quot;preview.png&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Args:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>path</code></td>
+<td><code>str \| Path</code></td>
+<td>Path to the <code>.lines</code> file</td>
+</tr>
+<tr>
+<td><code>output</code></td>
+<td><code>str \| Path</code></td>
+<td>Destination path for the PNG</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> Resolved output <code>Path</code>.</p>
+<p><strong>Raises:</strong></p>
+<ul>
+<li><code>FileNotFoundError</code> -- <code>.lines</code> file does not exist</li>
+<li><code>ValueError</code> -- no preview image embedded in the file</li>
+</ul>
+<hr />
+<h2 id="dataclasses">Dataclasses<a class="headerlink" href="#dataclasses" title="Permanent link">&para;</a></h2>
+<h3 id="linesdocument"><code>LinesDocument</code><a class="headerlink" href="#linesdocument" title="Permanent link">&para;</a></h3>
+<p>Everything parsed from a <code>.lines</code> file.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>caption</code></td>
+<td><code>str</code></td>
+<td>Project name from the root <code>&lt;Project&gt;</code> element</td>
+</tr>
+<tr>
+<td><code>version</code></td>
+<td><code>str</code></td>
+<td>Vexy Lines app version that created the file</td>
+</tr>
+<tr>
+<td><code>dpi</code></td>
+<td><code>int</code></td>
+<td>Document resolution (default 300)</td>
+</tr>
+<tr>
+<td><code>props</code></td>
+<td><code>DocumentProps</code></td>
+<td>Canvas dimensions and stroke limits</td>
+</tr>
+<tr>
+<td><code>groups</code></td>
+<td><code>list[GroupInfo \| LayerInfo]</code></td>
+<td>Top-level layer tree</td>
+</tr>
+<tr>
+<td><code>source_image_data</code></td>
+<td><code>bytes \| None</code></td>
+<td>Decoded JPEG bytes of the source image</td>
+</tr>
+<tr>
+<td><code>preview_image_data</code></td>
+<td><code>bytes \| None</code></td>
+<td>Decoded PNG bytes of the preview</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="documentprops"><code>DocumentProps</code><a class="headerlink" href="#documentprops" title="Permanent link">&para;</a></h3>
+<p>Canvas dimensions and stroke range limits from the <code>&lt;Document&gt;</code> element.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>width_mm</code></td>
+<td><code>float</code></td>
+<td>Canvas width in millimetres</td>
+</tr>
+<tr>
+<td><code>height_mm</code></td>
+<td><code>float</code></td>
+<td>Canvas height in millimetres</td>
+</tr>
+<tr>
+<td><code>dpi</code></td>
+<td><code>int</code></td>
+<td>Document resolution</td>
+</tr>
+<tr>
+<td><code>thickness_min</code></td>
+<td><code>float</code></td>
+<td>Minimum stroke thickness (mm)</td>
+</tr>
+<tr>
+<td><code>thickness_max</code></td>
+<td><code>float</code></td>
+<td>Maximum stroke thickness (mm)</td>
+</tr>
+<tr>
+<td><code>interval_min</code></td>
+<td><code>float</code></td>
+<td>Minimum line spacing (mm)</td>
+</tr>
+<tr>
+<td><code>interval_max</code></td>
+<td><code>float</code></td>
+<td>Maximum line spacing (mm)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="groupinfo"><code>GroupInfo</code><a class="headerlink" href="#groupinfo" title="Permanent link">&para;</a></h3>
+<p>A group (<code>&lt;LrSection&gt;</code> element) containing layers and sub-groups.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>caption</code></td>
+<td><code>str</code></td>
+<td>Group name</td>
+</tr>
+<tr>
+<td><code>object_id</code></td>
+<td><code>int \| None</code></td>
+<td>Unique ID, or <code>None</code> for href references</td>
+</tr>
+<tr>
+<td><code>expanded</code></td>
+<td><code>bool</code></td>
+<td>Whether the group is expanded in the UI</td>
+</tr>
+<tr>
+<td><code>children</code></td>
+<td><code>list[GroupInfo \| LayerInfo]</code></td>
+<td>Child nodes</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="layerinfo"><code>LayerInfo</code><a class="headerlink" href="#layerinfo" title="Permanent link">&para;</a></h3>
+<p>A single layer (<code>&lt;FreeMesh&gt;</code> element) with fills and optional mask.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>caption</code></td>
+<td><code>str</code></td>
+<td>Layer name</td>
+</tr>
+<tr>
+<td><code>object_id</code></td>
+<td><code>int \| None</code></td>
+<td>Unique ID</td>
+</tr>
+<tr>
+<td><code>visible</code></td>
+<td><code>bool</code></td>
+<td>Whether the layer is visible</td>
+</tr>
+<tr>
+<td><code>mask</code></td>
+<td><code>MaskInfo \| None</code></td>
+<td>Mask settings</td>
+</tr>
+<tr>
+<td><code>fills</code></td>
+<td><code>list[FillNode]</code></td>
+<td>Ordered fill algorithms</td>
+</tr>
+<tr>
+<td><code>grid_edges</code></td>
+<td><code>list[dict[str, str]]</code></td>
+<td>Mesh deformation data</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="fillnode"><code>FillNode</code><a class="headerlink" href="#fillnode" title="Permanent link">&para;</a></h3>
+<p>A single fill algorithm instance inside a layer.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>xml_tag</code></td>
+<td><code>str</code></td>
+<td>Original XML tag (e.g. <code>"LinearStrokesTmpl"</code>)</td>
+</tr>
+<tr>
+<td><code>caption</code></td>
+<td><code>str</code></td>
+<td>Fill name as shown in the UI</td>
+</tr>
+<tr>
+<td><code>params</code></td>
+<td><code>FillParams</code></td>
+<td>All fill parameters</td>
+</tr>
+<tr>
+<td><code>object_id</code></td>
+<td><code>int \| None</code></td>
+<td>Unique ID</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="fillparams"><code>FillParams</code><a class="headerlink" href="#fillparams" title="Permanent link">&para;</a></h3>
+<p>Numeric and colour parameters for a fill algorithm.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fill_type</code></td>
+<td><code>str</code></td>
+<td>--</td>
+<td>Algorithm name (e.g. <code>"linear"</code>, <code>"circular"</code>)</td>
+</tr>
+<tr>
+<td><code>color</code></td>
+<td><code>str</code></td>
+<td>--</td>
+<td>Normalised hex colour (<code>#RRGGBB</code> or <code>#RRGGBBAA</code>)</td>
+</tr>
+<tr>
+<td><code>interval</code></td>
+<td><code>float</code></td>
+<td><code>0.0</code></td>
+<td>Line spacing in mm</td>
+</tr>
+<tr>
+<td><code>angle</code></td>
+<td><code>float</code></td>
+<td><code>0.0</code></td>
+<td>Stroke angle in degrees</td>
+</tr>
+<tr>
+<td><code>thickness</code></td>
+<td><code>float</code></td>
+<td><code>0.0</code></td>
+<td>Stroke thickness (from XML <code>thick_gap</code>)</td>
+</tr>
+<tr>
+<td><code>thickness_min</code></td>
+<td><code>float</code></td>
+<td><code>0.0</code></td>
+<td>Minimum thickness (from XML <code>base_width</code>)</td>
+</tr>
+<tr>
+<td><code>smoothness</code></td>
+<td><code>float</code></td>
+<td><code>0.0</code></td>
+<td>Curve smoothness factor</td>
+</tr>
+<tr>
+<td><code>uplimit</code></td>
+<td><code>float</code></td>
+<td><code>0.0</code></td>
+<td>Upper brightness threshold (0--255)</td>
+</tr>
+<tr>
+<td><code>downlimit</code></td>
+<td><code>float</code></td>
+<td><code>255.0</code></td>
+<td>Lower brightness threshold (0--255)</td>
+</tr>
+<tr>
+<td><code>multiplier</code></td>
+<td><code>float</code></td>
+<td><code>1.0</code></td>
+<td>Width multiplier</td>
+</tr>
+<tr>
+<td><code>base_width</code></td>
+<td><code>float</code></td>
+<td><code>0.0</code></td>
+<td>Baseline stroke width in mm</td>
+</tr>
+<tr>
+<td><code>dispersion</code></td>
+<td><code>float</code></td>
+<td><code>0.0</code></td>
+<td>Random perpendicular offset</td>
+</tr>
+<tr>
+<td><code>shear</code></td>
+<td><code>float</code></td>
+<td><code>0.0</code></td>
+<td>Shear distortion angle in degrees</td>
+</tr>
+<tr>
+<td><code>raw</code></td>
+<td><code>dict[str, str]</code></td>
+<td><code>{}</code></td>
+<td>All original XML attributes</td>
+</tr>
+</tbody>
+</table>
+<p><code>raw</code> includes algorithm-specific keys not promoted to named fields (e.g. <code>vert_disp</code>).</p>
+<hr />
+<h3 id="maskinfo"><code>MaskInfo</code><a class="headerlink" href="#maskinfo" title="Permanent link">&para;</a></h3>
+<p>Mask settings from a <code>&lt;MaskData&gt;</code> element.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mask_type</code></td>
+<td><code>int</code></td>
+<td><code>0</code></td>
+<td>Mask mode: 0 = none, 1 = raster</td>
+</tr>
+<tr>
+<td><code>invert</code></td>
+<td><code>bool</code></td>
+<td><code>False</code></td>
+<td>Whether the mask is inverted</td>
+</tr>
+<tr>
+<td><code>tolerance</code></td>
+<td><code>float</code></td>
+<td><code>0.0</code></td>
+<td>Edge tolerance</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="constants">Constants<a class="headerlink" href="#constants" title="Permanent link">&para;</a></h2>
+<h3 id="fill_tag_map"><code>FILL_TAG_MAP</code><a class="headerlink" href="#fill_tag_map" title="Permanent link">&para;</a></h3>
+<p><code>dict[str, str]</code> mapping XML element tags to human-readable fill type names.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">vexy_lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">FILL_TAG_MAP</span>
+
+<span class="n">FILL_TAG_MAP</span><span class="p">[</span><span class="s2">&quot;LinearStrokesTmpl&quot;</span><span class="p">]</span>  <span class="c1"># &quot;linear&quot;</span>
+<span class="n">FILL_TAG_MAP</span><span class="p">[</span><span class="s2">&quot;SpiralStrokesTmpl&quot;</span><span class="p">]</span>  <span class="c1"># &quot;spiral&quot;</span>
+</code></pre></div>
+<h3 id="fill_tags"><code>FILL_TAGS</code><a class="headerlink" href="#fill_tags" title="Permanent link">&para;</a></h3>
+<p><code>set[str]</code> of all recognised XML fill element tag names.</p>
+<h3 id="numeric_params"><code>NUMERIC_PARAMS</code><a class="headerlink" href="#numeric_params" title="Permanent link">&para;</a></h3>
+<p><code>list[str]</code> of XML attribute names whose values are numeric and can be interpolated: <code>interval</code>, <code>angle</code>, <code>thick_gap</code>, <code>smoothness</code>, <code>uplimit</code>, <code>downlimit</code>, <code>multiplier</code>, <code>base_width</code>, <code>dispersion</code>, <code>vert_disp</code>, <code>shear</code>.</p>
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+          <div class="md-top" data-md-component="top" hidden>
+  <div class="md-top__center">
+    <button type="button" class="md-top__button md-top__button--main" data-md-action="top">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+      <span>Back to top</span>
+    </button>
+    
+      
+      
+      <label class="md-top__button md-top__side md-top__side--nav" for="__drawer" >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2m0 14H9V6h11Z"/></svg>
+      </label>
+    
+    
+      
+      
+      <label class="md-top__button md-top__side md-top__side--toc" for="__toc" >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2m-5 14H4V6h11Z"/></svg>
+      </label>
+    
+  </div>
+</div>
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://jaywhj.github.io/mkdocs-materialx/" target="_blank" rel="noopener">
+      MaterialX
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "navigation.sections"], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e3ad5d0a.min.js"></script>
+      
+    
+  </body>
+</html>
