@@ -665,114 +665,106 @@
 
 <h1 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h1>
 <h2 id="inspect-a-lines-file">Inspect a .lines file<a class="headerlink" href="#inspect-a-lines-file" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">vexy_lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse</span>
-
-<span class="n">doc</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s2">&quot;artwork.lines&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Project: </span><span class="si">{</span><span class="n">doc</span><span class="o">.</span><span class="n">caption</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Created with Vexy Lines </span><span class="si">{</span><span class="n">doc</span><span class="o">.</span><span class="n">version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Canvas: </span><span class="si">{</span><span class="n">doc</span><span class="o">.</span><span class="n">props</span><span class="o">.</span><span class="n">width_mm</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> x </span><span class="si">{</span><span class="n">doc</span><span class="o">.</span><span class="n">props</span><span class="o">.</span><span class="n">height_mm</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> mm @ </span><span class="si">{</span><span class="n">doc</span><span class="o">.</span><span class="n">dpi</span><span class="si">}</span><span class="s2"> dpi&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Source image: </span><span class="si">{</span><span class="s1">&#39;yes&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">doc</span><span class="o">.</span><span class="n">source_image_data</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;no&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Preview image: </span><span class="si">{</span><span class="s1">&#39;yes&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">doc</span><span class="o">.</span><span class="n">preview_image_data</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;no&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</code></pre></div>
+<p>```python
+from vexy_lines import parse</p>
+<p>doc = parse("artwork.lines")
+print(f"Project: {doc.caption}")
+print(f"Created with Vexy Lines {doc.version}")
+print(f"Canvas: {doc.props.width_mm:.0f} x {doc.props.height_mm:.0f} mm @ {doc.dpi} dpi")
+print(f"Source image: {'yes' if doc.source_image_data else 'no'}")
+print(f"Preview image: {'yes' if doc.preview_image_data else 'no'}")
+```</p>
 <h2 id="count-layers-and-fills">Count layers and fills<a class="headerlink" href="#count-layers-and-fills" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">vexy_lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse</span><span class="p">,</span> <span class="n">GroupInfo</span><span class="p">,</span> <span class="n">LayerInfo</span>
-
-<span class="n">doc</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s2">&quot;artwork.lines&quot;</span><span class="p">)</span>
-
-<span class="n">groups</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">layers</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">fills</span> <span class="o">=</span> <span class="mi">0</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">count</span><span class="p">(</span><span class="n">nodes</span><span class="p">):</span>
-    <span class="k">global</span> <span class="n">groups</span><span class="p">,</span> <span class="n">layers</span><span class="p">,</span> <span class="n">fills</span>
-    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">GroupInfo</span><span class="p">):</span>
-            <span class="n">groups</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">count</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">children</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">LayerInfo</span><span class="p">):</span>
-            <span class="n">layers</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">fills</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">fills</span><span class="p">)</span>
-
-<span class="n">count</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">groups</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">groups</span><span class="si">}</span><span class="s2"> groups, </span><span class="si">{</span><span class="n">layers</span><span class="si">}</span><span class="s2"> layers, </span><span class="si">{</span><span class="n">fills</span><span class="si">}</span><span class="s2"> fills&quot;</span><span class="p">)</span>
-</code></pre></div>
+<p>```python
+from vexy_lines import parse, GroupInfo, LayerInfo</p>
+<p>doc = parse("artwork.lines")</p>
+<p>groups = 0
+layers = 0
+fills = 0</p>
+<p>def count(nodes):
+    global groups, layers, fills
+    for node in nodes:
+        if isinstance(node, GroupInfo):
+            groups += 1
+            count(node.children)
+        elif isinstance(node, LayerInfo):
+            layers += 1
+            fills += len(node.fills)</p>
+<p>count(doc.groups)
+print(f"{groups} groups, {layers} layers, {fills} fills")
+```</p>
 <h2 id="list-all-fill-types-and-colours">List all fill types and colours<a class="headerlink" href="#list-all-fill-types-and-colours" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">vexy_lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse</span><span class="p">,</span> <span class="n">GroupInfo</span><span class="p">,</span> <span class="n">LayerInfo</span>
-
-<span class="n">doc</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s2">&quot;artwork.lines&quot;</span><span class="p">)</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">walk_fills</span><span class="p">(</span><span class="n">nodes</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">GroupInfo</span><span class="p">):</span>
-            <span class="k">yield from</span> <span class="n">walk_fills</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">children</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">LayerInfo</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">fill</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">fills</span><span class="p">:</span>
-                <span class="k">yield</span> <span class="n">fill</span>
-
-<span class="k">for</span> <span class="n">fill</span> <span class="ow">in</span> <span class="n">walk_fills</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">groups</span><span class="p">):</span>
-    <span class="n">p</span> <span class="o">=</span> <span class="n">fill</span><span class="o">.</span><span class="n">params</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fill</span><span class="o">.</span><span class="n">caption</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">fill_type</span><span class="si">}</span><span class="s2">, color=</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">color</span><span class="si">}</span><span class="s2">, &quot;</span>
-          <span class="sa">f</span><span class="s2">&quot;interval=</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">interval</span><span class="si">}</span><span class="s2">, angle=</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">angle</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</code></pre></div>
+<p>```python
+from vexy_lines import parse, GroupInfo, LayerInfo</p>
+<p>doc = parse("artwork.lines")</p>
+<p>def walk_fills(nodes):
+    for node in nodes:
+        if isinstance(node, GroupInfo):
+            yield from walk_fills(node.children)
+        elif isinstance(node, LayerInfo):
+            for fill in node.fills:
+                yield fill</p>
+<p>for fill in walk_fills(doc.groups):
+    p = fill.params
+    print(f"{fill.caption}: {p.fill_type}, color={p.color}, "
+          f"interval={p.interval}, angle={p.angle}")
+```</p>
 <h2 id="extract-the-source-image">Extract the source image<a class="headerlink" href="#extract-the-source-image" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">vexy_lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">extract_source_image</span>
-
-<span class="n">path</span> <span class="o">=</span> <span class="n">extract_source_image</span><span class="p">(</span><span class="s2">&quot;artwork.lines&quot;</span><span class="p">,</span> <span class="s2">&quot;source.jpg&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saved source image to </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</code></pre></div>
+<p>```python
+from vexy_lines import extract_source_image</p>
+<p>path = extract_source_image("artwork.lines", "source.jpg")
+print(f"Saved source image to {path}")
+```</p>
 <h2 id="extract-the-preview-image">Extract the preview image<a class="headerlink" href="#extract-the-preview-image" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">vexy_lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">extract_preview_image</span>
-
-<span class="n">path</span> <span class="o">=</span> <span class="n">extract_preview_image</span><span class="p">(</span><span class="s2">&quot;artwork.lines&quot;</span><span class="p">,</span> <span class="s2">&quot;preview.png&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saved preview to </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</code></pre></div>
+<p>```python
+from vexy_lines import extract_preview_image</p>
+<p>path = extract_preview_image("artwork.lines", "preview.png")
+print(f"Saved preview to {path}")
+```</p>
 <h2 id="batch-extract-previews-from-a-directory">Batch extract previews from a directory<a class="headerlink" href="#batch-extract-previews-from-a-directory" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">vexy_lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse</span>
-
-<span class="n">input_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;./artwork&quot;</span><span class="p">)</span>
-<span class="n">output_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;./thumbnails&quot;</span><span class="p">)</span>
-<span class="n">output_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="k">for</span> <span class="n">lines_file</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">input_dir</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;*.lines&quot;</span><span class="p">)):</span>
-    <span class="n">doc</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="n">lines_file</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">doc</span><span class="o">.</span><span class="n">preview_image_data</span><span class="p">:</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="n">output_dir</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">lines_file</span><span class="o">.</span><span class="n">stem</span><span class="si">}</span><span class="s2">.png&quot;</span>
-        <span class="n">out</span><span class="o">.</span><span class="n">write_bytes</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">preview_image_data</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">lines_file</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">out</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">lines_file</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">: no preview embedded&quot;</span><span class="p">)</span>
-</code></pre></div>
+<p>```python
+from pathlib import Path
+from vexy_lines import parse</p>
+<p>input_dir = Path("./artwork")
+output_dir = Path("./thumbnails")
+output_dir.mkdir(exist_ok=True)</p>
+<p>for lines_file in sorted(input_dir.glob("*.lines")):
+    doc = parse(lines_file)
+    if doc.preview_image_data:
+        out = output_dir / f"{lines_file.stem}.png"
+        out.write_bytes(doc.preview_image_data)
+        print(f"{lines_file.name} -&gt; {out.name}")
+    else:
+        print(f"{lines_file.name}: no preview embedded")
+```</p>
 <h2 id="access-raw-xml-attributes">Access raw XML attributes<a class="headerlink" href="#access-raw-xml-attributes" title="Permanent link">&para;</a></h2>
 <p>Every <code>FillParams</code> object carries a <code>raw</code> dict with all original XML attributes, including algorithm-specific keys that don't have dedicated fields:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">vexy_lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse</span><span class="p">,</span> <span class="n">GroupInfo</span><span class="p">,</span> <span class="n">LayerInfo</span>
-
-<span class="n">doc</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s2">&quot;artwork.lines&quot;</span><span class="p">)</span>
-
-<span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">groups</span><span class="p">:</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">LayerInfo</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">fill</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">fills</span><span class="p">:</span>
-            <span class="c1"># vert_disp is only in raw, not a named field</span>
-            <span class="n">vert_disp</span> <span class="o">=</span> <span class="n">fill</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">raw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;vert_disp&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fill</span><span class="o">.</span><span class="n">caption</span><span class="si">}</span><span class="s2">: vert_disp=</span><span class="si">{</span><span class="n">vert_disp</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</code></pre></div>
+<p>```python
+from vexy_lines import parse, GroupInfo, LayerInfo</p>
+<p>doc = parse("artwork.lines")</p>
+<p>for node in doc.groups:
+    if isinstance(node, LayerInfo):
+        for fill in node.fills:
+            # vert_disp is only in raw, not a named field
+            vert_disp = fill.params.raw.get("vert_disp", "0")
+            print(f"{fill.caption}: vert_disp={vert_disp}")
+```</p>
 <h2 id="build-a-json-catalogue">Build a JSON catalogue<a class="headerlink" href="#build-a-json-catalogue" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">asdict</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">vexy_lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse</span>
-
-<span class="n">doc</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s2">&quot;artwork.lines&quot;</span><span class="p">)</span>
-<span class="n">catalogue</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;caption&quot;</span><span class="p">:</span> <span class="n">doc</span><span class="o">.</span><span class="n">caption</span><span class="p">,</span>
-    <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="n">doc</span><span class="o">.</span><span class="n">version</span><span class="p">,</span>
-    <span class="s2">&quot;dpi&quot;</span><span class="p">:</span> <span class="n">doc</span><span class="o">.</span><span class="n">dpi</span><span class="p">,</span>
-    <span class="s2">&quot;width_mm&quot;</span><span class="p">:</span> <span class="n">doc</span><span class="o">.</span><span class="n">props</span><span class="o">.</span><span class="n">width_mm</span><span class="p">,</span>
-    <span class="s2">&quot;height_mm&quot;</span><span class="p">:</span> <span class="n">doc</span><span class="o">.</span><span class="n">props</span><span class="o">.</span><span class="n">height_mm</span><span class="p">,</span>
-<span class="p">}</span>
-
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;catalogue.json&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">catalogue</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-</code></pre></div>
+<p>```python
+import json
+from dataclasses import asdict
+from vexy_lines import parse</p>
+<p>doc = parse("artwork.lines")
+catalogue = {
+    "caption": doc.caption,
+    "version": doc.version,
+    "dpi": doc.dpi,
+    "width_mm": doc.props.width_mm,
+    "height_mm": doc.props.height_mm,
+}</p>
+<p>with open("catalogue.json", "w") as f:
+    json.dump(catalogue, f, indent=2)
+```</p>
 
 
 

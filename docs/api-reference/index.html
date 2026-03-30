@@ -879,11 +879,11 @@
 <h2 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">&para;</a></h2>
 <h3 id="parsepath-linesdocument"><code>parse(path) -&gt; LinesDocument</code><a class="headerlink" href="#parsepath-linesdocument" title="Permanent link">&para;</a></h3>
 <p>Parse a <code>.lines</code> file and return a fully populated <code>LinesDocument</code>.</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">vexy_lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse</span>
-
-<span class="n">doc</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s2">&quot;artwork.lines&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">caption</span><span class="p">,</span> <span class="n">doc</span><span class="o">.</span><span class="n">dpi</span><span class="p">)</span>
-</code></pre></div>
+<p>```python
+from vexy_lines import parse</p>
+<p>doc = parse("artwork.lines")
+print(doc.caption, doc.dpi)
+```</p>
 <p><strong>Args:</strong></p>
 <table>
 <thead>
@@ -910,10 +910,10 @@
 <hr />
 <h3 id="extract_source_imagepath-output-path"><code>extract_source_image(path, output) -&gt; Path</code><a class="headerlink" href="#extract_source_imagepath-output-path" title="Permanent link">&para;</a></h3>
 <p>Parse a <code>.lines</code> file and save the embedded JPEG source image.</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">vexy_lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">extract_source_image</span>
-
-<span class="n">extract_source_image</span><span class="p">(</span><span class="s2">&quot;artwork.lines&quot;</span><span class="p">,</span> <span class="s2">&quot;source.jpg&quot;</span><span class="p">)</span>
-</code></pre></div>
+<p>```python
+from vexy_lines import extract_source_image</p>
+<p>extract_source_image("artwork.lines", "source.jpg")
+```</p>
 <p><strong>Args:</strong></p>
 <table>
 <thead>
@@ -945,10 +945,10 @@
 <hr />
 <h3 id="extract_preview_imagepath-output-path"><code>extract_preview_image(path, output) -&gt; Path</code><a class="headerlink" href="#extract_preview_imagepath-output-path" title="Permanent link">&para;</a></h3>
 <p>Parse a <code>.lines</code> file and save the embedded PNG preview image.</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">vexy_lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">extract_preview_image</span>
-
-<span class="n">extract_preview_image</span><span class="p">(</span><span class="s2">&quot;artwork.lines&quot;</span><span class="p">,</span> <span class="s2">&quot;preview.png&quot;</span><span class="p">)</span>
-</code></pre></div>
+<p>```python
+from vexy_lines import extract_preview_image</p>
+<p>extract_preview_image("artwork.lines", "preview.png")
+```</p>
 <p><strong>Args:</strong></p>
 <table>
 <thead>
@@ -1325,11 +1325,11 @@
 <h2 id="constants">Constants<a class="headerlink" href="#constants" title="Permanent link">&para;</a></h2>
 <h3 id="fill_tag_map"><code>FILL_TAG_MAP</code><a class="headerlink" href="#fill_tag_map" title="Permanent link">&para;</a></h3>
 <p><code>dict[str, str]</code> mapping XML element tags to human-readable fill type names.</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">vexy_lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">FILL_TAG_MAP</span>
-
-<span class="n">FILL_TAG_MAP</span><span class="p">[</span><span class="s2">&quot;LinearStrokesTmpl&quot;</span><span class="p">]</span>  <span class="c1"># &quot;linear&quot;</span>
-<span class="n">FILL_TAG_MAP</span><span class="p">[</span><span class="s2">&quot;SpiralStrokesTmpl&quot;</span><span class="p">]</span>  <span class="c1"># &quot;spiral&quot;</span>
-</code></pre></div>
+<p>```python
+from vexy_lines import FILL_TAG_MAP</p>
+<p>FILL_TAG_MAP["LinearStrokesTmpl"]  # "linear"
+FILL_TAG_MAP["SpiralStrokesTmpl"]  # "spiral"
+```</p>
 <h3 id="fill_tags"><code>FILL_TAGS</code><a class="headerlink" href="#fill_tags" title="Permanent link">&para;</a></h3>
 <p><code>set[str]</code> of all recognised XML fill element tag names.</p>
 <h3 id="numeric_params"><code>NUMERIC_PARAMS</code><a class="headerlink" href="#numeric_params" title="Permanent link">&para;</a></h3>
