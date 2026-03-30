@@ -63,18 +63,15 @@ Each fill is an XML element inside a layer's `<Objects>`. The tag name identifie
 | XML Tag | Fill Type |
 |---------|-----------|
 | `LinearStrokesTmpl` | `linear` |
+| `SigmoidStrokesTmpl` | `wave` |
 | `CircleStrokesTmpl` | `circular` |
-| `FreeCurveStrokesTmpl` | `trace` |
 | `RadialStrokesTmpl` | `radial` |
 | `SpiralStrokesTmpl` | `spiral` |
-| `HalftoneStrokesTmpl` | `halftone` |
-| `WaveStrokesTmpl` | `wave` |
-| `HandmadeStrokesTmpl` | `handmade` |
-| `FractalStrokesTmpl` | `fractals` |
 | `ScribbleStrokesTmpl` | `scribble` |
-| `PeanoStrokesTmpl` | `peano` |
-| `SigmoidStrokesTmpl` | `sigmoid` |
-| `TracedAreaTmpl` | `trace_area` |
+| `HalftoneStrokesTmpl` | `halftone` |
+| `FreeCurveStrokesTmpl` | `handmade` (or `trace` when `type_conv="9"`) |
+| `PeanoStrokesTmpl` | `fractals` |
+| `TracedAreaTmpl` | `trace` |
 | `SourceStrokes` | `source_strokes` |
 
 A fill element looks like:

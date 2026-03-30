@@ -49,12 +49,20 @@ extract_preview_image("artwork.lines", "preview.png")
 
 ## API
 
+> **Read-only parser.** This package parses `.lines` files but does not support creating or writing them. For creating and manipulating `.lines` documents, use `vexy-lines-apy` with the MCP API.
+
 ### `parse(path) -> LinesDocument`
 
 Parse a `.lines` file and return a fully populated `LinesDocument`.
 
 - `FileNotFoundError` — path does not exist
 - `xml.etree.ElementTree.ParseError` — file is not valid XML
+
+### `parse_string(xml_text) -> LinesDocument`
+
+Parse a `.lines` XML string (in-memory) and return a `LinesDocument`. Useful when the XML content is already loaded or received from another source.
+
+- `xml.etree.ElementTree.ParseError` — string is not valid XML
 
 ### `extract_source_image(path, output) -> Path`
 
@@ -82,24 +90,23 @@ Colors are normalised to `#RRGGBB` (opaque) or `#RRGGBBAA`. The raw Vexy Lines `
 
 ## Fill types
 
-14 algorithms are recognised in `FillParams.fill_type`:
+11 fill algorithms are recognised in `FillParams.fill_type`:
 
-| Value | Algorithm |
-|-------|-----------|
-| `linear` | Parallel straight lines |
-| `circular` | Concentric circles |
-| `trace` | Free-curve strokes following image contours |
-| `spiral` | Archimedean spirals |
-| `wave` | Sine-wave strokes |
-| `radial` | Lines radiating from a centre point |
-| `halftone` | Halftone dot/line patterns |
-| `scribble` | Random scribble-style strokes |
-| `fractals` | Fractal-branching strokes |
-| `handmade` | Sketch-style handmade strokes |
-| `peano` | Peano space-filling curves |
-| `sigmoid` | Sigmoid-shaped strokes |
-| `trace_area` | Area-trace fill |
-| `source_strokes` | Strokes derived from the source image |
+| Value | Algorithm | XML Tag |
+|-------|-----------|---------|
+| `linear` | Parallel straight lines | `LinearStrokesTmpl` |
+| `wave` | Sine-wave strokes | `SigmoidStrokesTmpl` |
+| `circular` | Concentric circles | `CircleStrokesTmpl` |
+| `radial` | Lines radiating from a centre point | `RadialStrokesTmpl` |
+| `spiral` | Archimedean spirals | `SpiralStrokesTmpl` |
+| `scribble` | Random scribble-style strokes | `ScribbleStrokesTmpl` |
+| `halftone` | Halftone dot/line patterns | `HalftoneStrokesTmpl` |
+| `handmade` | Sketch-style handmade strokes | `FreeCurveStrokesTmpl` |
+| `fractals` | Fractal / Peano space-filling strokes | `PeanoStrokesTmpl` |
+| `trace` | Strokes following image contours | `TracedAreaTmpl` |
+| `source_strokes` | Strokes derived from the source image | `SourceStrokes` |
+
+`FreeCurveStrokesTmpl` with attribute `type_conv="9"` is resolved to `trace` at parse time (otherwise `handmade`).
 
 The mapping from XML tags to these names is available as `FILL_TAG_MAP`. The full set of recognised tags is `FILL_TAGS`.
 
