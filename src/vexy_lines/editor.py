@@ -8,6 +8,10 @@ all fill parameters, layers, groups, masks, and document settings.
 from __future__ import annotations
 
 import base64
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from PIL import Image as PILImage
 import io
 import shutil
 import struct
@@ -42,10 +46,49 @@ def _image_to_jpeg_bytes(image_path: Path) -> tuple[bytes, int, int]:
         return buf.getvalue(), width, height
 
 
+def _resize_to_fit(img: "PILImage.Image", target_w: int, target_h: int) -> "PILImage.Image":
+    """Resize image to fit within target dimensions, centered on white background.
+
+    - If the image already matches: return as-is.
+    - If the image is larger in any dimension: downscale to fit inside target
+      (maintaining aspect ratio), then center on a white canvas of target size.
+    - If the image is smaller: center on a white canvas of target size (no upscale).
+
+    White padding is correct for Vexy Lines: the fill algorithms treat white
+    as "no strokes" (brightness-driven), so padded areas produce no output.
+    """
+    from PIL import Image as PILImage
+
+    w, h = img.size
+    if w == target_w and h == target_h:
+        return img
+
+    # Ensure RGB mode
+    if img.mode in ("RGBA", "P", "LA"):
+        img = img.convert("RGB")
+
+    # Downscale if larger in any dimension
+    if w > target_w or h > target_h:
+        scale = min(target_w / w, target_h / h)
+        new_w = round(w * scale)
+        new_h = round(h * scale)
+        img = img.resize((new_w, new_h), PILImage.Resampling.LANCZOS)
+        w, h = new_w, new_h
+
+    # Create white canvas and paste centered
+    canvas = PILImage.new("RGB", (target_w, target_h), (255, 255, 255))
+    offset_x = (target_w - w) // 2
+    offset_y = (target_h - h) // 2
+    canvas.paste(img, (offset_x, offset_y))
+    return canvas
+
+
 def replace_source_image(
     lines_path: str | Path,
     new_image_path: str | Path,
     output_path: str | Path,
+    *,
+    target_size: tuple[int, int] | None = None,
 ) -> Path:
     """Replace the source image in a .lines file, writing to a new file.
 
@@ -61,6 +104,7 @@ def replace_source_image(
         lines_path: Path to the source ``.lines`` file (template).
         new_image_path: Path to the replacement image (JPEG, PNG, etc.).
         output_path: Where to write the modified ``.lines`` file.
+        target_size: If provided, resize the new image to fit these (width, height) pixel dimensions.
 
     Returns:
         The resolved output path.
@@ -82,6 +126,20 @@ def replace_source_image(
 
     # Load and convert new image to JPEG
     jpeg_bytes, width, height = _image_to_jpeg_bytes(new_image_path)
+
+    # Resize if target dimensions specified and don't match
+    if target_size and (width, height) != target_size:
+        from PIL import Image as PILImage
+
+        img = PILImage.open(new_image_path)
+        if img.mode in ("RGBA", "P", "LA"):
+            img = img.convert("RGB")
+        img = _resize_to_fit(img, target_size[0], target_size[1])
+        width, height = img.size
+        buf = io.BytesIO()
+        img.save(buf, format="JPEG", quality=95)
+        jpeg_bytes = buf.getvalue()
+
     encoded = _encode_source_pict(jpeg_bytes)
 
     # Copy the .lines file first (preserve exact bytes for non-XML portions)
