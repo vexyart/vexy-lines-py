@@ -38,7 +38,7 @@ from vexy_lines.types import (
 # Private constants
 # ---------------------------------------------------------------------------
 
-_HEX_COLOR_LEN = 8   # digits after '#' in an #AARRGGBB string
+_HEX_COLOR_LEN = 8  # digits after '#' in an #AARRGGBB string
 _ALPHA_OPAQUE = 0xFF  # alpha value meaning fully opaque
 
 # type_conv attribute value on FreeCurveStrokesTmpl that means "trace"
@@ -504,6 +504,18 @@ def _log_summary(doc: LinesDocument) -> None:
     )
 
 
+def _write_extracted_image(
+    image_data: bytes | None, output: str | Path, *, missing_message: str, image_label: str
+) -> Path:
+    if image_data is None:
+        raise ValueError(missing_message)
+
+    output_path = Path(output)
+    output_path.write_bytes(image_data)
+    logger.info(f"Saved {image_label} ({len(image_data)} bytes) -> {output_path}")
+    return output_path
+
+
 def extract_source_image(path: str | Path, output: str | Path) -> Path:
     """Parse a ``.lines`` file and save its embedded source image as JPEG.
 
@@ -519,14 +531,12 @@ def extract_source_image(path: str | Path, output: str | Path) -> Path:
         ValueError: If no source image is embedded in the file.
     """
     doc = parse(path)
-    if doc.source_image_data is None:
-        msg = f"No source image found in {path}"
-        raise ValueError(msg)
-
-    output = Path(output)
-    output.write_bytes(doc.source_image_data)
-    logger.info(f"Saved source image ({len(doc.source_image_data)} bytes) -> {output}")
-    return output
+    return _write_extracted_image(
+        doc.source_image_data,
+        output,
+        missing_message=f"No source image found in {path}",
+        image_label="source image",
+    )
 
 
 def extract_preview_image(path: str | Path, output: str | Path) -> Path:
@@ -544,11 +554,9 @@ def extract_preview_image(path: str | Path, output: str | Path) -> Path:
         ValueError: If no preview image is embedded in the file.
     """
     doc = parse(path)
-    if doc.preview_image_data is None:
-        msg = f"No preview image found in {path}"
-        raise ValueError(msg)
-
-    output = Path(output)
-    output.write_bytes(doc.preview_image_data)
-    logger.info(f"Saved preview image ({len(doc.preview_image_data)} bytes) -> {output}")
-    return output
+    return _write_extracted_image(
+        doc.preview_image_data,
+        output,
+        missing_message=f"No preview image found in {path}",
+        image_label="preview image",
+    )

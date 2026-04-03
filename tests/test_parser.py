@@ -222,7 +222,7 @@ class TestResolveFillType:
 
 class TestDecodeSourcePict:
     def test_decode_source_pict_when_valid_then_returns_jpeg(self):
-        xml = f'<SourcePict><ImageData>{_SOURCE_PICT_B64}</ImageData></SourcePict>'
+        xml = f"<SourcePict><ImageData>{_SOURCE_PICT_B64}</ImageData></SourcePict>"
         elem = ET.fromstring(xml)
         result = _decode_source_pict(elem)
         assert result == _FAKE_JPEG
@@ -585,8 +585,9 @@ class TestExtractSourceImage:
     def test_extract_source_image_when_no_image_then_raises(self, tmp_path):
         xml = '<?xml version="1.0"?><Project caption="NoImg"/>'
         p = _write_lines_file(tmp_path, xml)
-        with pytest.raises(ValueError, match="No source image"):
+        with pytest.raises(ValueError) as exc_info:
             extract_source_image(p, tmp_path / "out.jpg")
+        assert str(exc_info.value) == f"No source image found in {p}"
 
     def test_extract_source_image_when_missing_file_then_raises(self, tmp_path):
         with pytest.raises(FileNotFoundError):
@@ -604,8 +605,9 @@ class TestExtractPreviewImage:
     def test_extract_preview_image_when_no_image_then_raises(self, tmp_path):
         xml = '<?xml version="1.0"?><Project caption="NoImg"/>'
         p = _write_lines_file(tmp_path, xml)
-        with pytest.raises(ValueError, match="No preview image"):
+        with pytest.raises(ValueError) as exc_info:
             extract_preview_image(p, tmp_path / "out.png")
+        assert str(exc_info.value) == f"No preview image found in {p}"
 
     def test_extract_preview_image_when_missing_file_then_raises(self, tmp_path):
         with pytest.raises(FileNotFoundError):
