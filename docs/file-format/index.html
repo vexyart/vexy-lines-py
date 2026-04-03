@@ -1,0 +1,3136 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Pure-Python parser for Vexy Lines .lines vector art files">
+      
+      
+      
+      
+        <link rel="prev" href="../api-reference/">
+      
+      
+        <link rel="next" href="../examples/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-materialx-10.1.1">
+    
+    
+      
+        <title>File Format - vexy-lines-py</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.b72b68c2.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.204eaadb.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="indigo" data-mx-topbar="glass">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="toc" type="checkbox" id="__toc" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <label class="md-overlay" for="__toc"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lines-file-format" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+<div class="vexy-top-nav" style="width: 100%;">
+  <script src="https://i.vexy.art/vl/webcode/vexy-lines-menu.js"></script>
+  <vexy-lines-menu></vexy-lines-menu>
+</div>
+
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="vexy-lines-py" class="md-header__button md-logo" aria-label="vexy-lines-py" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            vexy-lines-py
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              File Format
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="indigo"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="indigo"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.25 2a8.25 8.25 0 0 1 6.34 13.53l5.69 5.69a.749.749 0 0 1-.326 1.275.75.75 0 0 1-.734-.215l-5.69-5.69A8.25 8.25 0 1 1 10.25 2M3.5 10.25a6.75 6.75 0 1 0 13.5 0 6.75 6.75 0 0 0-13.5 0"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.25 2a8.25 8.25 0 0 1 6.34 13.53l5.69 5.69a.749.749 0 0 1-.326 1.275.75.75 0 0 1-.734-.215l-5.69-5.69A8.25 8.25 0 1 1 10.25 2M3.5 10.25a6.75 6.75 0 1 0 13.5 0 6.75 6.75 0 0 0-13.5 0"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="vexy-lines-py" class="md-nav__button md-logo" aria-label="vexy-lines-py" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    vexy-lines-py
+  </label>
+  
+  <ul class="md-nav__list">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Format
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Format
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc">
+      
+        <li class="md-nav__item">
+  <a href="#document-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Document structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#root-element-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Root element: &lt;Project&gt;
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#document-element" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        &lt;Document&gt; element
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#layer-tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layer tree
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Layer tree">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#groups-lrsection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Groups: &lt;LrSection&gt;
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layers-freemesh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layers: &lt;FreeMesh&gt;
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fill-elements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fill elements
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fill elements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fill-tag-to-algorithm-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fill tag to algorithm mapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-fill-attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common fill attributes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common fill attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-parameters-promoted-to-fillparams-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core parameters (promoted to FillParams fields)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#width-and-thickness-control-in-raw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Width and thickness control (in raw)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bas-relief-effect-in-raw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bas-relief effect (in raw)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dotted-line-control-in-raw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dotted line control (in raw)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edge-and-contour-in-raw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Edge and contour (in raw)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#colour-mode-in-raw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Colour mode (in raw)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#image-processing-in-raw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Image processing (in raw)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stroke-caps-and-joins-in-raw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stroke caps and joins (in raw)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clipping-bounds-in-raw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clipping bounds (in raw)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#white-segment-control-in-raw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        White segment control (in raw)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#miscellaneous-in-raw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Miscellaneous (in raw)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#algorithm-specific-attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Algorithm-specific attributes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Algorithm-specific attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#freecurvestrokestmpl-handmade-trace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FreeCurveStrokesTmpl (handmade / trace)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#halftonestrokestmpl-halftone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HalftoneStrokesTmpl (halftone)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scribblestrokestmpl-scribble" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ScribbleStrokesTmpl (scribble)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tracedareatmpl-trace-area" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TracedAreaTmpl (trace area)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sourcestrokes-source-strokes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SourceStrokes (source strokes)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sigmoidstrokestmpl-wave" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SigmoidStrokesTmpl (wave)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#circlestrokestmpl-circular-radialstrokestmpl-radial-spiralstrokestmpl-spiral" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CircleStrokesTmpl (circular), RadialStrokesTmpl (radial), SpiralStrokesTmpl (spiral)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#peanostrokestmpl-fractals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PeanoStrokesTmpl (fractals)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#colour-encoding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Colour encoding
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Colour encoding">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hex-aarrggbb-alpha-first" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hex: #AARRGGBB (alpha first)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#decimal-argb-integer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decimal ARGB integer
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#embedded-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Embedded images
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Embedded images">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#source-image-sourcepict" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Source image: &lt;SourcePict&gt;
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preview-image-previewdoc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preview image: &lt;PreviewDoc&gt;
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#maskdata-element" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        &lt;MaskData&gt; element
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mesh-deformation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mesh deformation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#href-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Href references
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#internal-elements-ignored-by-parser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Internal elements (ignored by parser)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete example
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fill-type-internal-type-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fill type internal type codes
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc">
+      
+        <li class="md-nav__item">
+  <a href="#document-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Document structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#root-element-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Root element: &lt;Project&gt;
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#document-element" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        &lt;Document&gt; element
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#layer-tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layer tree
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Layer tree">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#groups-lrsection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Groups: &lt;LrSection&gt;
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layers-freemesh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layers: &lt;FreeMesh&gt;
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fill-elements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fill elements
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fill elements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fill-tag-to-algorithm-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fill tag to algorithm mapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-fill-attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common fill attributes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common fill attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-parameters-promoted-to-fillparams-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core parameters (promoted to FillParams fields)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#width-and-thickness-control-in-raw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Width and thickness control (in raw)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bas-relief-effect-in-raw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bas-relief effect (in raw)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dotted-line-control-in-raw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dotted line control (in raw)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edge-and-contour-in-raw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Edge and contour (in raw)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#colour-mode-in-raw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Colour mode (in raw)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#image-processing-in-raw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Image processing (in raw)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stroke-caps-and-joins-in-raw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stroke caps and joins (in raw)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clipping-bounds-in-raw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clipping bounds (in raw)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#white-segment-control-in-raw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        White segment control (in raw)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#miscellaneous-in-raw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Miscellaneous (in raw)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#algorithm-specific-attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Algorithm-specific attributes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Algorithm-specific attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#freecurvestrokestmpl-handmade-trace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FreeCurveStrokesTmpl (handmade / trace)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#halftonestrokestmpl-halftone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HalftoneStrokesTmpl (halftone)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scribblestrokestmpl-scribble" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ScribbleStrokesTmpl (scribble)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tracedareatmpl-trace-area" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TracedAreaTmpl (trace area)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sourcestrokes-source-strokes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SourceStrokes (source strokes)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sigmoidstrokestmpl-wave" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SigmoidStrokesTmpl (wave)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#circlestrokestmpl-circular-radialstrokestmpl-radial-spiralstrokestmpl-spiral" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CircleStrokesTmpl (circular), RadialStrokesTmpl (radial), SpiralStrokesTmpl (spiral)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#peanostrokestmpl-fractals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PeanoStrokesTmpl (fractals)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#colour-encoding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Colour encoding
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Colour encoding">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hex-aarrggbb-alpha-first" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hex: #AARRGGBB (alpha first)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#decimal-argb-integer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decimal ARGB integer
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#embedded-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Embedded images
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Embedded images">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#source-image-sourcepict" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Source image: &lt;SourcePict&gt;
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preview-image-previewdoc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preview image: &lt;PreviewDoc&gt;
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#maskdata-element" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        &lt;MaskData&gt; element
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mesh-deformation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mesh deformation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#href-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Href references
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#internal-elements-ignored-by-parser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Internal elements (ignored by parser)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete example
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fill-type-internal-type-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fill type internal type codes
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+<h1 id="lines-file-format">.lines File Format<a class="headerlink" href="#lines-file-format" title="Permanent link">&para;</a></h1>
+<p>The <code>.lines</code> format is XML. A single file holds the complete Vexy Lines project: layer tree, fill parameters, document properties, the original source image, and a rendered preview.</p>
+<p>This page documents every element and attribute observed in real <code>.lines</code> files, verified against the <code>vexy-lines-py</code> parser source code and test data.</p>
+<h2 id="document-structure">Document structure<a class="headerlink" href="#document-structure" title="Permanent link">&para;</a></h2>
+<div class="highlight"><span class="filename">Text Only</span><pre><span></span><code>&lt;Project&gt;
+  &lt;form_data&gt;              (internal, ignored by parser)
+  &lt;Objects&gt;                 layer tree root
+    &lt;LrSection&gt;             group
+      &lt;Objects&gt;
+        &lt;FreeMesh&gt;          layer
+          &lt;Objects&gt;
+            &lt;*StrokesTmpl&gt;  fill
+          &lt;MaskData&gt;        optional mask
+          &lt;row_grid_edge&gt;   mesh row
+          &lt;col_grid_edge&gt;   mesh column
+  &lt;SourcePict&gt;              embedded source image (JPEG, compressed)
+  &lt;Document&gt;                canvas dimensions, stroke limits
+  &lt;Workspace&gt;               viewport state (ignored by parser)
+  &lt;PreviewDoc&gt;              embedded preview image (PNG)
+&lt;/Project&gt;
+</code></pre></div>
+<h2 id="root-element-project">Root element: <code>&lt;Project&gt;</code><a class="headerlink" href="#root-element-project" title="Permanent link">&para;</a></h2>
+<div class="highlight"><span class="filename">XML</span><pre><span></span><code><span class="nt">&lt;Project</span><span class="w"> </span><span class="na">caption=</span><span class="s">&quot;My Art&quot;</span><span class="w"> </span><span class="na">version=</span><span class="s">&quot;3.0.1&quot;</span><span class="w"> </span><span class="na">app=</span><span class="s">&quot;vexylines&quot;</span><span class="w"> </span><span class="na">dpi=</span><span class="s">&quot;300&quot;</span>
+<span class="w">         </span><span class="na">object_id=</span><span class="s">&quot;2&quot;</span><span class="w"> </span><span class="na">expanded=</span><span class="s">&quot;1&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;16777602&quot;</span>
+<span class="w">         </span><span class="na">is_transparent=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">fusion_of_templates=</span><span class="s">&quot;0&quot;</span><span class="nt">&gt;</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>caption</code></td>
+<td>string</td>
+<td>Project name</td>
+</tr>
+<tr>
+<td><code>version</code></td>
+<td>string</td>
+<td>Vexy Lines app version that created the file</td>
+</tr>
+<tr>
+<td><code>app</code></td>
+<td>string</td>
+<td>Application identifier, always <code>"vexylines"</code></td>
+</tr>
+<tr>
+<td><code>dpi</code></td>
+<td>int</td>
+<td>Document resolution in dots per inch</td>
+</tr>
+<tr>
+<td><code>object_id</code></td>
+<td>int</td>
+<td>Unique object ID for the root node</td>
+</tr>
+<tr>
+<td><code>expanded</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Whether the root is expanded in the UI</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td>int</td>
+<td>Internal type code (<code>16777602</code>)</td>
+</tr>
+<tr>
+<td><code>is_transparent</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Background transparency flag</td>
+</tr>
+<tr>
+<td><code>fusion_of_templates</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Internal rendering flag</td>
+</tr>
+</tbody>
+</table>
+<p>The parser reads <code>caption</code>, <code>version</code>, and <code>dpi</code>. Other attributes are preserved in the XML but not promoted to dataclass fields.</p>
+<h2 id="document-element"><code>&lt;Document&gt;</code> element<a class="headerlink" href="#document-element" title="Permanent link">&para;</a></h2>
+<p>Canvas dimensions and global stroke limits.</p>
+<div class="highlight"><span class="filename">XML</span><pre><span></span><code><span class="nt">&lt;Document</span><span class="w"> </span><span class="na">width_mm=</span><span class="s">&quot;210.0&quot;</span><span class="w"> </span><span class="na">height_mm=</span><span class="s">&quot;297.0&quot;</span><span class="w"> </span><span class="na">dpi=</span><span class="s">&quot;300&quot;</span>
+<span class="w">          </span><span class="na">thicknessMin=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">thicknessMax=</span><span class="s">&quot;5.66&quot;</span>
+<span class="w">          </span><span class="na">intervalMin=</span><span class="s">&quot;0.283&quot;</span><span class="w"> </span><span class="na">intervalMax=</span><span class="s">&quot;5.66&quot;</span>
+<span class="w">          </span><span class="na">termNodesMax=</span><span class="s">&quot;62.16&quot;</span>
+<span class="w">          </span><span class="na">current_unit=</span><span class="s">&quot;0&quot;</span>
+<span class="w">          </span><span class="na">source_opacity=</span><span class="s">&quot;0.44&quot;</span>
+<span class="w">          </span><span class="na">project_back_color=</span><span class="s">&quot;4294967295&quot;</span>
+<span class="w">          </span><span class="na">selected_color=</span><span class="s">&quot;4288616596&quot;</span>
+<span class="w">          </span><span class="na">frame_color=</span><span class="s">&quot;4281492680&quot;</span>
+<span class="w">          </span><span class="na">freehand_color=</span><span class="s">&quot;4280221440&quot;</span>
+<span class="w">          </span><span class="na">single_workspace=</span><span class="s">&quot;0&quot;</span>
+<span class="w">          </span><span class="na">type=</span><span class="s">&quot;16777219&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Parsed</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>width_mm</code></td>
+<td>float</td>
+<td>yes</td>
+<td>Canvas width in millimetres</td>
+</tr>
+<tr>
+<td><code>height_mm</code></td>
+<td>float</td>
+<td>yes</td>
+<td>Canvas height in millimetres</td>
+</tr>
+<tr>
+<td><code>dpi</code></td>
+<td>int</td>
+<td>yes</td>
+<td>Document resolution (default 300)</td>
+</tr>
+<tr>
+<td><code>thicknessMin</code></td>
+<td>float</td>
+<td>yes</td>
+<td>Minimum stroke thickness (mm)</td>
+</tr>
+<tr>
+<td><code>thicknessMax</code></td>
+<td>float</td>
+<td>yes</td>
+<td>Maximum stroke thickness (mm)</td>
+</tr>
+<tr>
+<td><code>intervalMin</code></td>
+<td>float</td>
+<td>yes</td>
+<td>Minimum line spacing (mm)</td>
+</tr>
+<tr>
+<td><code>intervalMax</code></td>
+<td>float</td>
+<td>yes</td>
+<td>Maximum line spacing (mm)</td>
+</tr>
+<tr>
+<td><code>termNodesMax</code></td>
+<td>float</td>
+<td>no</td>
+<td>Maximum terminal node size</td>
+</tr>
+<tr>
+<td><code>current_unit</code></td>
+<td>int</td>
+<td>no</td>
+<td>Display unit: <code>0</code>=mm, <code>1</code>=cm, <code>2</code>=inches, <code>3</code>=points</td>
+</tr>
+<tr>
+<td><code>source_opacity</code></td>
+<td>float</td>
+<td>no</td>
+<td>Source image overlay opacity (0.0--1.0)</td>
+</tr>
+<tr>
+<td><code>project_back_color</code></td>
+<td>decimal ARGB</td>
+<td>no</td>
+<td>Background colour (decimal integer)</td>
+</tr>
+<tr>
+<td><code>selected_color</code></td>
+<td>decimal ARGB</td>
+<td>no</td>
+<td>Selection highlight colour</td>
+</tr>
+<tr>
+<td><code>frame_color</code></td>
+<td>decimal ARGB</td>
+<td>no</td>
+<td>Frame border colour</td>
+</tr>
+<tr>
+<td><code>freehand_color</code></td>
+<td>decimal ARGB</td>
+<td>no</td>
+<td>Freehand drawing colour</td>
+</tr>
+<tr>
+<td><code>single_workspace</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>no</td>
+<td>Single workspace mode flag</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td>int</td>
+<td>no</td>
+<td>Internal type code (<code>16777219</code>)</td>
+</tr>
+</tbody>
+</table>
+<p>Unparsed attributes are accessible via the raw XML when using <code>xml.etree.ElementTree</code> directly.</p>
+<h2 id="layer-tree">Layer tree<a class="headerlink" href="#layer-tree" title="Permanent link">&para;</a></h2>
+<p>The <code>&lt;Objects&gt;</code> element directly under <code>&lt;Project&gt;</code> is the root of the layer tree. It contains two node types: groups and layers.</p>
+<h3 id="groups-lrsection">Groups: <code>&lt;LrSection&gt;</code><a class="headerlink" href="#groups-lrsection" title="Permanent link">&para;</a></h3>
+<div class="highlight"><span class="filename">XML</span><pre><span></span><code><span class="nt">&lt;LrSection</span><span class="w"> </span><span class="na">caption=</span><span class="s">&quot;Group 1&quot;</span><span class="w"> </span><span class="na">object_id=</span><span class="s">&quot;5&quot;</span><span class="w"> </span><span class="na">expanded=</span><span class="s">&quot;1&quot;</span>
+<span class="w">           </span><span class="na">type=</span><span class="s">&quot;16777602&quot;</span><span class="w"> </span><span class="na">dpi=</span><span class="s">&quot;0&quot;</span>
+<span class="w">           </span><span class="na">is_transparent=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">fusion_of_templates=</span><span class="s">&quot;0&quot;</span><span class="nt">&gt;</span>
+<span class="w">  </span><span class="nt">&lt;Objects&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- child layers and sub-groups --&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/Objects&gt;</span>
+<span class="nt">&lt;/LrSection&gt;</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Parsed</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>caption</code></td>
+<td>string</td>
+<td>yes</td>
+<td>Group name</td>
+</tr>
+<tr>
+<td><code>object_id</code></td>
+<td>int</td>
+<td>yes</td>
+<td>Unique ID</td>
+</tr>
+<tr>
+<td><code>expanded</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>yes</td>
+<td>Whether group is expanded in the UI tree</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td>int</td>
+<td>no</td>
+<td>Internal type code (<code>16777602</code>)</td>
+</tr>
+<tr>
+<td><code>dpi</code></td>
+<td>int</td>
+<td>no</td>
+<td>Group-level DPI override (usually <code>0</code>)</td>
+</tr>
+<tr>
+<td><code>is_transparent</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>no</td>
+<td>Transparency flag</td>
+</tr>
+<tr>
+<td><code>fusion_of_templates</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>no</td>
+<td>Template fusion flag</td>
+</tr>
+</tbody>
+</table>
+<p>Groups nest recursively. A group's <code>&lt;Objects&gt;</code> child can contain both <code>&lt;FreeMesh&gt;</code> (layers) and nested <code>&lt;LrSection&gt;</code> (sub-groups).</p>
+<h3 id="layers-freemesh">Layers: <code>&lt;FreeMesh&gt;</code><a class="headerlink" href="#layers-freemesh" title="Permanent link">&para;</a></h3>
+<div class="highlight"><span class="filename">XML</span><pre><span></span><code><span class="nt">&lt;FreeMesh</span><span class="w"> </span><span class="na">caption=</span><span class="s">&quot;Layer 1&quot;</span><span class="w"> </span><span class="na">object_id=</span><span class="s">&quot;936&quot;</span><span class="w"> </span><span class="na">visible=</span><span class="s">&quot;1&quot;</span>
+<span class="w">          </span><span class="na">expanded=</span><span class="s">&quot;1&quot;</span><span class="w"> </span><span class="na">selected=</span><span class="s">&quot;1&quot;</span>
+<span class="w">          </span><span class="na">type=</span><span class="s">&quot;16793857&quot;</span><span class="w"> </span><span class="na">dpi=</span><span class="s">&quot;0&quot;</span>
+<span class="w">          </span><span class="na">z_mask_enbl=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">z_mask_mode=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">z_mask_quality=</span><span class="s">&quot;6&quot;</span>
+<span class="w">          </span><span class="na">thickness_mul=</span><span class="s">&quot;1&quot;</span><span class="w"> </span><span class="na">interval_mul=</span><span class="s">&quot;1&quot;</span><span class="w"> </span><span class="na">rotation_mul=</span><span class="s">&quot;0&quot;</span>
+<span class="w">          </span><span class="na">is_unbounded=</span><span class="s">&quot;1&quot;</span><span class="w"> </span><span class="na">mask_by_form=</span><span class="s">&quot;0&quot;</span>
+<span class="w">          </span><span class="na">cx=</span><span class="s">&quot;114.84&quot;</span><span class="w"> </span><span class="na">cy=</span><span class="s">&quot;153.12&quot;</span><span class="nt">&gt;</span>
+<span class="w">  </span><span class="nt">&lt;Objects&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- fill elements --&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/Objects&gt;</span>
+<span class="w">  </span><span class="nt">&lt;MaskData</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;row_grid_edge</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;col_grid_edge</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/FreeMesh&gt;</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Parsed</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>caption</code></td>
+<td>string</td>
+<td>yes</td>
+<td>Layer name</td>
+</tr>
+<tr>
+<td><code>object_id</code></td>
+<td>int</td>
+<td>yes</td>
+<td>Unique ID</td>
+</tr>
+<tr>
+<td><code>visible</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>yes</td>
+<td><code>"0"</code> hides the layer; absent means visible</td>
+</tr>
+<tr>
+<td><code>expanded</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>no</td>
+<td>Tree expansion state</td>
+</tr>
+<tr>
+<td><code>selected</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>no</td>
+<td>Whether layer is selected</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td>int</td>
+<td>no</td>
+<td>Internal type code (<code>16793857</code>)</td>
+</tr>
+<tr>
+<td><code>dpi</code></td>
+<td>int</td>
+<td>no</td>
+<td>Layer-level DPI</td>
+</tr>
+<tr>
+<td><code>cx</code>, <code>cy</code></td>
+<td>float</td>
+<td>no</td>
+<td>Layer centre coordinates (pixels)</td>
+</tr>
+<tr>
+<td><code>thickness_mul</code></td>
+<td>float</td>
+<td>no</td>
+<td>Thickness multiplier for all fills in this layer</td>
+</tr>
+<tr>
+<td><code>interval_mul</code></td>
+<td>float</td>
+<td>no</td>
+<td>Interval multiplier for all fills</td>
+</tr>
+<tr>
+<td><code>rotation_mul</code></td>
+<td>float</td>
+<td>no</td>
+<td>Rotation multiplier</td>
+</tr>
+<tr>
+<td><code>z_mask_enbl</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>no</td>
+<td>Z-depth mask enabled</td>
+</tr>
+<tr>
+<td><code>z_mask_mode</code></td>
+<td>int</td>
+<td>no</td>
+<td>Z-depth mask mode</td>
+</tr>
+<tr>
+<td><code>z_mask_quality</code></td>
+<td>int</td>
+<td>no</td>
+<td>Z-depth mask quality (1--10)</td>
+</tr>
+<tr>
+<td><code>is_unbounded</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>no</td>
+<td>Whether fills extend beyond canvas</td>
+</tr>
+<tr>
+<td><code>mask_by_form</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>no</td>
+<td>Mask by vector form</td>
+</tr>
+<tr>
+<td><code>locked</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>no</td>
+<td>Editing lock</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fill-elements">Fill elements<a class="headerlink" href="#fill-elements" title="Permanent link">&para;</a></h2>
+<p>Each fill is an XML element inside a layer's <code>&lt;Objects&gt;</code>. The tag name identifies the algorithm.</p>
+<h3 id="fill-tag-to-algorithm-mapping">Fill tag to algorithm mapping<a class="headerlink" href="#fill-tag-to-algorithm-mapping" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>XML Tag</th>
+<th><code>fill_type</code></th>
+<th>Algorithm</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LinearStrokesTmpl</code></td>
+<td><code>linear</code></td>
+<td>Parallel straight lines</td>
+</tr>
+<tr>
+<td><code>SigmoidStrokesTmpl</code></td>
+<td><code>wave</code></td>
+<td>Sinusoidal wave strokes</td>
+</tr>
+<tr>
+<td><code>CircleStrokesTmpl</code></td>
+<td><code>circular</code></td>
+<td>Concentric circles</td>
+</tr>
+<tr>
+<td><code>RadialStrokesTmpl</code></td>
+<td><code>radial</code></td>
+<td>Lines radiating from centre</td>
+</tr>
+<tr>
+<td><code>SpiralStrokesTmpl</code></td>
+<td><code>spiral</code></td>
+<td>Spiral from centre outward</td>
+</tr>
+<tr>
+<td><code>ScribbleStrokesTmpl</code></td>
+<td><code>scribble</code></td>
+<td>Randomised scribble paths</td>
+</tr>
+<tr>
+<td><code>HalftoneStrokesTmpl</code></td>
+<td><code>halftone</code></td>
+<td>Grid-based halftone dots/shapes</td>
+</tr>
+<tr>
+<td><code>FreeCurveStrokesTmpl</code></td>
+<td><code>handmade</code></td>
+<td>Freehand curves (default)</td>
+</tr>
+<tr>
+<td><code>FreeCurveStrokesTmpl</code> (with <code>type_conv="9"</code>)</td>
+<td><code>trace</code></td>
+<td>Edge-tracing curves</td>
+</tr>
+<tr>
+<td><code>PeanoStrokesTmpl</code></td>
+<td><code>fractals</code></td>
+<td>Space-filling Peano/fractal curves</td>
+</tr>
+<tr>
+<td><code>TracedAreaTmpl</code></td>
+<td><code>trace</code></td>
+<td>Traced area fills</td>
+</tr>
+<tr>
+<td><code>SourceStrokes</code></td>
+<td><code>source_strokes</code></td>
+<td>Strokes imported from source vector</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>FreeCurveStrokesTmpl</code> tag serves double duty. When its <code>type_conv</code> attribute equals <code>"9"</code>, the parser resolves it to <code>"trace"</code>. All other <code>type_conv</code> values (including absent) resolve to <code>"handmade"</code>.</p>
+<h3 id="common-fill-attributes">Common fill attributes<a class="headerlink" href="#common-fill-attributes" title="Permanent link">&para;</a></h3>
+<p>These attributes appear on most or all fill element tags. The parser promotes a subset to named <code>FillParams</code> fields; the rest are available in <code>FillParams.raw</code>.</p>
+<h4 id="core-parameters-promoted-to-fillparams-fields">Core parameters (promoted to <code>FillParams</code> fields)<a class="headerlink" href="#core-parameters-promoted-to-fillparams-fields" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>XML Attribute</th>
+<th><code>FillParams</code> Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>color_name</code></td>
+<td><code>color</code></td>
+<td><code>#AARRGGBB</code></td>
+<td><code>"#000000"</code></td>
+<td>Stroke colour (see <a href="#colour-encoding">Colour encoding</a>)</td>
+</tr>
+<tr>
+<td><code>interval</code></td>
+<td><code>interval</code></td>
+<td>float</td>
+<td><code>0.0</code></td>
+<td>Line spacing in mm</td>
+</tr>
+<tr>
+<td><code>angle</code></td>
+<td><code>angle</code></td>
+<td>float</td>
+<td><code>0.0</code></td>
+<td>Stroke angle in degrees</td>
+</tr>
+<tr>
+<td><code>thick_gap</code></td>
+<td><code>thickness</code></td>
+<td>float</td>
+<td><code>0.0</code></td>
+<td>Stroke thickness / gap ratio</td>
+</tr>
+<tr>
+<td><code>base_width</code></td>
+<td><code>thickness_min</code>, <code>base_width</code></td>
+<td>float</td>
+<td><code>0.0</code></td>
+<td>Baseline stroke width in mm</td>
+</tr>
+<tr>
+<td><code>smoothness</code></td>
+<td><code>smoothness</code></td>
+<td>float</td>
+<td><code>0.0</code></td>
+<td>Curve smoothness factor</td>
+</tr>
+<tr>
+<td><code>uplimit</code></td>
+<td><code>uplimit</code></td>
+<td>float</td>
+<td><code>0.0</code></td>
+<td>Upper brightness threshold (0--255)</td>
+</tr>
+<tr>
+<td><code>downlimit</code></td>
+<td><code>downlimit</code></td>
+<td>float</td>
+<td><code>255.0</code></td>
+<td>Lower brightness threshold (0--255)</td>
+</tr>
+<tr>
+<td><code>multiplier</code></td>
+<td><code>multiplier</code></td>
+<td>float</td>
+<td><code>1.0</code></td>
+<td>Width multiplier applied to strokes</td>
+</tr>
+<tr>
+<td><code>dispersion</code></td>
+<td><code>dispersion</code></td>
+<td>float</td>
+<td><code>0.0</code></td>
+<td>Random perpendicular offset</td>
+</tr>
+<tr>
+<td><code>shear</code></td>
+<td><code>shear</code></td>
+<td>float</td>
+<td><code>0.0</code></td>
+<td>Shear distortion angle in degrees</td>
+</tr>
+</tbody>
+</table>
+<p>Note: <code>base_width</code> maps to <em>both</em> <code>FillParams.thickness_min</code> and <code>FillParams.base_width</code> (they read the same XML attribute).</p>
+<h4 id="width-and-thickness-control-in-raw">Width and thickness control (in <code>raw</code>)<a class="headerlink" href="#width-and-thickness-control-in-raw" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>XML Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>vert_disp</code></td>
+<td>float</td>
+<td>Vertical displacement of strokes</td>
+</tr>
+<tr>
+<td><code>enbl_width</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Enable width variation from source image brightness</td>
+</tr>
+<tr>
+<td><code>smooth_width</code></td>
+<td>float</td>
+<td>Width variation smoothness (higher = smoother transitions)</td>
+</tr>
+<tr>
+<td><code>width_mode</code></td>
+<td>int</td>
+<td>Width calculation mode: <code>0</code>=standard, <code>2</code>=alternate</td>
+</tr>
+<tr>
+<td><code>static_stroke</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Use uniform stroke width (ignore brightness)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="bas-relief-effect-in-raw">Bas-relief effect (in <code>raw</code>)<a class="headerlink" href="#bas-relief-effect-in-raw" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>XML Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>enbl_basrelief</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Enable bas-relief shading effect</td>
+</tr>
+<tr>
+<td><code>bsrf_rise</code></td>
+<td>float</td>
+<td>Bas-relief height/rise factor</td>
+</tr>
+<tr>
+<td><code>bsrf_smoothness</code></td>
+<td>float</td>
+<td>Bas-relief smoothness</td>
+</tr>
+<tr>
+<td><code>bsrf_front</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Bas-relief front lighting</td>
+</tr>
+</tbody>
+</table>
+<h4 id="dotted-line-control-in-raw">Dotted line control (in <code>raw</code>)<a class="headerlink" href="#dotted-line-control-in-raw" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>XML Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>enbl_dotted</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Enable dotted/dashed stroke mode</td>
+</tr>
+<tr>
+<td><code>null_in_cut</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Insert nulls at intersection cuts</td>
+</tr>
+<tr>
+<td><code>null_tails_count</code></td>
+<td>float</td>
+<td>Number of null segments at stroke tails</td>
+</tr>
+<tr>
+<td><code>invert_dotted</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Invert dot/dash pattern</td>
+</tr>
+<tr>
+<td><code>length_black</code></td>
+<td>float</td>
+<td>Length of the dash (black) segment</td>
+</tr>
+<tr>
+<td><code>length_white</code></td>
+<td>float</td>
+<td>Length of the gap (white) segment</td>
+</tr>
+<tr>
+<td><code>edged_dashes</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Sharpen dash edges</td>
+</tr>
+<tr>
+<td><code>edged_strokes</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Sharpen stroke edges</td>
+</tr>
+<tr>
+<td><code>dashes_cup</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Rounded dash caps</td>
+</tr>
+<tr>
+<td><code>dashes_orientation</code></td>
+<td>int</td>
+<td>Dash orientation mode</td>
+</tr>
+<tr>
+<td><code>dash_comb_thick</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Combine dash with thickness variation</td>
+</tr>
+<tr>
+<td><code>dash_dots_mode</code></td>
+<td>int</td>
+<td>Dash/dot combination mode</td>
+</tr>
+</tbody>
+</table>
+<h4 id="edge-and-contour-in-raw">Edge and contour (in <code>raw</code>)<a class="headerlink" href="#edge-and-contour-in-raw" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>XML Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>is_edge</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Enable edge detection mode</td>
+</tr>
+<tr>
+<td><code>edge_global</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Use global edge detection</td>
+</tr>
+<tr>
+<td><code>edge_mul</code></td>
+<td>float</td>
+<td>Edge detection multiplier</td>
+</tr>
+</tbody>
+</table>
+<h4 id="colour-mode-in-raw">Colour mode (in <code>raw</code>)<a class="headerlink" href="#colour-mode-in-raw" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>XML Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>color_mode</code></td>
+<td>int</td>
+<td><code>0</code>=solid, <code>1</code>=source palette, <code>2</code>=single, <code>3</code>=monochrome</td>
+</tr>
+<tr>
+<td><code>color_seg_len</code></td>
+<td>float</td>
+<td>Colour segment length for multi-colour modes</td>
+</tr>
+<tr>
+<td><code>channel_mode</code></td>
+<td>int</td>
+<td>Channel interpretation mode</td>
+</tr>
+<tr>
+<td><code>channel_invert</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Invert channel for brightness calculation</td>
+</tr>
+<tr>
+<td><code>channel_mask</code></td>
+<td>int</td>
+<td>Channel mask for brightness extraction</td>
+</tr>
+<tr>
+<td><code>invert_cont</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Invert contrast mapping</td>
+</tr>
+<tr>
+<td><code>invert_wdth</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Invert width mapping</td>
+</tr>
+</tbody>
+</table>
+<h4 id="image-processing-in-raw">Image processing (in <code>raw</code>)<a class="headerlink" href="#image-processing-in-raw" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>XML Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>image_contrast</code></td>
+<td>float</td>
+<td>Pre-processing contrast adjustment</td>
+</tr>
+<tr>
+<td><code>image_brightness</code></td>
+<td>float</td>
+<td>Pre-processing brightness adjustment</td>
+</tr>
+</tbody>
+</table>
+<h4 id="stroke-caps-and-joins-in-raw">Stroke caps and joins (in <code>raw</code>)<a class="headerlink" href="#stroke-caps-and-joins-in-raw" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>XML Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>curve_cup_front</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Rounded cap at stroke front</td>
+</tr>
+<tr>
+<td><code>curve_cup_back</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Rounded cap at stroke back</td>
+</tr>
+<tr>
+<td><code>thick_cup</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Thickness-dependent caps</td>
+</tr>
+<tr>
+<td><code>join_cup</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Rounded joins</td>
+</tr>
+</tbody>
+</table>
+<h4 id="clipping-bounds-in-raw">Clipping bounds (in <code>raw</code>)<a class="headerlink" href="#clipping-bounds-in-raw" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>XML Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cb_t</code></td>
+<td>float</td>
+<td>Clipping bound top</td>
+</tr>
+<tr>
+<td><code>cb_b</code></td>
+<td>float</td>
+<td>Clipping bound bottom</td>
+</tr>
+<tr>
+<td><code>cb_l</code></td>
+<td>float</td>
+<td>Clipping bound left</td>
+</tr>
+<tr>
+<td><code>cb_r</code></td>
+<td>float</td>
+<td>Clipping bound right</td>
+</tr>
+</tbody>
+</table>
+<h4 id="white-segment-control-in-raw">White segment control (in <code>raw</code>)<a class="headerlink" href="#white-segment-control-in-raw" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>XML Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>white_down_limit</code></td>
+<td>float</td>
+<td>Lower brightness limit for white gaps (0--255)</td>
+</tr>
+<tr>
+<td><code>white_max_len</code></td>
+<td>float</td>
+<td>Maximum white segment length</td>
+</tr>
+<tr>
+<td><code>white_min_const_len</code></td>
+<td>float</td>
+<td>Minimum constant white segment length</td>
+</tr>
+<tr>
+<td><code>black_max_len</code></td>
+<td>float</td>
+<td>Maximum black segment length</td>
+</tr>
+<tr>
+<td><code>black_min_constlen</code></td>
+<td>float</td>
+<td>Minimum constant black segment length</td>
+</tr>
+</tbody>
+</table>
+<h4 id="miscellaneous-in-raw">Miscellaneous (in <code>raw</code>)<a class="headerlink" href="#miscellaneous-in-raw" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>XML Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>object_id</code></td>
+<td>int</td>
+<td>Unique object ID</td>
+</tr>
+<tr>
+<td><code>caption</code></td>
+<td>string</td>
+<td>Fill display name</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td>int</td>
+<td>Internal type code</td>
+</tr>
+<tr>
+<td><code>selected</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Whether fill is currently selected</td>
+</tr>
+<tr>
+<td><code>visible</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Whether fill is visible</td>
+</tr>
+<tr>
+<td><code>expanded</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Tree node expansion state</td>
+</tr>
+<tr>
+<td><code>locked</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Editing lock</td>
+</tr>
+<tr>
+<td><code>parity</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Stroke parity (alternating direction)</td>
+</tr>
+<tr>
+<td><code>crossed_dir</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Enable cross-hatching (strokes in both directions)</td>
+</tr>
+<tr>
+<td><code>random_continuity</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Randomise stroke continuity</td>
+</tr>
+<tr>
+<td><code>min_length</code></td>
+<td>float</td>
+<td>Minimum stroke length before culling</td>
+</tr>
+<tr>
+<td><code>push_strength</code></td>
+<td>float</td>
+<td>Stroke push/repulsion strength</td>
+</tr>
+</tbody>
+</table>
+<h3 id="algorithm-specific-attributes">Algorithm-specific attributes<a class="headerlink" href="#algorithm-specific-attributes" title="Permanent link">&para;</a></h3>
+<p>Beyond the common set, individual fill types carry attributes specific to their algorithm. These are always available in <code>FillParams.raw</code>.</p>
+<h4 id="freecurvestrokestmpl-handmade-trace"><code>FreeCurveStrokesTmpl</code> (handmade / trace)<a class="headerlink" href="#freecurvestrokestmpl-handmade-trace" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>XML Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>type_conv</code></td>
+<td>int</td>
+<td>Sub-algorithm: <code>9</code>=trace, <code>0</code>=manual, <code>1</code>=blend, <code>2</code>=balanced</td>
+</tr>
+<tr>
+<td><code>averaning</code></td>
+<td>float</td>
+<td>Curve averaging/smoothing passes</td>
+</tr>
+<tr>
+<td><code>is_clone_strokes</code></td>
+<td><code>"true"</code> / <code>"false"</code></td>
+<td>Clone strokes from another fill</td>
+</tr>
+<tr>
+<td><code>is_expand_curves</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Expand curves to outlines</td>
+</tr>
+<tr>
+<td><code>is_imported</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Strokes were imported from external data</td>
+</tr>
+<tr>
+<td><code>is_ordered</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Maintain stroke ordering</td>
+</tr>
+</tbody>
+</table>
+<h4 id="halftonestrokestmpl-halftone"><code>HalftoneStrokesTmpl</code> (halftone)<a class="headerlink" href="#halftonestrokestmpl-halftone" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>XML Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>halftone_mode</code></td>
+<td>int</td>
+<td>Grid mode: <code>0</code>=square, <code>1</code>=hexagonal</td>
+</tr>
+<tr>
+<td><code>cell_size</code></td>
+<td>float</td>
+<td>Halftone cell width</td>
+</tr>
+<tr>
+<td><code>cell_height</code></td>
+<td>float</td>
+<td>Halftone cell height</td>
+</tr>
+<tr>
+<td><code>morphing_mode</code></td>
+<td>int</td>
+<td>Shape morphing: <code>0</code>=none, <code>1</code>=circle-to-square</td>
+</tr>
+<tr>
+<td><code>contrast</code></td>
+<td>float</td>
+<td>Halftone contrast adjustment</td>
+</tr>
+<tr>
+<td><code>rotation_mode</code></td>
+<td>int</td>
+<td>Cell rotation mode</td>
+</tr>
+<tr>
+<td><code>rotation_mul</code></td>
+<td>float</td>
+<td>Cell rotation multiplier</td>
+</tr>
+<tr>
+<td><code>randomization_dot</code></td>
+<td>float</td>
+<td>Random dot position offset</td>
+</tr>
+<tr>
+<td><code>base_x0</code>, <code>base_y0</code></td>
+<td>float</td>
+<td>Grid origin X/Y</td>
+</tr>
+<tr>
+<td><code>base_x1</code>, <code>base_y1</code></td>
+<td>float</td>
+<td>Grid end X/Y</td>
+</tr>
+</tbody>
+</table>
+<h4 id="scribblestrokestmpl-scribble"><code>ScribbleStrokesTmpl</code> (scribble)<a class="headerlink" href="#scribblestrokestmpl-scribble" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>XML Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>complexity</code></td>
+<td>float</td>
+<td>Scribble path complexity</td>
+</tr>
+<tr>
+<td><code>curviness</code></td>
+<td>float</td>
+<td>Scribble curve amplitude</td>
+</tr>
+<tr>
+<td><code>variety</code></td>
+<td>float</td>
+<td>Stroke variation amount</td>
+</tr>
+<tr>
+<td><code>scribble_length</code></td>
+<td>float</td>
+<td>Target scribble path length</td>
+</tr>
+<tr>
+<td><code>trace_density</code></td>
+<td>float</td>
+<td>Tracing density</td>
+</tr>
+</tbody>
+</table>
+<h4 id="tracedareatmpl-trace-area"><code>TracedAreaTmpl</code> (trace area)<a class="headerlink" href="#tracedareatmpl-trace-area" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>XML Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>clearing_level</code></td>
+<td>float</td>
+<td>Area clearing/simplification level</td>
+</tr>
+<tr>
+<td><code>detailing</code></td>
+<td>float</td>
+<td>Detail preservation level</td>
+</tr>
+<tr>
+<td><code>mask_gen</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Generate mask from traced area</td>
+</tr>
+</tbody>
+</table>
+<h4 id="sourcestrokes-source-strokes"><code>SourceStrokes</code> (source strokes)<a class="headerlink" href="#sourcestrokes-source-strokes" title="Permanent link">&para;</a></h4>
+<p>Shares the same attribute set as <code>FreeCurveStrokesTmpl</code>. Source strokes represent imported vector paths that are treated as fill data.</p>
+<h4 id="sigmoidstrokestmpl-wave"><code>SigmoidStrokesTmpl</code> (wave)<a class="headerlink" href="#sigmoidstrokestmpl-wave" title="Permanent link">&para;</a></h4>
+<p>Uses the common attribute set. Wave behaviour is controlled by <code>smoothness</code> (wave amplitude) and <code>interval</code> (wave period). Not observed in the current test data set; the tag name is defined in <code>FILL_TAG_MAP</code>.</p>
+<h4 id="circlestrokestmpl-circular-radialstrokestmpl-radial-spiralstrokestmpl-spiral"><code>CircleStrokesTmpl</code> (circular), <code>RadialStrokesTmpl</code> (radial), <code>SpiralStrokesTmpl</code> (spiral)<a class="headerlink" href="#circlestrokestmpl-circular-radialstrokestmpl-radial-spiralstrokestmpl-spiral" title="Permanent link">&para;</a></h4>
+<p>These use the common attribute set. The tag name determines the geometric pattern. Not observed in the current test data; their fill tag names are defined in <code>FILL_TAG_MAP</code>.</p>
+<h4 id="peanostrokestmpl-fractals"><code>PeanoStrokesTmpl</code> (fractals)<a class="headerlink" href="#peanostrokestmpl-fractals" title="Permanent link">&para;</a></h4>
+<p>Uses the common attribute set. The Peano space-filling curve behaviour is determined by <code>interval</code> (recursion scale) and <code>smoothness</code> (curve smoothing). No additional algorithm-specific attributes observed beyond the common set.</p>
+<h2 id="colour-encoding">Colour encoding<a class="headerlink" href="#colour-encoding" title="Permanent link">&para;</a></h2>
+<p>Vexy Lines uses two colour formats in XML attributes:</p>
+<h3 id="hex-aarrggbb-alpha-first">Hex: <code>#AARRGGBB</code> (alpha first)<a class="headerlink" href="#hex-aarrggbb-alpha-first" title="Permanent link">&para;</a></h3>
+<p>The native format stores alpha <em>before</em> the RGB channels -- the opposite of CSS convention.</p>
+<table>
+<thead>
+<tr>
+<th>Raw value</th>
+<th>Meaning</th>
+<th>Parser output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>#ff112233</code></td>
+<td>Opaque (<code>ff</code> alpha), RGB <code>112233</code></td>
+<td><code>#112233</code></td>
+</tr>
+<tr>
+<td><code>#80112233</code></td>
+<td>50% alpha (<code>80</code>), RGB <code>112233</code></td>
+<td><code>#11223380</code></td>
+</tr>
+<tr>
+<td><code>#aabbcc</code></td>
+<td>Already 6-digit, no alpha</td>
+<td><code>#aabbcc</code> (pass-through)</td>
+</tr>
+</tbody>
+</table>
+<p>The parser normalises <code>#AARRGGBB</code> to standard <code>#RRGGBB</code> (stripping <code>ff</code> alpha) or <code>#RRGGBBAA</code> (moving non-opaque alpha to the end).</p>
+<h3 id="decimal-argb-integer">Decimal ARGB integer<a class="headerlink" href="#decimal-argb-integer" title="Permanent link">&para;</a></h3>
+<p>Some non-fill attributes (like <code>project_back_color</code>, <code>pen_color</code>, <code>selected_color</code>) store colour as a decimal integer encoding ARGB:</p>
+<div class="highlight"><span class="filename">Text Only</span><pre><span></span><code>4294967295 = 0xFFFFFFFF = opaque white
+4278190080 = 0xFF000000 = opaque black
+</code></pre></div>
+<p>Bit layout:</p>
+<div class="highlight"><span class="filename">Text Only</span><pre><span></span><code>bits 31-24: alpha (0x00=transparent, 0xFF=opaque)
+bits 23-16: red
+bits 15-8:  green
+bits 7-0:   blue
+</code></pre></div>
+<p>The parser's <code>_normalise_color()</code> function handles both formats and outputs <code>#RRGGBB</code> or <code>#RRGGBBAA</code>.</p>
+<h2 id="embedded-images">Embedded images<a class="headerlink" href="#embedded-images" title="Permanent link">&para;</a></h2>
+<h3 id="source-image-sourcepict">Source image: <code>&lt;SourcePict&gt;</code><a class="headerlink" href="#source-image-sourcepict" title="Permanent link">&para;</a></h3>
+<p>The original raster image used as input for the fill algorithms. Encoded with compression.</p>
+<div class="highlight"><span class="filename">XML</span><pre><span></span><code><span class="nt">&lt;SourcePict</span><span class="w"> </span><span class="na">caption=</span><span class="s">&quot;__is_empty&quot;</span><span class="w"> </span><span class="na">width=</span><span class="s">&quot;1025&quot;</span><span class="w"> </span><span class="na">height=</span><span class="s">&quot;1025&quot;</span>
+<span class="w">            </span><span class="na">object_id=</span><span class="s">&quot;927&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;16777729&quot;</span>
+<span class="w">            </span><span class="na">h_resolution=</span><span class="s">&quot;4.1667&quot;</span><span class="w"> </span><span class="na">v_resolution=</span><span class="s">&quot;4.1667&quot;</span><span class="nt">&gt;</span>
+<span class="w">  </span><span class="nt">&lt;ImageData</span><span class="w"> </span><span class="na">width=</span><span class="s">&quot;1025&quot;</span><span class="w"> </span><span class="na">height=</span><span class="s">&quot;1025&quot;</span><span class="w"> </span><span class="na">pict_format=</span><span class="s">&quot;jpg&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span>base64-encoded-data
+<span class="w">  </span><span class="nt">&lt;/ImageData&gt;</span>
+<span class="nt">&lt;/SourcePict&gt;</span>
+</code></pre></div>
+<p><strong><code>&lt;SourcePict&gt;</code> attributes:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>width</code></td>
+<td>int</td>
+<td>Image width in pixels</td>
+</tr>
+<tr>
+<td><code>height</code></td>
+<td>int</td>
+<td>Image height in pixels</td>
+</tr>
+<tr>
+<td><code>caption</code></td>
+<td>string</td>
+<td>Internal label (often <code>"__is_empty"</code>)</td>
+</tr>
+<tr>
+<td><code>object_id</code></td>
+<td>int</td>
+<td>Unique ID</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td>int</td>
+<td>Internal type code (<code>16777729</code>)</td>
+</tr>
+<tr>
+<td><code>h_resolution</code></td>
+<td>float</td>
+<td>Horizontal resolution (pixels per mm)</td>
+</tr>
+<tr>
+<td><code>v_resolution</code></td>
+<td>float</td>
+<td>Vertical resolution (pixels per mm)</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>&lt;ImageData&gt;</code> attributes:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>width</code></td>
+<td>int</td>
+<td>Image width in pixels</td>
+</tr>
+<tr>
+<td><code>height</code></td>
+<td>int</td>
+<td>Image height in pixels</td>
+</tr>
+<tr>
+<td><code>pict_format</code></td>
+<td>string</td>
+<td>Always <code>"jpg"</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Decoding the image data:</strong></p>
+<div class="highlight"><span class="filename">Text Only</span><pre><span></span><code>base64 decode  -&gt;  [ 4-byte big-endian uint32: uncompressed size ] [ zlib-compressed JPEG ]
+                                     |                                        |
+                                     v                                        v
+                          used for validation              zlib.decompress() -&gt; raw JPEG bytes
+</code></pre></div>
+<p>In Python:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">base64</span><span class="o">,</span><span class="w"> </span><span class="nn">struct</span><span class="o">,</span><span class="w"> </span><span class="nn">zlib</span>
+
+<span class="n">raw</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">image_data_text</span><span class="p">)</span>
+<span class="n">expected_size</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s2">&quot;&gt;I&quot;</span><span class="p">,</span> <span class="n">raw</span><span class="p">[:</span><span class="mi">4</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">jpeg_bytes</span> <span class="o">=</span> <span class="n">zlib</span><span class="o">.</span><span class="n">decompress</span><span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="mi">4</span><span class="p">:])</span>
+</code></pre></div>
+<h3 id="preview-image-previewdoc">Preview image: <code>&lt;PreviewDoc&gt;</code><a class="headerlink" href="#preview-image-previewdoc" title="Permanent link">&para;</a></h3>
+<p>The rendered preview thumbnail. No compression wrapper -- just base64-encoded PNG.</p>
+<div class="highlight"><span class="filename">XML</span><pre><span></span><code><span class="nt">&lt;PreviewDoc</span><span class="w"> </span><span class="na">width=</span><span class="s">&quot;984&quot;</span><span class="w"> </span><span class="na">height=</span><span class="s">&quot;984&quot;</span>
+<span class="w">            </span><span class="na">pict_format=</span><span class="s">&quot;png&quot;</span><span class="w"> </span><span class="na">pict_compressed=</span><span class="s">&quot;0&quot;</span><span class="nt">&gt;</span>
+<span class="w">  </span>base64-encoded-PNG
+<span class="nt">&lt;/PreviewDoc&gt;</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>width</code></td>
+<td>int</td>
+<td>Preview width in pixels</td>
+</tr>
+<tr>
+<td><code>height</code></td>
+<td>int</td>
+<td>Preview height in pixels</td>
+</tr>
+<tr>
+<td><code>pict_format</code></td>
+<td>string</td>
+<td>Always <code>"png"</code></td>
+</tr>
+<tr>
+<td><code>pict_compressed</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Compression flag (always <code>"0"</code> in observed files)</td>
+</tr>
+</tbody>
+</table>
+<p>Decoding:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">base64</span>
+
+<span class="n">png_bytes</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">preview_doc_text</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="maskdata-element"><code>&lt;MaskData&gt;</code> element<a class="headerlink" href="#maskdata-element" title="Permanent link">&para;</a></h2>
+<p>Each layer can have an optional mask controlling which areas produce strokes.</p>
+<div class="highlight"><span class="filename">XML</span><pre><span></span><code><span class="nt">&lt;MaskData</span><span class="w"> </span><span class="na">mask_type=</span><span class="s">&quot;1&quot;</span><span class="w"> </span><span class="na">invert_mask=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">tolerance=</span><span class="s">&quot;0&quot;</span>
+<span class="w">          </span><span class="na">joined_mask=</span><span class="s">&quot;1&quot;</span><span class="w"> </span><span class="na">transsparency=</span><span class="s">&quot;0&quot;</span>
+<span class="w">          </span><span class="na">mask_resolution_dpi=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Parsed</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mask_type</code></td>
+<td>int</td>
+<td>yes</td>
+<td><code>0</code>=none, <code>1</code>=raster mask</td>
+</tr>
+<tr>
+<td><code>invert_mask</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>yes</td>
+<td>Invert the mask (strokes where mask is dark)</td>
+</tr>
+<tr>
+<td><code>tolerance</code></td>
+<td>float</td>
+<td>yes</td>
+<td>Edge tolerance for mask application</td>
+</tr>
+<tr>
+<td><code>joined_mask</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>no</td>
+<td>Join mask with adjacent layers</td>
+</tr>
+<tr>
+<td><code>transsparency</code></td>
+<td>float</td>
+<td>no</td>
+<td>Mask transparency (note: typo is in the format)</td>
+</tr>
+<tr>
+<td><code>mask_resolution_dpi</code></td>
+<td>int</td>
+<td>no</td>
+<td>Mask rasterisation DPI (<code>0</code>=use document DPI)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="mesh-deformation">Mesh deformation<a class="headerlink" href="#mesh-deformation" title="Permanent link">&para;</a></h2>
+<p>Layers can have warp meshes stored as <code>&lt;row_grid_edge&gt;</code> and <code>&lt;col_grid_edge&gt;</code> elements. These define a grid of control points that deform the fill output.</p>
+<div class="highlight"><span class="filename">XML</span><pre><span></span><code><span class="nt">&lt;row_grid_edge</span><span class="w"> </span><span class="na">width=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">allocation_t=</span><span class="s">&quot;0.5&quot;</span>
+<span class="w">               </span><span class="na">compressed=</span><span class="s">&quot;1&quot;</span><span class="w"> </span><span class="na">enbl_width_func=</span><span class="s">&quot;1&quot;</span>
+<span class="w">               </span><span class="na">nodes_cnt=</span><span class="s">&quot;2&quot;</span><span class="w"> </span><span class="na">object_id=</span><span class="s">&quot;15073&quot;</span>
+<span class="w">               </span><span class="na">pen_color=</span><span class="s">&quot;4278190080&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;16786432&quot;</span><span class="nt">&gt;</span>
+<span class="w">  </span><span class="nt">&lt;Nodes&gt;</span>base64-encoded-control-point-data<span class="nt">&lt;/Nodes&gt;</span>
+<span class="nt">&lt;/row_grid_edge&gt;</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>width</code></td>
+<td>float</td>
+<td>Edge line width</td>
+</tr>
+<tr>
+<td><code>allocation_t</code></td>
+<td>float</td>
+<td>Allocation parameter (0.0--1.0)</td>
+</tr>
+<tr>
+<td><code>compressed</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Whether <code>&lt;Nodes&gt;</code> data is compressed</td>
+</tr>
+<tr>
+<td><code>enbl_width_func</code></td>
+<td><code>"0"</code> / <code>"1"</code></td>
+<td>Enable width function on this edge</td>
+</tr>
+<tr>
+<td><code>nodes_cnt</code></td>
+<td>int</td>
+<td>Number of control point nodes</td>
+</tr>
+<tr>
+<td><code>object_id</code></td>
+<td>int</td>
+<td>Unique ID for this edge</td>
+</tr>
+<tr>
+<td><code>pen_color</code></td>
+<td>decimal ARGB</td>
+<td>Edge display colour (decimal integer)</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td>int</td>
+<td>Internal type code (<code>16786432</code>)</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>&lt;Nodes&gt;</code> child contains base64-encoded binary control point data. When <code>compressed="1"</code>, the data is zlib-compressed after base64 decoding.</p>
+<p>The parser captures grid edges as raw attribute dictionaries in <code>LayerInfo.grid_edges</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="n">layer</span><span class="o">.</span><span class="n">grid_edges</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="c1"># {&quot;type&quot;: &quot;row_grid_edge&quot;, &quot;width&quot;: &quot;0&quot;, &quot;allocation_t&quot;: &quot;0.5&quot;, ...}</span>
+</code></pre></div>
+<p>Rows define horizontal grid lines; columns define vertical grid lines. Together they form the deformation mesh.</p>
+<h2 id="href-references">Href references<a class="headerlink" href="#href-references" title="Permanent link">&para;</a></h2>
+<p>Some elements use <code>href_id</code> to reference objects defined elsewhere in the tree. These are lightweight pointer nodes -- they carry only <code>href_id</code> and <code>type</code> attributes with no children.</p>
+<div class="highlight"><span class="filename">XML</span><pre><span></span><code><span class="nt">&lt;FreeMesh</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;16793857&quot;</span><span class="w"> </span><span class="na">href_id=</span><span class="s">&quot;936&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="nt">&lt;LrSection</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;16777602&quot;</span><span class="w"> </span><span class="na">href_id=</span><span class="s">&quot;5&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="nt">&lt;SourcePict</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;16777729&quot;</span><span class="w"> </span><span class="na">href_id=</span><span class="s">&quot;927&quot;</span><span class="nt">&gt;</span>
+</code></pre></div>
+<p>The parser detects href elements via the presence of <code>href_id</code> and skips them. They appear in the <code>&lt;Document&gt;</code> element's internal <code>&lt;model&gt;</code> tree (a mirror of the layer tree used by the app's rendering engine).</p>
+<h2 id="internal-elements-ignored-by-parser">Internal elements (ignored by parser)<a class="headerlink" href="#internal-elements-ignored-by-parser" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;form_data&gt;</code> / <code>&lt;data&gt;</code></td>
+<td>Internal form/bezier path data. Present on <code>&lt;Project&gt;</code>, <code>&lt;LrSection&gt;</code>, <code>&lt;FreeMesh&gt;</code>, and fill elements.</td>
+</tr>
+<tr>
+<td><code>&lt;Workspace&gt;</code></td>
+<td>Viewport state: scroll position, zoom, visibility toggles.</td>
+</tr>
+<tr>
+<td><code>&lt;Images&gt;</code></td>
+<td>Image container inside <code>&lt;Document&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>&lt;model&gt;</code></td>
+<td>Internal rendering model (contains href copies of the layer tree).</td>
+</tr>
+<tr>
+<td><code>&lt;doc_pict&gt;</code></td>
+<td>Internal document picture reference.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="complete-example">Complete example<a class="headerlink" href="#complete-example" title="Permanent link">&para;</a></h2>
+<p>A minimal but structurally complete <code>.lines</code> file:</p>
+<div class="highlight"><span class="filename">XML</span><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<span class="nt">&lt;Project</span><span class="w"> </span><span class="na">caption=</span><span class="s">&quot;Example&quot;</span><span class="w"> </span><span class="na">version=</span><span class="s">&quot;3.0.1&quot;</span><span class="w"> </span><span class="na">app=</span><span class="s">&quot;vexylines&quot;</span><span class="w"> </span><span class="na">dpi=</span><span class="s">&quot;300&quot;</span>
+<span class="w">         </span><span class="na">object_id=</span><span class="s">&quot;1&quot;</span><span class="w"> </span><span class="na">expanded=</span><span class="s">&quot;1&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;16777602&quot;</span><span class="nt">&gt;</span>
+<span class="w">  </span><span class="nt">&lt;Objects&gt;</span>
+<span class="w">    </span><span class="nt">&lt;LrSection</span><span class="w"> </span><span class="na">caption=</span><span class="s">&quot;Background&quot;</span><span class="w"> </span><span class="na">object_id=</span><span class="s">&quot;2&quot;</span><span class="w"> </span><span class="na">expanded=</span><span class="s">&quot;1&quot;</span>
+<span class="w">               </span><span class="na">type=</span><span class="s">&quot;16777602&quot;</span><span class="nt">&gt;</span>
+<span class="w">      </span><span class="nt">&lt;Objects&gt;</span>
+<span class="w">        </span><span class="nt">&lt;FreeMesh</span><span class="w"> </span><span class="na">caption=</span><span class="s">&quot;Lines Layer&quot;</span><span class="w"> </span><span class="na">object_id=</span><span class="s">&quot;10&quot;</span><span class="w"> </span><span class="na">visible=</span><span class="s">&quot;1&quot;</span>
+<span class="w">                  </span><span class="na">type=</span><span class="s">&quot;16793857&quot;</span><span class="w"> </span><span class="na">thickness_mul=</span><span class="s">&quot;1&quot;</span><span class="w"> </span><span class="na">interval_mul=</span><span class="s">&quot;1&quot;</span><span class="nt">&gt;</span>
+<span class="w">          </span><span class="nt">&lt;Objects&gt;</span>
+<span class="w">            </span><span class="nt">&lt;LinearStrokesTmpl</span><span class="w"> </span><span class="na">caption=</span><span class="s">&quot;Linear&quot;</span><span class="w"> </span><span class="na">object_id=</span><span class="s">&quot;100&quot;</span>
+<span class="w">                </span><span class="na">color_name=</span><span class="s">&quot;#ff000000&quot;</span><span class="w"> </span><span class="na">interval=</span><span class="s">&quot;2.28&quot;</span><span class="w"> </span><span class="na">angle=</span><span class="s">&quot;40&quot;</span>
+<span class="w">                </span><span class="na">thick_gap=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">base_width=</span><span class="s">&quot;0.16&quot;</span><span class="w"> </span><span class="na">smoothness=</span><span class="s">&quot;0&quot;</span>
+<span class="w">                </span><span class="na">uplimit=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">downlimit=</span><span class="s">&quot;255&quot;</span><span class="w"> </span><span class="na">multiplier=</span><span class="s">&quot;1&quot;</span>
+<span class="w">                </span><span class="na">dispersion=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">shear=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">vert_disp=</span><span class="s">&quot;0&quot;</span>
+<span class="w">                </span><span class="na">enbl_width=</span><span class="s">&quot;1&quot;</span><span class="w"> </span><span class="na">width_mode=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">smooth_width=</span><span class="s">&quot;2&quot;</span>
+<span class="w">                </span><span class="na">enbl_basrelief=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">bsrf_rise=</span><span class="s">&quot;1&quot;</span><span class="w"> </span><span class="na">bsrf_smoothness=</span><span class="s">&quot;2&quot;</span>
+<span class="w">                </span><span class="na">enbl_dotted=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">null_in_cut=</span><span class="s">&quot;1&quot;</span><span class="w"> </span><span class="na">null_tails_count=</span><span class="s">&quot;1&quot;</span>
+<span class="w">                </span><span class="na">channel_invert=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">channel_mode=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">color_mode=</span><span class="s">&quot;3&quot;</span>
+<span class="w">                </span><span class="na">crossed_dir=</span><span class="s">&quot;1&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;16781569&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">          </span><span class="nt">&lt;/Objects&gt;</span>
+<span class="w">          </span><span class="nt">&lt;MaskData</span><span class="w"> </span><span class="na">mask_type=</span><span class="s">&quot;1&quot;</span><span class="w"> </span><span class="na">invert_mask=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">tolerance=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">          </span><span class="nt">&lt;row_grid_edge</span><span class="w"> </span><span class="na">width=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">allocation_t=</span><span class="s">&quot;0.5&quot;</span><span class="w"> </span><span class="na">compressed=</span><span class="s">&quot;1&quot;</span>
+<span class="w">                         </span><span class="na">nodes_cnt=</span><span class="s">&quot;2&quot;</span><span class="w"> </span><span class="na">object_id=</span><span class="s">&quot;200&quot;</span>
+<span class="w">                         </span><span class="na">pen_color=</span><span class="s">&quot;4278190080&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;16786432&quot;</span>
+<span class="w">                         </span><span class="na">enbl_width_func=</span><span class="s">&quot;1&quot;</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="nt">&lt;Nodes&gt;</span>base64data<span class="nt">&lt;/Nodes&gt;</span>
+<span class="w">          </span><span class="nt">&lt;/row_grid_edge&gt;</span>
+<span class="w">          </span><span class="nt">&lt;col_grid_edge</span><span class="w"> </span><span class="na">width=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">allocation_t=</span><span class="s">&quot;0.5&quot;</span><span class="w"> </span><span class="na">compressed=</span><span class="s">&quot;1&quot;</span>
+<span class="w">                         </span><span class="na">nodes_cnt=</span><span class="s">&quot;2&quot;</span><span class="w"> </span><span class="na">object_id=</span><span class="s">&quot;201&quot;</span>
+<span class="w">                         </span><span class="na">pen_color=</span><span class="s">&quot;4278190080&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;16786432&quot;</span>
+<span class="w">                         </span><span class="na">enbl_width_func=</span><span class="s">&quot;1&quot;</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="nt">&lt;Nodes&gt;</span>base64data<span class="nt">&lt;/Nodes&gt;</span>
+<span class="w">          </span><span class="nt">&lt;/col_grid_edge&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/FreeMesh&gt;</span>
+<span class="w">      </span><span class="nt">&lt;/Objects&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/LrSection&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/Objects&gt;</span>
+<span class="w">  </span><span class="nt">&lt;SourcePict</span><span class="w"> </span><span class="na">caption=</span><span class="s">&quot;__is_empty&quot;</span><span class="w"> </span><span class="na">width=</span><span class="s">&quot;1025&quot;</span><span class="w"> </span><span class="na">height=</span><span class="s">&quot;1025&quot;</span>
+<span class="w">              </span><span class="na">object_id=</span><span class="s">&quot;900&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;16777729&quot;</span>
+<span class="w">              </span><span class="na">h_resolution=</span><span class="s">&quot;4.1667&quot;</span><span class="w"> </span><span class="na">v_resolution=</span><span class="s">&quot;4.1667&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;ImageData</span><span class="w"> </span><span class="na">width=</span><span class="s">&quot;1025&quot;</span><span class="w"> </span><span class="na">height=</span><span class="s">&quot;1025&quot;</span><span class="w"> </span><span class="na">pict_format=</span><span class="s">&quot;jpg&quot;</span><span class="nt">&gt;</span>
+<span class="w">      </span><span class="cm">&lt;!-- base64( uint32-BE-uncompressed-size + zlib(JPEG) ) --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/ImageData&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/SourcePict&gt;</span>
+<span class="w">  </span><span class="nt">&lt;Document</span><span class="w"> </span><span class="na">width_mm=</span><span class="s">&quot;86.78&quot;</span><span class="w"> </span><span class="na">height_mm=</span><span class="s">&quot;86.78&quot;</span><span class="w"> </span><span class="na">dpi=</span><span class="s">&quot;300&quot;</span>
+<span class="w">            </span><span class="na">thicknessMin=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">thicknessMax=</span><span class="s">&quot;5.66&quot;</span>
+<span class="w">            </span><span class="na">intervalMin=</span><span class="s">&quot;0.28&quot;</span><span class="w"> </span><span class="na">intervalMax=</span><span class="s">&quot;5.66&quot;</span>
+<span class="w">            </span><span class="na">project_back_color=</span><span class="s">&quot;4294967295&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;16777219&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;PreviewDoc</span><span class="w"> </span><span class="na">width=</span><span class="s">&quot;984&quot;</span><span class="w"> </span><span class="na">height=</span><span class="s">&quot;984&quot;</span>
+<span class="w">              </span><span class="na">pict_format=</span><span class="s">&quot;png&quot;</span><span class="w"> </span><span class="na">pict_compressed=</span><span class="s">&quot;0&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- base64( raw PNG ) --&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/PreviewDoc&gt;</span>
+<span class="nt">&lt;/Project&gt;</span>
+</code></pre></div>
+<h2 id="fill-type-internal-type-codes">Fill type internal type codes<a class="headerlink" href="#fill-type-internal-type-codes" title="Permanent link">&para;</a></h2>
+<p>Each fill tag has an associated <code>type</code> attribute containing an integer type code. These are not used by the parser but are part of the format:</p>
+<table>
+<thead>
+<tr>
+<th>Fill Tag</th>
+<th><code>type</code> value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LinearStrokesTmpl</code></td>
+<td><code>16781569</code></td>
+</tr>
+<tr>
+<td><code>HalftoneStrokesTmpl</code></td>
+<td><code>16781574</code></td>
+</tr>
+<tr>
+<td><code>PeanoStrokesTmpl</code></td>
+<td><code>16781576</code></td>
+</tr>
+<tr>
+<td><code>TracedAreaTmpl</code></td>
+<td><code>16781577</code></td>
+</tr>
+<tr>
+<td><code>FreeCurveStrokesTmpl</code></td>
+<td><code>16781578</code></td>
+</tr>
+<tr>
+<td><code>ScribbleStrokesTmpl</code></td>
+<td><code>16781579</code></td>
+</tr>
+<tr>
+<td><code>SourceStrokes</code></td>
+<td><code>16781578</code></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+          <div class="md-top" data-md-component="top" hidden>
+  <div class="md-top__center">
+    <button type="button" class="md-top__button md-top__button--main" data-md-action="top">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+      <span>Back to top</span>
+    </button>
+    
+      
+      
+      <label class="md-top__button md-top__side md-top__side--nav" for="__drawer" >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2m0 14H9V6h11Z"/></svg>
+      </label>
+    
+    
+      
+      
+      <label class="md-top__button md-top__side md-top__side--toc" for="__toc" >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2m-5 14H4V6h11Z"/></svg>
+      </label>
+    
+  </div>
+</div>
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://jaywhj.github.io/mkdocs-materialx/" target="_blank" rel="noopener">
+      MaterialX
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "navigation.sections"], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e3ad5d0a.min.js"></script>
+      
+    
+  </body>
+</html>
