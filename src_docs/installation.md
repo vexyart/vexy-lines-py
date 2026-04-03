@@ -22,8 +22,9 @@ uv add vexy-lines-py
 | Package | Why |
 |---------|-----|
 | `loguru` | Structured debug logging (silent by default) |
+| `pillow` | Image handling for `replace_source_image()` |
 
-That's it. One dependency.
+Two dependencies. Both are pure Python or ship pre-built wheels for all major platforms.
 
 ## Verify the install
 
@@ -55,8 +56,20 @@ Run type checking:
 uvx hatch run lint:typing
 ```
 
+Run linting:
+
+```bash
+uvx hatch run lint:style
+```
+
+Format code:
+
+```bash
+uvx hatch fmt
+```
+
 ## Platform support
 
-Works everywhere Python runs. The parser is pure Python using only `xml.etree.ElementTree`, `base64`, `zlib`, and `struct` from the standard library.
+Works everywhere Python runs. The parser is pure Python using only `xml.etree.ElementTree`, `base64`, `zlib`, and `struct` from the standard library. The `pillow` dependency is needed only for `replace_source_image()`.
 
 Tested on macOS, Linux, and Windows. CPython and PyPy.

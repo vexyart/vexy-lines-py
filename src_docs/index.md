@@ -14,7 +14,7 @@ Parse [Vexy Lines](https://vexy.art/lines/) `.lines` vector art files in pure Py
 
 A `.lines` file holds everything Vexy Lines needs to reproduce a piece of vector artwork: the layer tree (groups, layers, fills with algorithm parameters), document properties, and optionally the original source image and a rendered preview -- all packed into XML.
 
-This package reads that XML and gives you typed Python dataclasses.
+This package reads that XML and gives you typed Python dataclasses. It can also replace the embedded source image to reuse a fill style with different content.
 
 ## Quick start
 
@@ -46,6 +46,26 @@ extract_source_image("artwork.lines", "source.jpg")
 extract_preview_image("artwork.lines", "preview.png")
 ```
 
+## Replace the source image
+
+Swap the source photo in an existing `.lines` file to reuse its fill style with new content:
+
+```python
+from vexy_lines import replace_source_image
+
+replace_source_image("template.lines", "new_photo.jpg", "output.lines")
+```
+
+## Parse from a string
+
+When you already have the XML in memory:
+
+```python
+from vexy_lines import parse_string
+
+doc = parse_string(xml_content)
+```
+
 ## Why this package exists
 
 Vexy Lines is a macOS/Windows app that transforms raster images into vector artwork using 14 fill algorithms. The `.lines` file format stores everything -- but it's undocumented XML.
@@ -55,6 +75,7 @@ This package decodes that format so you can:
 - Inspect artwork metadata without the app
 - Extract embedded images for thumbnailing or cataloguing
 - Feed fill parameters into automation pipelines
+- Replace source images to reuse fill styles with different content
 - Build tools on top of the parsed data (style transfer, interpolation, batch processing)
 
 ## Next steps
