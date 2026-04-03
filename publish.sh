@@ -2,6 +2,6 @@
 cd "$(dirname "$0")"
 python -m mkdocs build
 uvx hatch clean
-gitnextver
 uvx hatch build
+gitnextver
 uv publish
