@@ -35,6 +35,7 @@ from vexy_lines.types import (
     FillNode,
     FillParams,
     GroupInfo,
+    ImageFilterEntry,
     LayerInfo,
     LinesDocument,
 )
@@ -290,6 +291,59 @@ class TestParseFill:
         assert fn.params.interval == pytest.approx(1.5)
         assert fn.params.shear == pytest.approx(3.0)
         assert "interval" in fn.params.raw
+
+    def test_parse_fill_when_image_filters_then_captures_typed_chain(self):
+        xml = textwrap.dedent("""\
+            <LinearStrokesTmpl caption="Filtered Fill" object_id="42" color_name="#ff112233">
+              <image_filters>
+                <filter type="0" value="-12.5"/>
+                <filter type="3" amount="120" radius="4.5"/>
+                <filter type="4" left="12" right="224"/>
+                <filter type="6" inverted="true"/>
+                <filter type="8" color="#123456" tolerance="9.5"/>
+                <filter type="9" direction="2" opacity="66"/>
+              </image_filters>
+            </LinearStrokesTmpl>
+        """)
+        elem = ET.fromstring(xml)
+        fn = _parse_fill(elem)
+
+        assert [f.name for f in fn.image_filters] == [
+            "brightness",
+            "sharpen",
+            "levels",
+            "invert",
+            "color",
+            "gradient",
+        ]
+        assert fn.image_filters[0] == ImageFilterEntry(
+            type_id=0, name="brightness", params={"value": -12.5}, raw={"type": "0", "value": "-12.5"}
+        )
+        assert fn.image_filters[1].params == {"amount": 120.0, "radius": 4.5}
+        assert fn.image_filters[2].params == {"left": 12, "right": 224}
+        assert fn.image_filters[3].params == {"inverted": True}
+        assert fn.image_filters[4].params == {"color": "#123456", "tolerance": 9.5}
+        assert fn.image_filters[5].params == {"direction": 2, "opacity": 66.0}
+
+    def test_parse_fill_when_unknown_image_filter_type_then_preserves_id_and_params(self):
+        xml = textwrap.dedent("""\
+            <LinearStrokesTmpl caption="Future Fill" object_id="42" color_name="#ff112233">
+              <image_filters>
+                <filter type="99" custom="abc" value="3.5"/>
+              </image_filters>
+            </LinearStrokesTmpl>
+        """)
+        elem = ET.fromstring(xml)
+        fn = _parse_fill(elem)
+
+        assert fn.image_filters == [
+            ImageFilterEntry(
+                type_id=99,
+                name="unknown_99",
+                params={"custom": "abc", "value": 3.5},
+                raw={"type": "99", "custom": "abc", "value": "3.5"},
+            )
+        ]
 
 
 class TestParseMask:

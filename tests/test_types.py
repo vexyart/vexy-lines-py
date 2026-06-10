@@ -6,16 +6,17 @@ from __future__ import annotations
 from vexy_lines.types import (
     FILL_TAG_MAP,
     FILL_TAGS,
+    IMAGE_FILTER_TYPE_MAP,
     NUMERIC_PARAMS,
     DocumentProps,
     FillNode,
     FillParams,
     GroupInfo,
+    ImageFilterEntry,
     LayerInfo,
     LinesDocument,
     MaskInfo,
 )
-
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -27,7 +28,7 @@ class TestConstants:
         assert len(FILL_TAG_MAP) == 11
 
     def test_fill_tags_matches_tag_map_keys(self):
-        assert FILL_TAGS == set(FILL_TAG_MAP)
+        assert set(FILL_TAG_MAP) == FILL_TAGS
 
     def test_fill_tag_map_contains_linear(self):
         assert FILL_TAG_MAP["LinearStrokesTmpl"] == "linear"
@@ -43,6 +44,20 @@ class TestConstants:
 
     def test_numeric_params_contains_shear(self):
         assert "shear" in NUMERIC_PARAMS
+
+    def test_image_filter_type_map_matches_upstream_order(self):
+        assert IMAGE_FILTER_TYPE_MAP == {
+            0: "brightness",
+            1: "contrast",
+            2: "blur",
+            3: "sharpen",
+            4: "levels",
+            5: "shadows_highlights",
+            6: "invert",
+            7: "remove_background",
+            8: "color",
+            9: "gradient",
+        }
 
 
 # ---------------------------------------------------------------------------
@@ -105,6 +120,29 @@ class TestFillNode:
         fp = FillParams(fill_type="linear", color="#000000")
         fn = FillNode(xml_tag="LinearStrokesTmpl", caption="Fill 1", params=fp, object_id=42)
         assert fn.object_id == 42
+
+    def test_with_image_filters(self):
+        fp = FillParams(fill_type="linear", color="#000000")
+        filt = ImageFilterEntry(type_id=0, name="brightness", params={"value": 25.0}, raw={"type": "0", "value": "25"})
+        fn = FillNode(xml_tag="LinearStrokesTmpl", caption="Fill 1", params=fp, image_filters=[filt])
+        assert fn.image_filters == [filt]
+
+
+class TestImageFilterEntry:
+    def test_defaults(self):
+        entry = ImageFilterEntry(type_id=0, name="brightness")
+        assert entry.params == {}
+        assert entry.raw == {}
+
+    def test_custom_values(self):
+        entry = ImageFilterEntry(
+            type_id=8,
+            name="color",
+            params={"color": "#123456", "tolerance": 8.0},
+            raw={"type": "8", "color": "#123456", "tolerance": "8"},
+        )
+        assert entry.name == "color"
+        assert entry.params["tolerance"] == 8.0
 
 
 class TestLayerInfo:

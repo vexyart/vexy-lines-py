@@ -55,6 +55,28 @@ Most map directly to :class:`FillParams` fields; ``vert_disp`` is only
 available in :attr:`FillParams.raw` (no dedicated field).
 """
 
+IMAGE_FILTER_TYPE_MAP: dict[int, str] = {
+    0: "brightness",
+    1: "contrast",
+    2: "blur",
+    3: "sharpen",
+    4: "levels",
+    5: "shadows_highlights",
+    6: "invert",
+    7: "remove_background",
+    8: "color",
+    9: "gradient",
+}
+"""Upstream image-filter type ID -> MCP filter name.
+
+Vexy Lines serialises filter chains as ``<image_filters>`` children inside
+fill elements.  Each ``<filter>`` stores its type as a numeric XML attribute;
+these names match the app's MCP API identifiers.
+"""
+
+IMAGE_FILTER_NAME_MAP: dict[str, int] = {name: type_id for type_id, name in IMAGE_FILTER_TYPE_MAP.items()}
+"""MCP image-filter name -> upstream numeric type ID."""
+
 
 # ---------------------------------------------------------------------------
 # Dataclasses
@@ -99,6 +121,28 @@ class FillParams:
     raw: dict[str, str] = field(default_factory=dict)
 
 
+ImageFilterParamValue = bool | int | float | str
+"""Parsed value type for image-filter parameters."""
+
+
+@dataclass
+class ImageFilterEntry:
+    """One image-filter entry attached to a fill.
+
+    Attributes:
+        type_id: Numeric upstream ``type`` value from the XML.
+        name: MCP-compatible filter name, or ``"unknown_<id>"`` for new
+            upstream filter IDs this parser does not know yet.
+        params: Filter parameters with upstream-compatible value typing.
+        raw: Original XML attributes, including ``type``.
+    """
+
+    type_id: int
+    name: str
+    params: dict[str, ImageFilterParamValue] = field(default_factory=dict)
+    raw: dict[str, str] = field(default_factory=dict)
+
+
 @dataclass
 class MaskInfo:
     """Mask settings from a ``<MaskData>`` element.
@@ -123,12 +167,14 @@ class FillNode:
         caption: User-visible fill name as shown in the Vexy Lines UI.
         params: Parsed fill parameters including type, colour, and numerics.
         object_id: Unique object ID, or ``None`` when the element is an href reference.
+        image_filters: Ordered image-filter chain applied before stroke rendering.
     """
 
     xml_tag: str
     caption: str
     params: FillParams
     object_id: int | None = None
+    image_filters: list[ImageFilterEntry] = field(default_factory=list)
 
 
 @dataclass

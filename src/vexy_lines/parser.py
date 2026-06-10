@@ -23,12 +23,15 @@ from pathlib import Path
 from loguru import logger
 
 from vexy_lines.types import (
-    FILL_TAGS,
     FILL_TAG_MAP,
+    FILL_TAGS,
+    IMAGE_FILTER_TYPE_MAP,
     DocumentProps,
     FillNode,
     FillParams,
     GroupInfo,
+    ImageFilterEntry,
+    ImageFilterParamValue,
     LayerInfo,
     LinesDocument,
     MaskInfo,
@@ -46,6 +49,10 @@ _TYPE_CONV_TRACE = 9
 
 # 4-byte size header + at least 1 byte of zlib-compressed data
 _MIN_SOURCE_PICT_BYTES = 5
+
+_IMAGE_FILTER_BOOL_PARAMS = frozenset({"inverted"})
+_IMAGE_FILTER_INT_PARAMS = frozenset({"left", "right", "direction"})
+_IMAGE_FILTER_STRING_PARAMS = frozenset({"color"})
 
 
 # ---------------------------------------------------------------------------
@@ -174,6 +181,46 @@ def _resolve_fill_type(xml_tag: str, attrib: dict[str, str]) -> str:
     return base
 
 
+def _parse_image_filter_param(key: str, value: str) -> ImageFilterParamValue:
+    """Parse an image-filter XML attribute value using upstream type rules."""
+    if key in _IMAGE_FILTER_BOOL_PARAMS:
+        return value.lower() in {"true", "1"}
+    if key in _IMAGE_FILTER_STRING_PARAMS:
+        return value
+    if key in _IMAGE_FILTER_INT_PARAMS:
+        try:
+            return int(value)
+        except ValueError:
+            try:
+                return int(float(value))
+            except ValueError:
+                return 0
+    try:
+        return float(value)
+    except ValueError:
+        return value
+
+
+def _parse_image_filter(elem: ET.Element) -> ImageFilterEntry:
+    """Parse one ``<filter>`` child of an ``<image_filters>`` element."""
+    raw = dict(elem.attrib)
+    type_id = _get_int(raw, "type")
+    return ImageFilterEntry(
+        type_id=type_id,
+        name=IMAGE_FILTER_TYPE_MAP.get(type_id, f"unknown_{type_id}"),
+        params={key: _parse_image_filter_param(key, value) for key, value in raw.items() if key != "type"},
+        raw=raw,
+    )
+
+
+def _parse_image_filters(elem: ET.Element) -> list[ImageFilterEntry]:
+    """Parse the ordered image-filter chain attached to a fill element."""
+    filters_elem = elem.find("image_filters")
+    if filters_elem is None:
+        return []
+    return [_parse_image_filter(filter_elem) for filter_elem in filters_elem if filter_elem.tag == "filter"]
+
+
 # ---------------------------------------------------------------------------
 # Binary decoders
 # ---------------------------------------------------------------------------
@@ -260,6 +307,7 @@ def _parse_fill(elem: ET.Element) -> FillNode:
         xml_tag=xml_tag,
         caption=attrib.get("caption", ""),
         params=params,
+        image_filters=_parse_image_filters(elem),
         object_id=_get_int(attrib, "object_id") if "object_id" in attrib else None,
     )
 
@@ -408,7 +456,7 @@ def _parse_root(root: ET.Element) -> LinesDocument:
     if source_pict is not None:
         try:
             source_image_data = _decode_source_pict(source_pict)
-        except (ValueError, Exception) as exc:  # noqa: BLE001
+        except (ValueError, Exception) as exc:
             logger.warning(f"Could not decode source image: {exc}")
 
     # Preview image (PNG inside base64)
@@ -417,7 +465,7 @@ def _parse_root(root: ET.Element) -> LinesDocument:
     if preview_doc is not None:
         try:
             preview_image_data = _decode_preview_doc(preview_doc)
-        except (ValueError, Exception) as exc:  # noqa: BLE001
+        except (ValueError, Exception) as exc:
             logger.warning(f"Could not decode preview image: {exc}")
 
     doc = LinesDocument(

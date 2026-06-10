@@ -28,6 +28,9 @@ for node in doc.groups:
                     p = fill.params
                     print(p.fill_type, p.color, f"interval={p.interval}")
                     # "linear"  "#1a2b3c"  interval=2.5
+                    for image_filter in fill.image_filters:
+                        print(image_filter.name, image_filter.params)
+                        # "brightness" {"value": 25.0}
 
 # Embedded source image (JPEG)
 if doc.source_image_data:
@@ -80,11 +83,14 @@ Parse and save the embedded PNG preview to *output*. Raises `ValueError` if no p
 | `DocumentProps` | `width_mm`, `height_mm`, `dpi`, `thickness_min/max`, `interval_min/max` |
 | `GroupInfo` | `caption`, `object_id`, `expanded`, `children: list[GroupInfo | LayerInfo]` |
 | `LayerInfo` | `caption`, `object_id`, `visible`, `mask`, `fills: list[FillNode]`, `grid_edges` |
-| `FillNode` | `xml_tag`, `caption`, `params: FillParams`, `object_id` |
+| `FillNode` | `xml_tag`, `caption`, `params: FillParams`, `image_filters: list[ImageFilterEntry]`, `object_id` |
 | `FillParams` | `fill_type`, `color`, `interval`, `angle`, `thickness`, `smoothness`, `uplimit`, `downlimit`, `multiplier`, `dispersion`, `shear`, `raw` |
+| `ImageFilterEntry` | `type_id`, `name`, `params`, `raw` |
 | `MaskInfo` | `mask_type`, `invert`, `tolerance` |
 
 `FillParams.raw` holds every original XML attribute, including algorithm-specific keys not promoted to named fields.
+
+`FillNode.image_filters` holds the ordered source-image filter chain saved inside a fill's `<image_filters>` child. Known filters are named `brightness`, `contrast`, `blur`, `sharpen`, `levels`, `shadows_highlights`, `invert`, `remove_background`, `color`, and `gradient`; unknown future filter IDs are preserved as `unknown_<id>` with their raw attributes.
 
 Colors are normalised to `#RRGGBB` (opaque) or `#RRGGBBAA`. The raw Vexy Lines `#AARRGGBB` encoding is converted automatically.
 
