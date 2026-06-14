@@ -56,6 +56,22 @@ from vexy_lines import replace_source_image
 replace_source_image("template.lines", "new_photo.jpg", "output.lines")
 ```
 
+## Rename objects and toggle visibility
+
+Edit a `.lines` file by `object_id` (from `GroupInfo`/`LayerInfo`/`FillNode`) while preserving everything else byte-for-byte. Both write to `output_path` (use the same path to edit in place) and return the count changed:
+
+```python
+from vexy_lines import rename_objects, set_visibility
+
+# Rewrite captions of groups, layers, and/or fills.
+rename_objects("artwork.lines", "artwork.lines", {1: "Background", 10: "Sky lines"})
+
+# Bake per-object visibility into a copy: only fill 10 stays visible.
+set_visibility("artwork.lines", "fill_10_only.lines", {10: True, 11: False, 12: False})
+```
+
+`set_visibility` writes the `visible="0"`/`"1"` attribute (absent = visible). Toggling it live over the app's MCP API does not change what the app exports, but re-opening a baked copy does — this is how the AI-rename feature renders one fill in isolation.
+
 ## Parse from a string
 
 When you already have the XML in memory:
@@ -76,6 +92,7 @@ This package decodes that format so you can:
 - Extract embedded images for thumbnailing or cataloguing
 - Feed fill parameters into automation pipelines
 - Replace source images to reuse fill styles with different content
+- Rename objects by ID and bake per-object visibility into a copy (powers the AI-rename feature)
 - Build tools on top of the parsed data (style transfer, interpolation, batch processing)
 
 ## Next steps

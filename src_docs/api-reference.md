@@ -167,6 +167,86 @@ def replace_source_image(
 
 ---
 
+### `rename_objects(lines_path, output_path, renames) -> int`
+
+Rename groups, layers, and/or fills in a `.lines` file by object ID. For every element carrying an `object_id` attribute whose value is a key in *renames*, sets its `caption` attribute to the new name. Everything else -- fill parameters, masks, image data, document settings -- is preserved byte-for-byte (the file is copied first, then only the matched `caption` attributes are rewritten).
+
+Object IDs come from the parsed tree: [`GroupInfo.object_id`](#groupinfo), [`LayerInfo.object_id`](#layerinfo), and [`FillNode.object_id`](#fillnode). `href` reference elements never carry an `object_id` of their own, so only the canonical definition of each object is touched. See the official [Layers Panel](https://help.vexy.art/lines/articles/layers-panel/) help for how captions appear in the app.
+
+```python
+from vexy_lines import rename_objects
+
+# Rename layer 1 and fill 10 in place; returns the count actually changed.
+n = rename_objects("artwork.lines", "artwork.lines", {1: "Background", 10: "Sky lines"})
+print(f"Renamed {n} object(s)")
+```
+
+**Args:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `lines_path` | `str \| Path` | Path to the source `.lines` file |
+| `output_path` | `str \| Path` | Where to write the renamed file; may equal `lines_path` to edit in place |
+| `renames` | `Mapping[int, str]` | Mapping of `object_id` to the new caption string |
+
+**Returns:** The number of elements actually renamed. A caption already equal to its target is not counted. An empty *renames* mapping just copies the file and returns `0`.
+
+**Raises:**
+
+- `FileNotFoundError` -- `lines_path` does not exist
+
+**Type hint:**
+
+```python
+def rename_objects(
+    lines_path: str | Path,
+    output_path: str | Path,
+    renames: Mapping[int, str],
+) -> int: ...
+```
+
+---
+
+### `set_visibility(lines_path, output_path, visible) -> int`
+
+Set the `visible` attribute on objects in a `.lines` file by object ID. For every element whose `object_id` is a key in *visible*, sets the `visible` attribute to `"1"` (True) or `"0"` (False). Everything else is preserved byte-for-byte, with the same preservation, in-place, empty-mapping, and `FileNotFoundError` semantics as [`rename_objects`](#rename_objectslines_path-output_path-renames---int).
+
+Vexy Lines stores per-object visibility as a `visible="0"` / `visible="1"` XML attribute (absent means visible). Toggling visibility *live* over the app's MCP API does **not** change what the app exports; baking the attribute into a copy of the file and re-opening it does. This is how the AI-rename feature renders one fill in isolation: write a copy with every other fill set to `visible="0"`, open that file, and export. See [Document Structure](https://help.vexy.art/lines/articles/document-structure-overview/) for how groups, layers, and fills nest.
+
+```python
+from vexy_lines import set_visibility
+
+# Write a copy with only fill 10 visible (everything else hidden).
+n = set_visibility("artwork.lines", "fill_10_only.lines", {10: True, 11: False, 12: False})
+print(f"Changed visibility on {n} object(s)")
+```
+
+**Args:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `lines_path` | `str \| Path` | Path to the source `.lines` file |
+| `output_path` | `str \| Path` | Where to write the modified file; may equal `lines_path` to edit in place |
+| `visible` | `Mapping[int, bool]` | Mapping of `object_id` to desired visibility |
+
+**Returns:** The number of elements whose `visible` attribute was changed.
+
+**Raises:**
+
+- `FileNotFoundError` -- `lines_path` does not exist
+
+**Type hint:**
+
+```python
+def set_visibility(
+    lines_path: str | Path,
+    output_path: str | Path,
+    visible: Mapping[int, bool],
+) -> int: ...
+```
+
+---
+
 ## Dataclasses
 
 ### `LinesDocument`

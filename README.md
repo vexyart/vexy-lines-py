@@ -75,6 +75,31 @@ Parse and save the embedded JPEG source image to *output*. Raises `ValueError` i
 
 Parse and save the embedded PNG preview to *output*. Raises `ValueError` if no preview is present.
 
+## Editing .lines files
+
+Three helpers edit a `.lines` file while preserving everything else (fill parameters, masks, mesh, document settings) byte-for-byte. Each writes to `output_path` (pass the same path as the input to edit in place).
+
+### `replace_source_image(lines_path, new_image_path, output_path, *, target_size=None) -> Path`
+
+Swap the embedded JPEG source image, reusing a `.lines` file's fill style with new content. Requires `pillow`. Raises `FileNotFoundError` if an input is missing, `ValueError` if there is no `<SourcePict>`.
+
+### `rename_objects(lines_path, output_path, renames) -> int`
+
+Rewrite the `caption` of groups, layers, and/or fills. `renames` maps `object_id` (from `GroupInfo`/`LayerInfo`/`FillNode`) to a new caption; returns the number actually changed (a caption already equal to its target is not counted). Only canonical definitions are touched — `href` reference elements have no `object_id`.
+
+### `set_visibility(lines_path, output_path, visible) -> int`
+
+Set the `visible="0"`/`"1"` attribute (absent = visible) per `object_id`; returns the number changed. Toggling visibility *live* over the app's [MCP API](https://help.vexy.art/lines/) does not change what the app exports, but baking the attribute into a copy and re-opening it does — this is how the AI-rename feature renders one fill in isolation.
+
+```python
+from vexy_lines import rename_objects, set_visibility
+
+rename_objects("artwork.lines", "artwork.lines", {1: "Background", 10: "Sky lines"})
+set_visibility("artwork.lines", "fill_10_only.lines", {10: True, 11: False, 12: False})
+```
+
+Both raise `FileNotFoundError` if `lines_path` is missing.
+
 ## Types
 
 | Type | Key attributes |

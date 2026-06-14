@@ -215,6 +215,45 @@ replace_source_image(
 )
 ```
 
+## Rename objects and isolate a single fill
+
+Both helpers edit a `.lines` file by `object_id` while preserving everything else byte-for-byte. Object IDs come from the parsed tree (`GroupInfo.object_id`, `LayerInfo.object_id`, `FillNode.object_id`).
+
+```python
+from vexy_lines import parse, rename_objects, set_visibility, GroupInfo, LayerInfo
+
+doc = parse("artwork.lines")
+
+# Rename a couple of objects by id (in place). Returns the count actually changed.
+renamed = rename_objects("artwork.lines", "artwork.lines", {
+    1: "Background",
+    10: "Sky lines",
+})
+print(f"Renamed {renamed} object(s)")
+
+# Collect every fill's object id.
+def fill_ids(nodes):
+    for node in nodes:
+        if isinstance(node, GroupInfo):
+            yield from fill_ids(node.children)
+        elif isinstance(node, LayerInfo):
+            for fill in node.fills:
+                yield fill.object_id
+
+all_fills = [fid for fid in fill_ids(doc.groups) if fid is not None]
+
+# Write a copy where only fill 10 is visible (everything else hidden).
+# Vexy Lines bakes `visible="0"/"1"` into the XML; toggling it live over MCP
+# does NOT change the export, but re-opening this copy does.
+target = 10
+changed = set_visibility(
+    "artwork.lines",
+    "fill_10_only.lines",
+    {fid: (fid == target) for fid in all_fills},
+)
+print(f"Set visibility on {changed} object(s) -> open fill_10_only.lines and export")
+```
+
 ## Compare two .lines files
 
 Check structural differences between two projects:

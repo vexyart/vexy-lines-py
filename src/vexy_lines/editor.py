@@ -1,8 +1,9 @@
 # this_file: vexy-lines-py/src/vexy_lines/editor.py
 """Editing operations for .lines files.
 
-Currently supports replacing the embedded source image while preserving
-all fill parameters, layers, groups, masks, and document settings.
+Supports replacing the embedded source image and renaming objects (groups,
+layers, fills) by object ID — both while preserving all fill parameters,
+layers, groups, masks, and document settings.
 """
 
 from __future__ import annotations
@@ -11,6 +12,8 @@ import base64
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from collections.abc import Mapping
+
     from PIL import Image as PILImage
 import io
 import shutil
@@ -18,6 +21,8 @@ import struct
 import zlib
 from pathlib import Path
 from xml.etree import ElementTree as ET
+
+from loguru import logger
 
 
 def _encode_source_pict(jpeg_bytes: bytes) -> str:
@@ -180,3 +185,140 @@ def replace_source_image(
     tree.write(output_path, encoding="unicode", xml_declaration=False)
 
     return output_path
+
+
+def rename_objects(
+    lines_path: str | Path,
+    output_path: str | Path,
+    renames: Mapping[int, str],
+) -> int:
+    """Rename groups, layers, and/or fills in a .lines file by object ID.
+
+    Walks the XML tree and, for every element carrying an ``object_id``
+    attribute whose value appears in *renames*, sets its ``caption``
+    attribute to the new name. Everything else — fill parameters, masks,
+    image data, document settings — is preserved byte-for-byte (the file is
+    copied first, then only the matched ``caption`` attributes are rewritten).
+
+    Object IDs come from the parsed tree: :attr:`GroupInfo.object_id`,
+    :attr:`LayerInfo.object_id`, and :attr:`FillNode.object_id`. ``href``
+    reference elements never carry an ``object_id`` of their own, so only the
+    canonical definition of each object is touched.
+
+    Args:
+        lines_path: Path to the source ``.lines`` file.
+        output_path: Where to write the renamed ``.lines`` file. May equal
+            *lines_path* to edit in place.
+        renames: Mapping of ``object_id`` to the new caption string.
+
+    Returns:
+        The number of elements that were renamed.
+
+    Raises:
+        FileNotFoundError: If *lines_path* does not exist.
+    """
+    lines_path = Path(lines_path)
+    output_path = Path(output_path)
+
+    if not lines_path.is_file():
+        msg = f"Lines file not found: {lines_path}"
+        raise FileNotFoundError(msg)
+
+    if not renames:
+        if output_path != lines_path:
+            shutil.copy2(lines_path, output_path)
+        return 0
+
+    # Copy first so non-XML bytes and untouched attributes are preserved.
+    if output_path != lines_path:
+        shutil.copy2(lines_path, output_path)
+
+    tree = ET.parse(output_path)  # noqa: S314
+    root = tree.getroot()
+
+    renamed = 0
+    for elem in root.iter():
+        raw_id = elem.get("object_id")
+        if raw_id is None:
+            continue
+        try:
+            obj_id = int(raw_id)
+        except (ValueError, TypeError):
+            continue
+        if obj_id in renames:
+            new_caption = renames[obj_id]
+            if elem.get("caption") != new_caption:
+                elem.set("caption", new_caption)
+                renamed += 1
+                logger.debug("Renamed object {} -> {!r}", obj_id, new_caption)
+
+    tree.write(output_path, encoding="unicode", xml_declaration=False)
+    logger.info("Renamed {} object(s) in {}", renamed, output_path)
+    return renamed
+
+
+def set_visibility(
+    lines_path: str | Path,
+    output_path: str | Path,
+    visible: Mapping[int, bool],
+) -> int:
+    """Set the ``visible`` attribute on objects in a .lines file by object ID.
+
+    Vexy Lines stores per-object visibility as a ``visible="0"`` / ``visible="1"``
+    XML attribute (absent means visible). Toggling visibility *live* over the MCP
+    API does not change what ``export_document`` produces; baking the attribute
+    into the file and re-opening it does. This is the reliable way to render a
+    single fill in isolation: write a copy with every other fill set to
+    ``visible="0"``, open *that* file, and export.
+
+    For each element whose ``object_id`` is a key in *visible*, the ``visible``
+    attribute is set to ``"1"`` (True) or ``"0"`` (False). Everything else —
+    including fill parameters and untouched objects — is preserved byte-for-byte
+    (the file is copied first, then only the matched attributes are rewritten).
+
+    Args:
+        lines_path: Path to the source ``.lines`` file.
+        output_path: Where to write the modified ``.lines`` file. May equal
+            *lines_path* to edit in place.
+        visible: Mapping of ``object_id`` to desired visibility.
+
+    Returns:
+        The number of elements whose ``visible`` attribute was changed.
+
+    Raises:
+        FileNotFoundError: If *lines_path* does not exist.
+    """
+    lines_path = Path(lines_path)
+    output_path = Path(output_path)
+
+    if not lines_path.is_file():
+        msg = f"Lines file not found: {lines_path}"
+        raise FileNotFoundError(msg)
+
+    if output_path != lines_path:
+        shutil.copy2(lines_path, output_path)
+
+    if not visible:
+        return 0
+
+    tree = ET.parse(output_path)  # noqa: S314
+    root = tree.getroot()
+
+    changed = 0
+    for elem in root.iter():
+        raw_id = elem.get("object_id")
+        if raw_id is None:
+            continue
+        try:
+            obj_id = int(raw_id)
+        except (ValueError, TypeError):
+            continue
+        if obj_id in visible:
+            new_value = "1" if visible[obj_id] else "0"
+            if elem.get("visible") != new_value:
+                elem.set("visible", new_value)
+                changed += 1
+
+    tree.write(output_path, encoding="unicode", xml_declaration=False)
+    logger.debug("Set visibility on {} object(s) in {}", changed, output_path)
+    return changed
