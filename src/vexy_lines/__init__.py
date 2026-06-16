@@ -28,7 +28,7 @@ Example::
 from __future__ import annotations
 
 from vexy_lines.editor import rename_objects, replace_source_image, set_visibility
-from vexy_lines.parser import extract_preview_image, extract_source_image, parse, parse_string
+from vexy_lines.parser import extract_preview_image, extract_source_image, extract_source_images, parse, parse_string
 from vexy_lines.types import (
     FILL_TAG_MAP,
     FILL_TAGS,
@@ -43,6 +43,7 @@ from vexy_lines.types import (
     LayerInfo,
     LinesDocument,
     MaskInfo,
+    SourceImageInfo,
 )
 
 __all__ = [
@@ -59,8 +60,10 @@ __all__ = [
     "LayerInfo",
     "LinesDocument",
     "MaskInfo",
+    "SourceImageInfo",
     "extract_preview_image",
     "extract_source_image",
+    "extract_source_images",
     "parse",
     "parse_string",
     "rename_objects",

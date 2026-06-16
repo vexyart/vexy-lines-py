@@ -9,7 +9,6 @@ import textwrap
 import xml.etree.ElementTree as ET
 import zlib
 from pathlib import Path
-from unittest.mock import patch
 
 import pytest
 
@@ -28,12 +27,11 @@ from vexy_lines.parser import (
     _resolve_fill_type,
     extract_preview_image,
     extract_source_image,
+    extract_source_images,
     parse,
     parse_string,
 )
 from vexy_lines.types import (
-    FillNode,
-    FillParams,
     GroupInfo,
     ImageFilterEntry,
     LayerInfo,
@@ -46,11 +44,15 @@ from vexy_lines.types import (
 
 # A JPEG-like payload for SourcePict tests.
 _FAKE_JPEG = b"\xff\xd8\xff\xe0" + b"\x00" * 20
+_FAKE_JPEG_2 = b"\xff\xd8\xff\xe1" + b"\x11" * 20
 
 # Build a valid SourcePict base64 blob: 4-byte BE size + zlib(jpeg).
 _COMPRESSED_JPEG = zlib.compress(_FAKE_JPEG)
 _SOURCE_PICT_RAW = struct.pack(">I", len(_FAKE_JPEG)) + _COMPRESSED_JPEG
 _SOURCE_PICT_B64 = base64.b64encode(_SOURCE_PICT_RAW).decode()
+_COMPRESSED_JPEG_2 = zlib.compress(_FAKE_JPEG_2)
+_SOURCE_PICT_RAW_2 = struct.pack(">I", len(_FAKE_JPEG_2)) + _COMPRESSED_JPEG_2
+_SOURCE_PICT_B64_2 = base64.b64encode(_SOURCE_PICT_RAW_2).decode()
 
 # A fake PNG payload for PreviewDoc tests.
 _FAKE_PNG = b"\x89PNG\r\n\x1a\n" + b"\x00" * 16
@@ -90,6 +92,34 @@ MINIMAL_LINES_XML = textwrap.dedent(f"""\
         <ImageData>{_SOURCE_PICT_B64}</ImageData>
       </SourcePict>
       <PreviewDoc>{_PREVIEW_B64}</PreviewDoc>
+    </Project>
+""")
+
+MULTI_SOURCE_LINES_XML = textwrap.dedent(f"""\
+    <?xml version="1.0" encoding="utf-8"?>
+    <Project caption="MultiSource" version="2.1" dpi="150">
+      <Objects>
+        <LrSection caption="Group A" object_id="1" expanded="1">
+          <SourcePict caption="Group Source" object_id="200" width="20" height="10">
+            <ImageData width="20" height="10" pict_format="jpg">{_SOURCE_PICT_B64_2}</ImageData>
+          </SourcePict>
+          <Objects>
+            <FreeMesh caption="Layer 1" object_id="10" visible="1">
+              <Objects>
+                <LinearStrokesTmpl caption="Linear Fill" object_id="100" color_name="#ff112233"/>
+              </Objects>
+            </FreeMesh>
+          </Objects>
+        </LrSection>
+      </Objects>
+      <SourcePict caption="Document Source" object_id="100" width="40" height="30">
+        <ImageData width="40" height="30" pict_format="jpg">{_SOURCE_PICT_B64}</ImageData>
+      </SourcePict>
+      <Document>
+        <model caption="MultiSource">
+          <SourcePict href_id="100" type="16777729"/>
+        </model>
+      </Document>
     </Project>
 """)
 
@@ -265,6 +295,37 @@ class TestDecodePreviewDoc:
         elem = ET.fromstring("<PreviewDoc/>")
         with pytest.raises(ValueError, match="no text content"):
             _decode_preview_doc(elem)
+
+
+class TestSourceImages:
+    def test_parse_string_collects_document_and_group_source_images(self):
+        doc = parse_string(MULTI_SOURCE_LINES_XML)
+
+        assert doc.source_image_data == _FAKE_JPEG
+        assert len(doc.source_images) == 2
+        assert doc.source_images[0].scope == "document"
+        assert doc.source_images[0].caption == "Document Source"
+        assert doc.source_images[0].object_id == 100
+        assert doc.source_images[0].width == 40
+        assert doc.source_images[0].height == 30
+        assert doc.source_images[0].data == _FAKE_JPEG
+        assert doc.source_images[1].scope == "group"
+        assert doc.source_images[1].owner_caption == "Group A"
+        assert doc.source_images[1].owner_path == "Group A"
+        assert doc.source_images[1].data == _FAKE_JPEG_2
+
+    def test_extract_source_images_writes_document_and_group_images(self, tmp_path):
+        lines_path = _write_lines_file(tmp_path, MULTI_SOURCE_LINES_XML)
+        out_dir = tmp_path / "sources"
+
+        outputs = extract_source_images(lines_path, out_dir)
+
+        assert [p.name for p in outputs] == [
+            "test-source-001-document.jpg",
+            "test-source-002-group-a.jpg",
+        ]
+        assert outputs[0].read_bytes() == _FAKE_JPEG
+        assert outputs[1].read_bytes() == _FAKE_JPEG_2
 
 
 # ---------------------------------------------------------------------------

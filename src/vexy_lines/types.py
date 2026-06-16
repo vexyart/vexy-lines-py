@@ -240,6 +240,34 @@ class DocumentProps:
 
 
 @dataclass
+class SourceImageInfo:
+    """One decoded ``<SourcePict>`` payload from a ``.lines`` document.
+
+    Attributes:
+        index: 1-based index in the exported source-image list.
+        data: Decoded JPEG bytes.
+        scope: ``"document"`` for the root document source, ``"group"`` for
+            a source attached to an ``LrSection``.
+        caption: SourcePict caption, if present.
+        object_id: Upstream object ID from the SourcePict element, if present.
+        owner_caption: Caption of the owning project/group.
+        owner_path: Slash-separated group path for group sources.
+        width: Source image width in pixels, if present in XML.
+        height: Source image height in pixels, if present in XML.
+    """
+
+    index: int
+    data: bytes
+    scope: str
+    caption: str = ""
+    object_id: int | None = None
+    owner_caption: str = ""
+    owner_path: str = ""
+    width: int | None = None
+    height: int | None = None
+
+
+@dataclass
 class LinesDocument:
     """Everything parsed from a ``.lines`` file.
 
@@ -252,6 +280,8 @@ class LinesDocument:
             or :class:`LayerInfo`.
         source_image_data: Decoded JPEG bytes of the embedded source image,
             or ``None`` if absent.
+        source_images: All decoded non-reference source images, with the
+            document-level source first followed by group sources.
         preview_image_data: Decoded PNG bytes of the embedded preview image,
             or ``None`` if absent.
     """
@@ -262,4 +292,5 @@ class LinesDocument:
     props: DocumentProps = field(default_factory=DocumentProps)
     groups: list[GroupInfo | LayerInfo] = field(default_factory=list)
     source_image_data: bytes | None = None
+    source_images: list[SourceImageInfo] = field(default_factory=list)
     preview_image_data: bytes | None = None

@@ -15,6 +15,7 @@ and :func:`extract_preview_image`.
 from __future__ import annotations
 
 import base64
+import re
 import struct
 import xml.etree.ElementTree as ET
 import zlib
@@ -35,6 +36,7 @@ from vexy_lines.types import (
     LayerInfo,
     LinesDocument,
     MaskInfo,
+    SourceImageInfo,
 )
 
 # ---------------------------------------------------------------------------
@@ -275,6 +277,19 @@ def _decode_preview_doc(elem: ET.Element) -> bytes:
     return raw
 
 
+def _get_optional_int(attrib: dict[str, str], key: str) -> int | None:
+    """Return ``attrib[key]`` as an int, or ``None`` when absent/unparseable."""
+    if key not in attrib:
+        return None
+    try:
+        return int(attrib[key])
+    except (ValueError, TypeError):
+        try:
+            return int(float(attrib[key]))
+        except (ValueError, TypeError):
+            return None
+
+
 # ---------------------------------------------------------------------------
 # Element parsers
 # ---------------------------------------------------------------------------
@@ -423,6 +438,75 @@ def _parse_document_props(doc_elem: ET.Element) -> DocumentProps:
     )
 
 
+def _parent_map(root: ET.Element) -> dict[ET.Element, ET.Element]:
+    """Return a child -> parent map for an ElementTree root."""
+    return {child: parent for parent in root.iter() for child in parent}
+
+
+def _group_owner_path(elem: ET.Element, parents: dict[ET.Element, ET.Element]) -> tuple[str, str]:
+    """Return ``(owner_caption, owner_path)`` for a group-owned SourcePict."""
+    captions: list[str] = []
+    current: ET.Element | None = parents.get(elem)
+    while current is not None:
+        if current.tag == "LrSection":
+            caption = current.attrib.get("caption", "") or current.attrib.get("object_id", "")
+            if caption:
+                captions.append(caption)
+        current = parents.get(current)
+    captions.reverse()
+    owner_path = "/".join(captions)
+    owner_caption = captions[-1] if captions else ""
+    return owner_caption, owner_path
+
+
+def _source_pict_elements(root: ET.Element) -> list[ET.Element]:
+    """Return canonical non-reference SourcePict elements, document source first."""
+    direct = [child for child in root if child.tag == "SourcePict" and not _is_href(child)]
+    seen = {id(elem) for elem in direct}
+    nested = [
+        elem
+        for elem in root.iter("SourcePict")
+        if id(elem) not in seen and not _is_href(elem)
+    ]
+    return [*direct, *nested]
+
+
+def _parse_source_images(root: ET.Element) -> list[SourceImageInfo]:
+    """Decode all canonical document/group SourcePict payloads."""
+    parents = _parent_map(root)
+    images: list[SourceImageInfo] = []
+    for elem in _source_pict_elements(root):
+        try:
+            data = _decode_source_pict(elem)
+        except (ValueError, Exception) as exc:
+            logger.warning(f"Could not decode source image: {exc}")
+            continue
+
+        parent = parents.get(elem)
+        if parent is root:
+            scope = "document"
+            owner_caption = root.attrib.get("caption", "")
+            owner_path = owner_caption
+        else:
+            scope = "group"
+            owner_caption, owner_path = _group_owner_path(elem, parents)
+
+        images.append(
+            SourceImageInfo(
+                index=len(images) + 1,
+                data=data,
+                scope=scope,
+                caption=elem.attrib.get("caption", ""),
+                object_id=_get_optional_int(elem.attrib, "object_id"),
+                owner_caption=owner_caption,
+                owner_path=owner_path,
+                width=_get_optional_int(elem.attrib, "width"),
+                height=_get_optional_int(elem.attrib, "height"),
+            )
+        )
+    return images
+
+
 # ---------------------------------------------------------------------------
 # Public API
 # ---------------------------------------------------------------------------
@@ -450,14 +534,10 @@ def _parse_root(root: ET.Element) -> LinesDocument:
     if doc_elem is not None:
         props = _parse_document_props(doc_elem)
 
-    # Source image (JPEG inside base64 + zlib)
-    source_image_data: bytes | None = None
-    source_pict = root.find("SourcePict")
-    if source_pict is not None:
-        try:
-            source_image_data = _decode_source_pict(source_pict)
-        except (ValueError, Exception) as exc:
-            logger.warning(f"Could not decode source image: {exc}")
+    # Source images (JPEG inside base64 + zlib). Keep source_image_data
+    # backward-compatible with the direct document source.
+    source_images = _parse_source_images(root)
+    source_image_data = next((image.data for image in source_images if image.scope == "document"), None)
 
     # Preview image (PNG inside base64)
     preview_image_data: bytes | None = None
@@ -475,6 +555,7 @@ def _parse_root(root: ET.Element) -> LinesDocument:
         props=props,
         groups=groups,
         source_image_data=source_image_data,
+        source_images=source_images,
         preview_image_data=preview_image_data,
     )
 
@@ -585,6 +666,45 @@ def extract_source_image(path: str | Path, output: str | Path) -> Path:
         missing_message=f"No source image found in {path}",
         image_label="source image",
     )
+
+
+def _source_filename_part(image: SourceImageInfo) -> str:
+    label = "document" if image.scope == "document" else image.owner_caption or image.caption or "group"
+    slug = re.sub(r"[^A-Za-z0-9]+", "-", label).strip("-").lower()
+    return slug or "source"
+
+
+def extract_source_images(path: str | Path, output_dir: str | Path) -> list[Path]:
+    """Extract all document and group source images from a ``.lines`` file.
+
+    Args:
+        path: Path to the ``.lines`` file.
+        output_dir: Directory where JPEG files will be written.
+
+    Returns:
+        Output paths in extraction order. The document source is first when
+        present, followed by group sources in XML traversal order.
+
+    Raises:
+        FileNotFoundError: If *path* does not exist.
+        ValueError: If no source images are embedded in the file.
+    """
+    source_path = Path(path)
+    doc = parse(source_path)
+    if not doc.source_images:
+        msg = f"No source images found in {path}"
+        raise ValueError(msg)
+
+    out_dir = Path(output_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    outputs: list[Path] = []
+    for image in doc.source_images:
+        label = _source_filename_part(image)
+        output = out_dir / f"{source_path.stem}-source-{image.index:03d}-{label}.jpg"
+        output.write_bytes(image.data)
+        outputs.append(output)
+        logger.info(f"Saved source image {image.index} ({len(image.data)} bytes) -> {output}")
+    return outputs
 
 
 def extract_preview_image(path: str | Path, output: str | Path) -> Path:

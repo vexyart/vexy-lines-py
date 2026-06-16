@@ -32,9 +32,13 @@ for node in doc.groups:
                         print(image_filter.name, image_filter.params)
                         # "brightness" {"value": 25.0}
 
-# Embedded source image (JPEG)
+# Embedded document source image (JPEG)
 if doc.source_image_data:
     open("source.jpg", "wb").write(doc.source_image_data)
+
+# Every embedded source image: document first, then group sources
+for source in doc.source_images:
+    print(source.index, source.scope, source.owner_path, source.width, source.height)
 
 # Embedded preview image (PNG)
 if doc.preview_image_data:
@@ -44,9 +48,10 @@ if doc.preview_image_data:
 Convenience wrappers for image extraction:
 
 ```python
-from vexy_lines import extract_source_image, extract_preview_image
+from vexy_lines import extract_source_image, extract_source_images, extract_preview_image
 
 extract_source_image("artwork.lines", "source.jpg")
+extract_source_images("artwork.lines", "artwork-sources/")
 extract_preview_image("artwork.lines", "preview.png")
 ```
 
@@ -69,7 +74,11 @@ Parse a `.lines` XML string (in-memory) and return a `LinesDocument`. Useful whe
 
 ### `extract_source_image(path, output) -> Path`
 
-Parse and save the embedded JPEG source image to *output*. Raises `ValueError` if no source image is present.
+Parse and save the document-level embedded JPEG source image to *output*. Raises `ValueError` if no source image is present.
+
+### `extract_source_images(path, output_dir) -> list[Path]`
+
+Parse and save every canonical source image: the document source first, then source images attached to groups. Href references are ignored. Output files use stable names such as `artwork-source-001-document.jpg` and `artwork-source-002-face.jpg`.
 
 ### `extract_preview_image(path, output) -> Path`
 
@@ -104,7 +113,7 @@ Both raise `FileNotFoundError` if `lines_path` is missing.
 
 | Type | Key attributes |
 |------|----------------|
-| `LinesDocument` | `caption`, `version`, `dpi`, `props`, `groups`, `source_image_data`, `preview_image_data` |
+| `LinesDocument` | `caption`, `version`, `dpi`, `props`, `groups`, `source_image_data`, `source_images`, `preview_image_data` |
 | `DocumentProps` | `width_mm`, `height_mm`, `dpi`, `thickness_min/max`, `interval_min/max` |
 | `GroupInfo` | `caption`, `object_id`, `expanded`, `children: list[GroupInfo | LayerInfo]` |
 | `LayerInfo` | `caption`, `object_id`, `visible`, `mask`, `fills: list[FillNode]`, `grid_edges` |
@@ -112,6 +121,7 @@ Both raise `FileNotFoundError` if `lines_path` is missing.
 | `FillParams` | `fill_type`, `color`, `interval`, `angle`, `thickness`, `smoothness`, `uplimit`, `downlimit`, `multiplier`, `dispersion`, `shear`, `raw` |
 | `ImageFilterEntry` | `type_id`, `name`, `params`, `raw` |
 | `MaskInfo` | `mask_type`, `invert`, `tolerance` |
+| `SourceImageInfo` | `index`, `data`, `scope`, `caption`, `object_id`, `owner_caption`, `owner_path`, `width`, `height` |
 
 `FillParams.raw` holds every original XML attribute, including algorithm-specific keys not promoted to named fields.
 
