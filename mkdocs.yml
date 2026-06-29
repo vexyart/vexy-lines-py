@@ -35,5 +35,6 @@ nav:
   - Installation: installation.md
   - API Reference: api-reference.md
   - File Format: file-format.md
+  - Data Model: data-model.md
   - Examples: examples.md
   - Changelog: changelog.md

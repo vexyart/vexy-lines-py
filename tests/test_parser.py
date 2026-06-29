@@ -746,3 +746,115 @@ class TestGridEdges:
         edge = layer.grid_edges[0]
         assert edge["type"] == "row_grid_edge"
         assert edge["x1"] == "0"
+
+
+# ---------------------------------------------------------------------------
+# Corrupt / truncated file handling
+# ---------------------------------------------------------------------------
+
+
+class TestParseCorruptFiles:
+    """parse() must handle bad payloads gracefully — no crash, clear errors."""
+
+    def test_parse_when_truncated_xml_then_raises_parse_error(self, tmp_path):
+        """A file that is cut off mid-element is not valid XML."""
+        p = tmp_path / "truncated.lines"
+        p.write_text("<Project caption='Trunc'><Objects><LrSection", encoding="utf-8")
+        with pytest.raises(ET.ParseError):
+            parse(p)
+
+    def test_parse_when_empty_file_then_raises_parse_error(self, tmp_path):
+        """An empty file cannot be parsed as XML."""
+        p = tmp_path / "empty.lines"
+        p.write_bytes(b"")
+        with pytest.raises(ET.ParseError):
+            parse(p)
+
+    def test_parse_when_binary_garbage_then_raises_parse_error(self, tmp_path):
+        """A file containing arbitrary binary data is not valid XML."""
+        p = tmp_path / "garbage.lines"
+        p.write_bytes(b"\x00\x01\x02\x03\xff\xfe\xfd" * 20)
+        with pytest.raises(ET.ParseError):
+            parse(p)
+
+    def test_parse_when_corrupt_source_pict_then_returns_none_not_crash(self, tmp_path):
+        """A corrupt <SourcePict> payload is logged and silently skipped.
+
+        The document parses successfully; source_image_data is None.
+        """
+        xml = textwrap.dedent("""\
+            <?xml version="1.0" encoding="utf-8"?>
+            <Project caption="BadSource" version="2.0" dpi="300">
+              <SourcePict>
+                <ImageData>not-valid-base64!!!</ImageData>
+              </SourcePict>
+            </Project>
+        """)
+        p = tmp_path / "bad_source.lines"
+        p.write_text(xml, encoding="utf-8")
+        doc = parse(p)
+        assert doc.caption == "BadSource"
+        assert doc.source_image_data is None
+        assert doc.source_images == []
+
+    def test_parse_when_source_pict_bad_zlib_then_returns_none_not_crash(self, tmp_path):
+        """A valid base64 payload whose zlib stream is corrupt is handled gracefully."""
+        import base64
+        import struct as _struct
+
+        bad_zlib = b"\x78\x9c" + b"\xff" * 10  # zlib header but corrupt body
+        bad_raw = _struct.pack(">I", 100) + bad_zlib
+        bad_b64 = base64.b64encode(bad_raw).decode()
+        xml = textwrap.dedent(f"""\
+            <?xml version="1.0" encoding="utf-8"?>
+            <Project caption="BadZlib" version="2.0" dpi="300">
+              <SourcePict>
+                <ImageData>{bad_b64}</ImageData>
+              </SourcePict>
+            </Project>
+        """)
+        p = tmp_path / "bad_zlib.lines"
+        p.write_text(xml, encoding="utf-8")
+        doc = parse(p)
+        assert doc.source_image_data is None
+        assert doc.source_images == []
+
+    def test_parse_when_corrupt_preview_doc_then_returns_none_not_crash(self, tmp_path):
+        """A corrupt <PreviewDoc> payload is logged and silently skipped.
+
+        The document parses successfully; preview_image_data is None.
+        """
+        xml = textwrap.dedent("""\
+            <?xml version="1.0" encoding="utf-8"?>
+            <Project caption="BadPreview" version="2.0" dpi="300">
+              <PreviewDoc>not-valid-base64!!!</PreviewDoc>
+            </Project>
+        """)
+        p = tmp_path / "bad_preview.lines"
+        p.write_text(xml, encoding="utf-8")
+        doc = parse(p)
+        assert doc.caption == "BadPreview"
+        assert doc.preview_image_data is None
+
+    def test_parse_when_source_pict_too_short_then_returns_none_not_crash(self, tmp_path):
+        """A <SourcePict> whose ImageData decodes to fewer than 5 bytes is skipped."""
+        import base64
+
+        too_short = base64.b64encode(b"\x00\x01").decode()
+        xml = textwrap.dedent(f"""\
+            <?xml version="1.0" encoding="utf-8"?>
+            <Project caption="TooShort" version="2.0" dpi="300">
+              <SourcePict>
+                <ImageData>{too_short}</ImageData>
+              </SourcePict>
+            </Project>
+        """)
+        p = tmp_path / "too_short.lines"
+        p.write_text(xml, encoding="utf-8")
+        doc = parse(p)
+        assert doc.source_image_data is None
+
+    def test_parse_when_missing_file_then_raises_file_not_found(self, tmp_path):
+        """Attempting to parse a non-existent path raises FileNotFoundError."""
+        with pytest.raises(FileNotFoundError, match="File not found"):
+            parse(tmp_path / "does_not_exist.lines")

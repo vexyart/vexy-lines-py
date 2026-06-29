@@ -248,10 +248,12 @@ def _decode_source_pict(elem: ET.Element) -> bytes:
         msg = f"SourcePict ImageData too short ({len(raw)} bytes)"
         raise ValueError(msg)
 
-    # 4-byte big-endian uncompressed size header, then zlib payload.
-    _expected_size = struct.unpack(">I", raw[:4])[0]
+    # Binary layout after base64 decoding:
+    #   bytes 0–3  : big-endian uint32 — uncompressed JPEG size (validation only)
+    #   bytes 4–end: zlib-compressed JPEG payload
+    _expected_size = struct.unpack(">I", raw[:4])[0]  # ">I" = big-endian unsigned 32-bit int
     try:
-        decompressed = zlib.decompress(raw[4:])
+        decompressed = zlib.decompress(raw[4:])  # standard zlib stream (deflate)
     except zlib.error as exc:
         msg = f"Failed to zlib-decompress source image: {exc}"
         raise ValueError(msg) from exc
@@ -566,7 +568,12 @@ def _parse_root(root: ET.Element) -> LinesDocument:
 def parse(path: str | Path) -> LinesDocument:
     """Parse a ``.lines`` file and return a :class:`~vexy_lines.types.LinesDocument`.
 
-    This is the main entry point for file-based parsing.
+    This is the main entry point for file-based parsing.  The operation is
+    **entirely offline**: no network access, no Vexy Lines app, and no
+    platform-specific libraries are required.  Corrupt or missing embedded
+    images (``<SourcePict>``, ``<PreviewDoc>``) are handled gracefully — a
+    warning is logged and the corresponding field is set to ``None`` rather
+    than raising an exception.
 
     Args:
         path: Path to the ``.lines`` file (str or Path).
@@ -576,7 +583,8 @@ def parse(path: str | Path) -> LinesDocument:
 
     Raises:
         FileNotFoundError: If *path* does not exist.
-        ET.ParseError: If the file is not valid XML.
+        ET.ParseError: If the file is not valid XML (e.g. truncated or corrupt
+            at the XML level).
     """
     path = Path(path)
     if not path.exists():
