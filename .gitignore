@@ -207,3 +207,6 @@ __marimo__/
 # hatch-vcs generated version file
 src/vexy_lines/_version.py
 .Version.py
+
+# oh-my-claudecode runtime state
+.omc/
