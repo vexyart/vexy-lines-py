@@ -12,7 +12,7 @@ Parse [Vexy Lines](https://vexy.art/lines/) `.lines` vector art files in pure Py
 
 ## What it does
 
-A `.lines` file holds everything Vexy Lines needs to reproduce a piece of vector artwork: the layer tree (groups, layers, fills with algorithm parameters), document properties, and optionally the original source image and a rendered preview -- all packed into XML.
+A `.lines` file holds everything Vexy Lines needs to reproduce a piece of vector artwork: the layer tree (groups, layers, fills with algorithm parameters), document properties, and optionally the original source image and a rendered preview, all packed into XML.
 
 This package reads that XML and gives you typed Python dataclasses. It can also replace the embedded source image to reuse a fill style with different content.
 
@@ -37,7 +37,7 @@ for node in doc.groups:
 
 ## Extract embedded images
 
-Every `.lines` file can contain a JPEG source image (the original photo) and a PNG preview (the rendered result). Pull them out without opening the app:
+Every `.lines` file can contain a JPEG source image (the original photo) and a PNG preview (the rendered result). You can pull them out without opening the app:
 
 ```python
 from vexy_lines import extract_source_image, extract_preview_image
@@ -70,7 +70,7 @@ rename_objects("artwork.lines", "artwork.lines", {1: "Background", 10: "Sky line
 set_visibility("artwork.lines", "fill_10_only.lines", {10: True, 11: False, 12: False})
 ```
 
-`set_visibility` writes the `visible="0"`/`"1"` attribute (absent = visible). Toggling it live over the app's MCP API does not change what the app exports, but re-opening a baked copy does — this is how the AI-rename feature renders one fill in isolation.
+`set_visibility` writes the `visible="0"`/`"1"` attribute (absent = visible). Toggling it live over the app's MCP API does not change what the app exports, but re-opening a baked copy does. This is how the AI-rename feature renders one fill in isolation.
 
 ## Parse from a string
 
@@ -84,7 +84,7 @@ doc = parse_string(xml_content)
 
 ## Why this package exists
 
-Vexy Lines is a macOS/Windows app that transforms raster images into vector artwork using 14 fill algorithms. The `.lines` file format stores everything -- but it's undocumented XML.
+Vexy Lines is a macOS/Windows app that transforms raster images into vector artwork using 14 fill algorithms. The `.lines` file format stores everything, but the XML is undocumented.
 
 This package decodes that format so you can:
 
@@ -97,7 +97,7 @@ This package decodes that format so you can:
 
 ## Next steps
 
-- [Installation](installation.md) -- install options and requirements
-- [API Reference](api-reference.md) -- every class, function, and constant
-- [File Format](file-format.md) -- how `.lines` XML is structured
-- [Examples](examples.md) -- real-world usage patterns
+- [Installation](installation.md): install options and requirements
+- [API Reference](api-reference.md): every class, function, and constant
+- [File Format](file-format.md): how `.lines` XML is structured
+- [Examples](examples.md): real-world usage patterns

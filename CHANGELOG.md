@@ -3,6 +3,12 @@
 All notable changes to `vexy-lines-py` are documented here.
 The version scheme follows the Vexy Lines SDK suite (SemVer-compatible, v1.x series).
 
+## Unreleased
+
+- docs: Line-edited `README.md` and `src_docs/` in the house style: prose
+  dashes replaced with colons or periods, passive phrasing made active, no
+  API, value, or code changes. Rebuilt tracked `docs/`.
+
 ## v1.0.36 (2026-06-28)
 
 - Added `replace_source_image()` for writing a new JPEG source image into a

@@ -175,7 +175,7 @@ Each fill is an XML element inside a layer's `<Objects>`. The tag name identifie
 | `TracedAreaTmpl` | `trace` | Traced area fills |
 | `SourceStrokes` | `source_strokes` | Strokes imported from source vector |
 
-The `FreeCurveStrokesTmpl` tag serves double duty. When its `type_conv` attribute equals `"9"`, the parser resolves it to `"trace"`. All other `type_conv` values (including absent) resolve to `"handmade"`.
+The `FreeCurveStrokesTmpl` tag covers two algorithms. When its `type_conv` attribute equals `"9"`, the parser resolves it to `"trace"`. All other `type_conv` values (including absent) resolve to `"handmade"`.
 
 ### Common fill attributes
 
@@ -377,7 +377,7 @@ Vexy Lines uses two colour formats in XML attributes:
 
 ### Hex: `#AARRGGBB` (alpha first)
 
-The native format stores alpha *before* the RGB channels -- the opposite of CSS convention.
+The native format stores alpha *before* the RGB channels: the opposite of the CSS convention.
 
 | Raw value | Meaning | Parser output |
 |-----------|---------|---------------|
@@ -464,7 +464,7 @@ jpeg_bytes = zlib.decompress(raw[4:])
 
 ### Preview image: `<PreviewDoc>`
 
-The rendered preview thumbnail. No compression wrapper -- just base64-encoded PNG.
+The rendered preview thumbnail. There is no compression wrapper, only base64-encoded PNG.
 
 ```xml
 <PreviewDoc width="984" height="984"
@@ -544,7 +544,7 @@ Rows define horizontal grid lines; columns define vertical grid lines. Together 
 
 ## Href references
 
-Some elements use `href_id` to reference objects defined elsewhere in the tree. These are lightweight pointer nodes -- they carry only `href_id` and `type` attributes with no children.
+Some elements use `href_id` to reference objects defined elsewhere in the tree. These are lightweight pointer nodes: they carry only `href_id` and `type` attributes with no children.
 
 ```xml
 <FreeMesh type="16793857" href_id="936" />

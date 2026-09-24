@@ -1,6 +1,6 @@
 # vexy-lines-py
 
-Parse [Vexy Lines](https://vexy.art) `.lines` vector art files in pure Python — no app, no macOS, no heavy dependencies.
+Parse [Vexy Lines](https://vexy.art) `.lines` vector art files in pure Python: no app, no macOS, no heavy dependencies.
 
 ## Install
 
@@ -63,14 +63,14 @@ extract_preview_image("artwork.lines", "preview.png")
 
 Parse a `.lines` file and return a fully populated `LinesDocument`.
 
-- `FileNotFoundError` — path does not exist
-- `xml.etree.ElementTree.ParseError` — file is not valid XML
+- `FileNotFoundError`: path does not exist
+- `xml.etree.ElementTree.ParseError`: file is not valid XML
 
 ### `parse_string(xml_text) -> LinesDocument`
 
-Parse a `.lines` XML string (in-memory) and return a `LinesDocument`. Useful when the XML content is already loaded or received from another source.
+Parse a `.lines` XML string (in-memory) and return a `LinesDocument`. Use it when the XML content is already loaded or received from another source.
 
-- `xml.etree.ElementTree.ParseError` — string is not valid XML
+- `xml.etree.ElementTree.ParseError`: string is not valid XML
 
 ### `extract_source_image(path, output) -> Path`
 
@@ -90,15 +90,15 @@ Three helpers edit a `.lines` file while preserving everything else (fill parame
 
 ### `replace_source_image(lines_path, new_image_path, output_path, *, target_size=None) -> Path`
 
-Swap the embedded JPEG source image, reusing a `.lines` file's fill style with new content. Requires `pillow`. Raises `FileNotFoundError` if an input is missing, `ValueError` if there is no `<SourcePict>`.
+Swap the embedded JPEG source image, so you can reuse a `.lines` file's fill style with new content. Requires `pillow`. Raises `FileNotFoundError` if an input is missing, `ValueError` if there is no `<SourcePict>`.
 
 ### `rename_objects(lines_path, output_path, renames) -> int`
 
-Rewrite the `caption` of groups, layers, and/or fills. `renames` maps `object_id` (from `GroupInfo`/`LayerInfo`/`FillNode`) to a new caption; returns the number actually changed (a caption already equal to its target is not counted). Only canonical definitions are touched — `href` reference elements have no `object_id`.
+Rewrite the `caption` of groups, layers, and/or fills. `renames` maps `object_id` (from `GroupInfo`/`LayerInfo`/`FillNode`) to a new caption; returns the number actually changed (a caption already equal to its target is not counted). Only canonical definitions are touched, because `href` reference elements have no `object_id`.
 
 ### `set_visibility(lines_path, output_path, visible) -> int`
 
-Set the `visible="0"`/`"1"` attribute (absent = visible) per `object_id`; returns the number changed. Toggling visibility *live* over the app's [MCP API](https://help.vexy.art/lines/) does not change what the app exports, but baking the attribute into a copy and re-opening it does — this is how the AI-rename feature renders one fill in isolation.
+Set the `visible="0"`/`"1"` attribute (absent = visible) per `object_id`; returns the number changed. Toggling visibility *live* over the app's [MCP API](https://help.vexy.art/lines/) does not change what the app exports, but baking the attribute into a copy and re-opening it does. This is how the AI-rename feature renders one fill in isolation.
 
 ```python
 from vexy_lines import rename_objects, set_visibility

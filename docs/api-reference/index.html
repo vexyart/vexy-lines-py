@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-materialx-10.1.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
@@ -29,10 +29,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.b72b68c2.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.204eaadb.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -60,8 +60,6 @@
   </head>
   
   
-  
-  
     
     
       
@@ -69,14 +67,12 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="indigo" data-mx-topbar="glass">
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="indigo">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
-    <input class="md-toggle" data-md-toggle="toc" type="checkbox" id="__toc" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" for="__drawer"></label>
-    <label class="md-overlay" for="__toc"></label>
     <div data-md-component="skip">
       
         
@@ -159,46 +155,6 @@
     
     
     
-      
-      
-        <label class="md-header__button md-icon" for="__search">
-          
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.25 2a8.25 8.25 0 0 1 6.34 13.53l5.69 5.69a.749.749 0 0 1-.326 1.275.75.75 0 0 1-.734-.215l-5.69-5.69A8.25 8.25 0 1 1 10.25 2M3.5 10.25a6.75 6.75 0 1 0 13.5 0 6.75 6.75 0 0 0-13.5 0"/></svg>
-        </label>
-        <div class="md-search" data-md-component="search" role="dialog">
-  <label class="md-search__overlay" for="__search"></label>
-  <div class="md-search__inner" role="search">
-    <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
-      <label class="md-search__icon md-icon" for="__search">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.25 2a8.25 8.25 0 0 1 6.34 13.53l5.69 5.69a.749.749 0 0 1-.326 1.275.75.75 0 0 1-.734-.215l-5.69-5.69A8.25 8.25 0 1 1 10.25 2M3.5 10.25a6.75 6.75 0 1 0 13.5 0 6.75 6.75 0 0 0-13.5 0"/></svg>
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
-      </label>
-      <nav class="md-search__options" aria-label="Search">
-        
-        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
-          
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-        </button>
-      </nav>
-      
-    </form>
-    <div class="md-search__output">
-      <div class="md-search__scrollwrap" tabindex="0">
-        <div class="md-search-result" data-md-component="search-result">
-          <div class="md-search-result__meta">
-            Initializing search
-          </div>
-          <ol class="md-search-result__list" role="presentation"></ol>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-      
-    
     
   </nav>
   
@@ -235,7 +191,7 @@
     vexy-lines-py
   </label>
   
-  <ul class="md-nav__list">
+  <ul class="md-nav__list" data-md-scrollfix>
     
       
       
@@ -355,7 +311,7 @@
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
-    <ul class="md-nav__list" data-md-component="toc">
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
   <a href="#functions" class="md-nav__link">
@@ -418,6 +374,28 @@
     <span class="md-ellipsis">
       
         replace_source_image(lines_path, new_image_path, output_path, *, target_size) -&gt; Path
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rename_objectslines_path-output_path-renames-int" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rename_objects(lines_path, output_path, renames) -&gt; int
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set_visibilitylines_path-output_path-visible-int" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        set_visibility(lines_path, output_path, visible) -&gt; int
       
     </span>
   </a>
@@ -648,6 +626,33 @@
   
   
     <li class="md-nav__item">
+      <a href="../data-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../examples/" class="md-nav__link">
         
   
@@ -719,7 +724,7 @@
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
-    <ul class="md-nav__list" data-md-component="toc">
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
   <a href="#functions" class="md-nav__link">
@@ -782,6 +787,28 @@
     <span class="md-ellipsis">
       
         replace_source_image(lines_path, new_image_path, output_path, *, target_size) -&gt; Path
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rename_objectslines_path-output_path-renames-int" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rename_objects(lines_path, output_path, renames) -&gt; int
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set_visibilitylines_path-output_path-visible-int" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        set_visibility(lines_path, output_path, visible) -&gt; int
       
     </span>
   </a>
@@ -985,6 +1012,8 @@
                 
                   
 
+
+
 <h1 id="api-reference">API Reference<a class="headerlink" href="#api-reference" title="Permanent link">&para;</a></h1>
 <h2 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">&para;</a></h2>
 <h3 id="parsepath-linesdocument"><code>parse(path) -&gt; LinesDocument</code><a class="headerlink" href="#parsepath-linesdocument" title="Permanent link">&para;</a></h3>
@@ -1014,15 +1043,15 @@
 <p><strong>Returns:</strong> <code>LinesDocument</code> with the full layer tree, document properties, and decoded images.</p>
 <p><strong>Raises:</strong></p>
 <ul>
-<li><code>FileNotFoundError</code> -- path does not exist</li>
-<li><code>xml.etree.ElementTree.ParseError</code> -- file is not valid XML</li>
+<li><code>FileNotFoundError</code>: path does not exist</li>
+<li><code>xml.etree.ElementTree.ParseError</code>: file is not valid XML</li>
 </ul>
 <p><strong>Type hint:</strong></p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">parse</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LinesDocument</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <hr />
 <h3 id="parse_stringxml-linesdocument"><code>parse_string(xml) -&gt; LinesDocument</code><a class="headerlink" href="#parse_stringxml-linesdocument" title="Permanent link">&para;</a></h3>
-<p>Parse a <code>.lines</code> XML string and return a <code>LinesDocument</code>. Use this when you already have the XML content in memory (from a network response, database, or test fixture) instead of a file path.</p>
+<p>Parse a <code>.lines</code> XML string and return a <code>LinesDocument</code>. Use it when you already have the XML content in memory (from a network response, database, or test fixture) rather than a file path.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">vexy_lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse_string</span>
 
 <span class="n">xml</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;artwork.lines&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
@@ -1049,7 +1078,7 @@
 <p><strong>Returns:</strong> <code>LinesDocument</code> with the full layer tree, document properties, and decoded images.</p>
 <p><strong>Raises:</strong></p>
 <ul>
-<li><code>xml.etree.ElementTree.ParseError</code> -- string is not valid XML</li>
+<li><code>xml.etree.ElementTree.ParseError</code>: string is not valid XML</li>
 </ul>
 <p><strong>Type hint:</strong></p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">parse_string</span><span class="p">(</span><span class="n">xml</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LinesDocument</span><span class="p">:</span> <span class="o">...</span>
@@ -1086,8 +1115,8 @@
 <p><strong>Returns:</strong> Resolved output <code>Path</code>.</p>
 <p><strong>Raises:</strong></p>
 <ul>
-<li><code>FileNotFoundError</code> -- <code>.lines</code> file does not exist</li>
-<li><code>ValueError</code> -- no source image embedded in the file</li>
+<li><code>FileNotFoundError</code>: <code>.lines</code> file does not exist</li>
+<li><code>ValueError</code>: no source image embedded in the file</li>
 </ul>
 <hr />
 <h3 id="extract_preview_imagepath-output-path"><code>extract_preview_image(path, output) -&gt; Path</code><a class="headerlink" href="#extract_preview_imagepath-output-path" title="Permanent link">&para;</a></h3>
@@ -1121,8 +1150,8 @@
 <p><strong>Returns:</strong> Resolved output <code>Path</code>.</p>
 <p><strong>Raises:</strong></p>
 <ul>
-<li><code>FileNotFoundError</code> -- <code>.lines</code> file does not exist</li>
-<li><code>ValueError</code> -- no preview image embedded in the file</li>
+<li><code>FileNotFoundError</code>: <code>.lines</code> file does not exist</li>
+<li><code>ValueError</code>: no preview image embedded in the file</li>
 </ul>
 <hr />
 <h3 id="replace_source_imagelines_path-new_image_path-output_path-target_size-path"><code>replace_source_image(lines_path, new_image_path, output_path, *, target_size) -&gt; Path</code><a class="headerlink" href="#replace_source_imagelines_path-new_image_path-output_path-target_size-path" title="Permanent link">&para;</a></h3>
@@ -1173,8 +1202,8 @@
 <p><strong>Returns:</strong> Resolved output <code>Path</code>.</p>
 <p><strong>Raises:</strong></p>
 <ul>
-<li><code>FileNotFoundError</code> -- either input file does not exist</li>
-<li><code>ValueError</code> -- the <code>.lines</code> file has no <code>&lt;SourcePict&gt;</code> element</li>
+<li><code>FileNotFoundError</code>: either input file does not exist</li>
+<li><code>ValueError</code>: the <code>.lines</code> file has no <code>&lt;SourcePict&gt;</code> element</li>
 </ul>
 <p><strong>Type hint:</strong></p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">replace_source_image</span><span class="p">(</span>
@@ -1184,6 +1213,104 @@
     <span class="o">*</span><span class="p">,</span>
     <span class="n">target_size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span> <span class="o">...</span>
+</code></pre></div>
+<hr />
+<h3 id="rename_objectslines_path-output_path-renames-int"><code>rename_objects(lines_path, output_path, renames) -&gt; int</code><a class="headerlink" href="#rename_objectslines_path-output_path-renames-int" title="Permanent link">&para;</a></h3>
+<p>Rename groups, layers, and/or fills in a <code>.lines</code> file by object ID. For every element carrying an <code>object_id</code> attribute whose value is a key in <em>renames</em>, sets its <code>caption</code> attribute to the new name. Everything else (fill parameters, masks, image data, document settings) is preserved byte-for-byte (the file is copied first, then only the matched <code>caption</code> attributes are rewritten).</p>
+<p>Object IDs come from the parsed tree: <a href="#groupinfo"><code>GroupInfo.object_id</code></a>, <a href="#layerinfo"><code>LayerInfo.object_id</code></a>, and <a href="#fillnode"><code>FillNode.object_id</code></a>. <code>href</code> reference elements never carry an <code>object_id</code> of their own, so only the canonical definition of each object is touched. See the official <a href="https://help.vexy.art/lines/articles/layers-panel/">Layers Panel</a> help for how captions appear in the app.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">vexy_lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">rename_objects</span>
+
+<span class="c1"># Rename layer 1 and fill 10 in place; returns the count actually changed.</span>
+<span class="n">n</span> <span class="o">=</span> <span class="n">rename_objects</span><span class="p">(</span><span class="s2">&quot;artwork.lines&quot;</span><span class="p">,</span> <span class="s2">&quot;artwork.lines&quot;</span><span class="p">,</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;Background&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">:</span> <span class="s2">&quot;Sky lines&quot;</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Renamed </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2"> object(s)&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Args:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>lines_path</code></td>
+<td><code>str \| Path</code></td>
+<td>Path to the source <code>.lines</code> file</td>
+</tr>
+<tr>
+<td><code>output_path</code></td>
+<td><code>str \| Path</code></td>
+<td>Where to write the renamed file; may equal <code>lines_path</code> to edit in place</td>
+</tr>
+<tr>
+<td><code>renames</code></td>
+<td><code>Mapping[int, str]</code></td>
+<td>Mapping of <code>object_id</code> to the new caption string</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> The number of elements actually renamed. A caption already equal to its target is not counted. An empty <em>renames</em> mapping copies the file unchanged and returns <code>0</code>.</p>
+<p><strong>Raises:</strong></p>
+<ul>
+<li><code>FileNotFoundError</code>: <code>lines_path</code> does not exist</li>
+</ul>
+<p><strong>Type hint:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">rename_objects</span><span class="p">(</span>
+    <span class="n">lines_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
+    <span class="n">output_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
+    <span class="n">renames</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span> <span class="o">...</span>
+</code></pre></div>
+<hr />
+<h3 id="set_visibilitylines_path-output_path-visible-int"><code>set_visibility(lines_path, output_path, visible) -&gt; int</code><a class="headerlink" href="#set_visibilitylines_path-output_path-visible-int" title="Permanent link">&para;</a></h3>
+<p>Set the <code>visible</code> attribute on objects in a <code>.lines</code> file by object ID. For every element whose <code>object_id</code> is a key in <em>visible</em>, sets the <code>visible</code> attribute to <code>"1"</code> (True) or <code>"0"</code> (False). Everything else is preserved byte-for-byte, with the same preservation, in-place, empty-mapping, and <code>FileNotFoundError</code> semantics as <a href="#rename_objectslines_path-output_path-renames---int"><code>rename_objects</code></a>.</p>
+<p>Vexy Lines stores per-object visibility as a <code>visible="0"</code> / <code>visible="1"</code> XML attribute (absent means visible). Toggling visibility <em>live</em> over the app's MCP API does <strong>not</strong> change what the app exports; baking the attribute into a copy of the file and re-opening it does. This is how the AI-rename feature renders one fill in isolation: write a copy with every other fill set to <code>visible="0"</code>, open that file, and export. See <a href="https://help.vexy.art/lines/articles/document-structure-overview/">Document Structure</a> for how groups, layers, and fills nest.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">vexy_lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">set_visibility</span>
+
+<span class="c1"># Write a copy with only fill 10 visible (everything else hidden).</span>
+<span class="n">n</span> <span class="o">=</span> <span class="n">set_visibility</span><span class="p">(</span><span class="s2">&quot;artwork.lines&quot;</span><span class="p">,</span> <span class="s2">&quot;fill_10_only.lines&quot;</span><span class="p">,</span> <span class="p">{</span><span class="mi">10</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="mi">11</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="mi">12</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Changed visibility on </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2"> object(s)&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Args:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>lines_path</code></td>
+<td><code>str \| Path</code></td>
+<td>Path to the source <code>.lines</code> file</td>
+</tr>
+<tr>
+<td><code>output_path</code></td>
+<td><code>str \| Path</code></td>
+<td>Where to write the modified file; may equal <code>lines_path</code> to edit in place</td>
+</tr>
+<tr>
+<td><code>visible</code></td>
+<td><code>Mapping[int, bool]</code></td>
+<td>Mapping of <code>object_id</code> to desired visibility</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> The number of elements whose <code>visible</code> attribute was changed.</p>
+<p><strong>Raises:</strong></p>
+<ul>
+<li><code>FileNotFoundError</code>: <code>lines_path</code> does not exist</li>
+</ul>
+<p><strong>Type hint:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_visibility</span><span class="p">(</span>
+    <span class="n">lines_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
+    <span class="n">output_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
+    <span class="n">visible</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <hr />
 <h2 id="dataclasses">Dataclasses<a class="headerlink" href="#dataclasses" title="Permanent link">&para;</a></h2>
@@ -1652,6 +1779,11 @@
 
 
 
+
+
+
+
+
                 
               </article>
             </div>
@@ -1659,29 +1791,7 @@
           
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
-          <div class="md-top" data-md-component="top" hidden>
-  <div class="md-top__center">
-    <button type="button" class="md-top__button md-top__button--main" data-md-action="top">
-      
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
-      <span>Back to top</span>
-    </button>
-    
-      
-      
-      <label class="md-top__button md-top__side md-top__side--nav" for="__drawer" >
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2m0 14H9V6h11Z"/></svg>
-      </label>
-    
-    
-      
-      
-      <label class="md-top__button md-top__side md-top__side--toc" for="__toc" >
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2m-5 14H4V6h11Z"/></svg>
-      </label>
-    
-  </div>
-</div>
+        
       </main>
       
         <footer class="md-footer">
@@ -1692,8 +1802,8 @@
   
   
     Made with
-    <a href="https://jaywhj.github.io/mkdocs-materialx/" target="_blank" rel="noopener">
-      MaterialX
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
     </a>
   
 </div>
@@ -1711,10 +1821,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "navigation.sections"], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "navigation.sections"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.e3ad5d0a.min.js"></script>
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>

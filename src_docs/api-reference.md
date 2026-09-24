@@ -23,8 +23,8 @@ print(doc.caption, doc.dpi)
 
 **Raises:**
 
-- `FileNotFoundError` -- path does not exist
-- `xml.etree.ElementTree.ParseError` -- file is not valid XML
+- `FileNotFoundError`: path does not exist
+- `xml.etree.ElementTree.ParseError`: file is not valid XML
 
 **Type hint:**
 
@@ -36,7 +36,7 @@ def parse(path: str | Path) -> LinesDocument: ...
 
 ### `parse_string(xml) -> LinesDocument`
 
-Parse a `.lines` XML string and return a `LinesDocument`. Use this when you already have the XML content in memory (from a network response, database, or test fixture) instead of a file path.
+Parse a `.lines` XML string and return a `LinesDocument`. Use it when you already have the XML content in memory (from a network response, database, or test fixture) rather than a file path.
 
 ```python
 from vexy_lines import parse_string
@@ -56,7 +56,7 @@ print(doc.caption, doc.dpi)
 
 **Raises:**
 
-- `xml.etree.ElementTree.ParseError` -- string is not valid XML
+- `xml.etree.ElementTree.ParseError`: string is not valid XML
 
 **Type hint:**
 
@@ -87,8 +87,8 @@ extract_source_image("artwork.lines", "source.jpg")
 
 **Raises:**
 
-- `FileNotFoundError` -- `.lines` file does not exist
-- `ValueError` -- no source image embedded in the file
+- `FileNotFoundError`: `.lines` file does not exist
+- `ValueError`: no source image embedded in the file
 
 ---
 
@@ -113,8 +113,8 @@ extract_preview_image("artwork.lines", "preview.png")
 
 **Raises:**
 
-- `FileNotFoundError` -- `.lines` file does not exist
-- `ValueError` -- no preview image embedded in the file
+- `FileNotFoundError`: `.lines` file does not exist
+- `ValueError`: no preview image embedded in the file
 
 ---
 
@@ -150,8 +150,8 @@ When `target_size` is provided and the new image dimensions differ, the image is
 
 **Raises:**
 
-- `FileNotFoundError` -- either input file does not exist
-- `ValueError` -- the `.lines` file has no `<SourcePict>` element
+- `FileNotFoundError`: either input file does not exist
+- `ValueError`: the `.lines` file has no `<SourcePict>` element
 
 **Type hint:**
 
@@ -169,7 +169,7 @@ def replace_source_image(
 
 ### `rename_objects(lines_path, output_path, renames) -> int`
 
-Rename groups, layers, and/or fills in a `.lines` file by object ID. For every element carrying an `object_id` attribute whose value is a key in *renames*, sets its `caption` attribute to the new name. Everything else -- fill parameters, masks, image data, document settings -- is preserved byte-for-byte (the file is copied first, then only the matched `caption` attributes are rewritten).
+Rename groups, layers, and/or fills in a `.lines` file by object ID. For every element carrying an `object_id` attribute whose value is a key in *renames*, sets its `caption` attribute to the new name. Everything else (fill parameters, masks, image data, document settings) is preserved byte-for-byte (the file is copied first, then only the matched `caption` attributes are rewritten).
 
 Object IDs come from the parsed tree: [`GroupInfo.object_id`](#groupinfo), [`LayerInfo.object_id`](#layerinfo), and [`FillNode.object_id`](#fillnode). `href` reference elements never carry an `object_id` of their own, so only the canonical definition of each object is touched. See the official [Layers Panel](https://help.vexy.art/lines/articles/layers-panel/) help for how captions appear in the app.
 
@@ -189,11 +189,11 @@ print(f"Renamed {n} object(s)")
 | `output_path` | `str \| Path` | Where to write the renamed file; may equal `lines_path` to edit in place |
 | `renames` | `Mapping[int, str]` | Mapping of `object_id` to the new caption string |
 
-**Returns:** The number of elements actually renamed. A caption already equal to its target is not counted. An empty *renames* mapping just copies the file and returns `0`.
+**Returns:** The number of elements actually renamed. A caption already equal to its target is not counted. An empty *renames* mapping copies the file unchanged and returns `0`.
 
 **Raises:**
 
-- `FileNotFoundError` -- `lines_path` does not exist
+- `FileNotFoundError`: `lines_path` does not exist
 
 **Type hint:**
 
@@ -233,7 +233,7 @@ print(f"Changed visibility on {n} object(s)")
 
 **Raises:**
 
-- `FileNotFoundError` -- `lines_path` does not exist
+- `FileNotFoundError`: `lines_path` does not exist
 
 **Type hint:**
 

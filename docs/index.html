@@ -19,7 +19,7 @@
       
       
       <link rel="icon" href="assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-materialx-10.1.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
@@ -27,10 +27,10 @@
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.b72b68c2.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.204eaadb.min.css">
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -58,8 +58,6 @@
   </head>
   
   
-  
-  
     
     
       
@@ -67,14 +65,12 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="indigo" data-mx-topbar="glass">
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="indigo">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
-    <input class="md-toggle" data-md-toggle="toc" type="checkbox" id="__toc" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" for="__drawer"></label>
-    <label class="md-overlay" for="__toc"></label>
     <div data-md-component="skip">
       
         
@@ -157,46 +153,6 @@
     
     
     
-      
-      
-        <label class="md-header__button md-icon" for="__search">
-          
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.25 2a8.25 8.25 0 0 1 6.34 13.53l5.69 5.69a.749.749 0 0 1-.326 1.275.75.75 0 0 1-.734-.215l-5.69-5.69A8.25 8.25 0 1 1 10.25 2M3.5 10.25a6.75 6.75 0 1 0 13.5 0 6.75 6.75 0 0 0-13.5 0"/></svg>
-        </label>
-        <div class="md-search" data-md-component="search" role="dialog">
-  <label class="md-search__overlay" for="__search"></label>
-  <div class="md-search__inner" role="search">
-    <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
-      <label class="md-search__icon md-icon" for="__search">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.25 2a8.25 8.25 0 0 1 6.34 13.53l5.69 5.69a.749.749 0 0 1-.326 1.275.75.75 0 0 1-.734-.215l-5.69-5.69A8.25 8.25 0 1 1 10.25 2M3.5 10.25a6.75 6.75 0 1 0 13.5 0 6.75 6.75 0 0 0-13.5 0"/></svg>
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
-      </label>
-      <nav class="md-search__options" aria-label="Search">
-        
-        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
-          
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-        </button>
-      </nav>
-      
-    </form>
-    <div class="md-search__output">
-      <div class="md-search__scrollwrap" tabindex="0">
-        <div class="md-search-result" data-md-component="search-result">
-          <div class="md-search-result__meta">
-            Initializing search
-          </div>
-          <ol class="md-search-result__list" role="presentation"></ol>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-      
-    
     
   </nav>
   
@@ -233,7 +189,7 @@
     vexy-lines-py
   </label>
   
-  <ul class="md-nav__list">
+  <ul class="md-nav__list" data-md-scrollfix>
     
       
       
@@ -299,7 +255,7 @@
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
-    <ul class="md-nav__list" data-md-component="toc">
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
   <a href="#what-it-does" class="md-nav__link">
@@ -339,6 +295,17 @@
     <span class="md-ellipsis">
       
         Replace the source image
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rename-objects-and-toggle-visibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rename objects and toggle visibility
       
     </span>
   </a>
@@ -474,6 +441,33 @@
   
   
     <li class="md-nav__item">
+      <a href="data-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="examples/" class="md-nav__link">
         
   
@@ -545,7 +539,7 @@
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
-    <ul class="md-nav__list" data-md-component="toc">
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
   <a href="#what-it-does" class="md-nav__link">
@@ -585,6 +579,17 @@
     <span class="md-ellipsis">
       
         Replace the source image
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rename-objects-and-toggle-visibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rename objects and toggle visibility
       
     </span>
   </a>
@@ -639,6 +644,8 @@
                 
                   
 
+
+
 <p><a href="https://vexy.art/lines/">Vexy Lines for Mac &amp; Windows</a> | <a href="https://www.vexy.art/lines/#buy">Download</a> | <a href="https://www.vexy.art/lines/#buy">Buy</a> | <a href="https://vexy.dev/vexy-lines-run/">Batch GUI</a> | <a href="https://vexy.dev/vexy-lines-cli/">CLI/MCP</a> | <a href="https://vexy.dev/vexy-lines-apy/">API</a> | <strong>.lines format</strong></p>
 <p><a href="https://www.vexy.art/lines/"><img alt="Vexy Lines" src="https://i.vexy.art/vl/websiteart/vexy-lines-hero-poster.png" /></a></p>
 <h1 id="vexy-lines-py">vexy-lines-py<a class="headerlink" href="#vexy-lines-py" title="Permanent link">&para;</a></h1>
@@ -648,7 +655,7 @@
 <li><a href="https://pypi.org/project/vexy-lines-py/">On PyPI</a></li>
 </ul>
 <h2 id="what-it-does">What it does<a class="headerlink" href="#what-it-does" title="Permanent link">&para;</a></h2>
-<p>A <code>.lines</code> file holds everything Vexy Lines needs to reproduce a piece of vector artwork: the layer tree (groups, layers, fills with algorithm parameters), document properties, and optionally the original source image and a rendered preview -- all packed into XML.</p>
+<p>A <code>.lines</code> file holds everything Vexy Lines needs to reproduce a piece of vector artwork: the layer tree (groups, layers, fills with algorithm parameters), document properties, and optionally the original source image and a rendered preview, all packed into XML.</p>
 <p>This package reads that XML and gives you typed Python dataclasses. It can also replace the embedded source image to reuse a fill style with different content.</p>
 <h2 id="quick-start">Quick start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">vexy_lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse</span><span class="p">,</span> <span class="n">GroupInfo</span><span class="p">,</span> <span class="n">LayerInfo</span>
@@ -667,7 +674,7 @@
                     <span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">fill_type</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">color</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;interval=</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">interval</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="extract-embedded-images">Extract embedded images<a class="headerlink" href="#extract-embedded-images" title="Permanent link">&para;</a></h2>
-<p>Every <code>.lines</code> file can contain a JPEG source image (the original photo) and a PNG preview (the rendered result). Pull them out without opening the app:</p>
+<p>Every <code>.lines</code> file can contain a JPEG source image (the original photo) and a PNG preview (the rendered result). You can pull them out without opening the app:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">vexy_lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">extract_source_image</span><span class="p">,</span> <span class="n">extract_preview_image</span>
 
 <span class="n">extract_source_image</span><span class="p">(</span><span class="s2">&quot;artwork.lines&quot;</span><span class="p">,</span> <span class="s2">&quot;source.jpg&quot;</span><span class="p">)</span>
@@ -679,6 +686,17 @@
 
 <span class="n">replace_source_image</span><span class="p">(</span><span class="s2">&quot;template.lines&quot;</span><span class="p">,</span> <span class="s2">&quot;new_photo.jpg&quot;</span><span class="p">,</span> <span class="s2">&quot;output.lines&quot;</span><span class="p">)</span>
 </code></pre></div>
+<h2 id="rename-objects-and-toggle-visibility">Rename objects and toggle visibility<a class="headerlink" href="#rename-objects-and-toggle-visibility" title="Permanent link">&para;</a></h2>
+<p>Edit a <code>.lines</code> file by <code>object_id</code> (from <code>GroupInfo</code>/<code>LayerInfo</code>/<code>FillNode</code>) while preserving everything else byte-for-byte. Both write to <code>output_path</code> (use the same path to edit in place) and return the count changed:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">vexy_lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">rename_objects</span><span class="p">,</span> <span class="n">set_visibility</span>
+
+<span class="c1"># Rewrite captions of groups, layers, and/or fills.</span>
+<span class="n">rename_objects</span><span class="p">(</span><span class="s2">&quot;artwork.lines&quot;</span><span class="p">,</span> <span class="s2">&quot;artwork.lines&quot;</span><span class="p">,</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;Background&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">:</span> <span class="s2">&quot;Sky lines&quot;</span><span class="p">})</span>
+
+<span class="c1"># Bake per-object visibility into a copy: only fill 10 stays visible.</span>
+<span class="n">set_visibility</span><span class="p">(</span><span class="s2">&quot;artwork.lines&quot;</span><span class="p">,</span> <span class="s2">&quot;fill_10_only.lines&quot;</span><span class="p">,</span> <span class="p">{</span><span class="mi">10</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="mi">11</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="mi">12</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+</code></pre></div>
+<p><code>set_visibility</code> writes the <code>visible="0"</code>/<code>"1"</code> attribute (absent = visible). Toggling it live over the app's MCP API does not change what the app exports, but re-opening a baked copy does. This is how the AI-rename feature renders one fill in isolation.</p>
 <h2 id="parse-from-a-string">Parse from a string<a class="headerlink" href="#parse-from-a-string" title="Permanent link">&para;</a></h2>
 <p>When you already have the XML in memory:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">vexy_lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse_string</span>
@@ -686,22 +704,28 @@
 <span class="n">doc</span> <span class="o">=</span> <span class="n">parse_string</span><span class="p">(</span><span class="n">xml_content</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="why-this-package-exists">Why this package exists<a class="headerlink" href="#why-this-package-exists" title="Permanent link">&para;</a></h2>
-<p>Vexy Lines is a macOS/Windows app that transforms raster images into vector artwork using 14 fill algorithms. The <code>.lines</code> file format stores everything -- but it's undocumented XML.</p>
+<p>Vexy Lines is a macOS/Windows app that transforms raster images into vector artwork using 14 fill algorithms. The <code>.lines</code> file format stores everything, but the XML is undocumented.</p>
 <p>This package decodes that format so you can:</p>
 <ul>
 <li>Inspect artwork metadata without the app</li>
 <li>Extract embedded images for thumbnailing or cataloguing</li>
 <li>Feed fill parameters into automation pipelines</li>
 <li>Replace source images to reuse fill styles with different content</li>
+<li>Rename objects by ID and bake per-object visibility into a copy (powers the AI-rename feature)</li>
 <li>Build tools on top of the parsed data (style transfer, interpolation, batch processing)</li>
 </ul>
 <h2 id="next-steps">Next steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="installation/">Installation</a> -- install options and requirements</li>
-<li><a href="api-reference/">API Reference</a> -- every class, function, and constant</li>
-<li><a href="file-format/">File Format</a> -- how <code>.lines</code> XML is structured</li>
-<li><a href="examples/">Examples</a> -- real-world usage patterns</li>
+<li><a href="installation/">Installation</a>: install options and requirements</li>
+<li><a href="api-reference/">API Reference</a>: every class, function, and constant</li>
+<li><a href="file-format/">File Format</a>: how <code>.lines</code> XML is structured</li>
+<li><a href="examples/">Examples</a>: real-world usage patterns</li>
 </ul>
+
+
+
+
+
 
 
 
@@ -716,29 +740,7 @@
           
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
-          <div class="md-top" data-md-component="top" hidden>
-  <div class="md-top__center">
-    <button type="button" class="md-top__button md-top__button--main" data-md-action="top">
-      
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
-      <span>Back to top</span>
-    </button>
-    
-      
-      
-      <label class="md-top__button md-top__side md-top__side--nav" for="__drawer" >
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2m0 14H9V6h11Z"/></svg>
-      </label>
-    
-    
-      
-      
-      <label class="md-top__button md-top__side md-top__side--toc" for="__toc" >
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2m-5 14H4V6h11Z"/></svg>
-      </label>
-    
-  </div>
-</div>
+        
       </main>
       
         <footer class="md-footer">
@@ -749,8 +751,8 @@
   
   
     Made with
-    <a href="https://jaywhj.github.io/mkdocs-materialx/" target="_blank" rel="noopener">
-      MaterialX
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
     </a>
   
 </div>
@@ -768,10 +770,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["content.code.copy", "navigation.sections"], "search": "assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["content.code.copy", "navigation.sections"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="assets/javascripts/bundle.e3ad5d0a.min.js"></script>
+      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>
