@@ -1,9 +1,12 @@
+# this_file: mkdocs.yml
 site_name: "vexy-lines-py"
 site_description: "Pure-Python parser for Vexy Lines .lines vector art files"
 theme:
   custom_dir: overrides
   name: materialx
   features:
+    - navigation.path
+    - toc.follow
     - content.code.copy
     - navigation.sections
   palette:
@@ -30,11 +33,22 @@ markdown_extensions:
   - admonition
   - toc:
       permalink: true
-nav:
-  - Overview: index.md
-  - Installation: installation.md
-  - API Reference: api-reference.md
-  - File Format: file-format.md
-  - Data Model: data-model.md
-  - Examples: examples.md
-  - Changelog: changelog.md
+
+plugins:
+  - materialx/search
+  - materialx/meta
+  - materialx/tags
+  - awesome-nav
+  - autorefs
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            allow_inspection: false
+            docstring_style: null
+            show_root_heading: true
+            show_source: true
+  - print-site:
+      add_to_navigation: true
+      print_page_title: Print this guide

@@ -1,0 +1,11 @@
+# this_file: src_docs/.nav.yml
+nav:
+  - Overview: index.md
+  - Installation: installation.md
+  - API Reference: api-reference.md
+  - File Format: file-format.md
+  - Data Model: data-model.md
+  - Examples: examples.md
+  - Changelog: changelog.md
+  - Topics: topics.md
+  - Source API: source-api.md
